@@ -39,6 +39,13 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow FitnessAI to access your camera to analyze workout form.",
+          "microphonePermission": "Allow FitnessAI to access your microphone for voice commands."
+        }
       ]
     ],
     "experiments": {
