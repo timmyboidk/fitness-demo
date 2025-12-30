@@ -39,8 +39,6 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <Ionicons name="person" size={26} color={color} />,
                 }}
             />
-            {/* 隐藏原来的 explore 路由如果还存在的话 */}
-            <Tabs.Screen name="explore" options={{ href: null }} />
         </Tabs>
     );
 }
