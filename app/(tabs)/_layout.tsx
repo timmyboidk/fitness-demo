@@ -12,7 +12,7 @@ export const MaterialTopTabs = withLayoutContext(Navigator);
 export default function TabLayout() {
     const pathname = usePathname();
 
-    // 2. 自定义底部 Tab Bar (为了长得像原来的底部导航)
+    // 2. 自定义底部 Tab Bar
     const CustomTabBar = ({ state, descriptors, navigation }: any) => {
         return (
             <View style={{ backgroundColor: '#121212' }}>

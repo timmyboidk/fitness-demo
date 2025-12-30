@@ -2,7 +2,6 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 import 'react-native-reanimated';
-// import '../global.css'; // 如果你有全局css，没有则忽略
 
 export default function RootLayout() {
     return (

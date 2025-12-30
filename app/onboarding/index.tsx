@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient'; // 需要安装
 
 const { width, height } = Dimensions.get('window');
 
-// 临时占位图，请替换为你 assets 里的真实图片
+// 临时占位图
 const SLIDES = [
     {
         id: '1',

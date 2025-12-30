@@ -33,7 +33,7 @@ export default function WorkoutSession() {
             {/* 使用 Expo 官方的 CameraView，支持直接在 Expo Go 中运行 */}
             <CameraView style={{ flex: 1 }} facing={facing}>
 
-                {/* UI Overlay (保持你之前的高保真设计) */}
+                {/* UI Overlay */}
                 <View className="absolute top-0 left-0 w-full h-full safe-area p-6 flex justify-between">
 
                     {/* Header */}

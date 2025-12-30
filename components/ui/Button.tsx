@@ -11,7 +11,7 @@ interface ButtonProps extends TouchableOpacityProps {
     size?: 'default' | 'sm' | 'lg';
     label: string;
     icon?: React.ReactNode;
-    textStyle?: string; // <--- 新增这行
+    textStyle?: string;
 }
 
 export function Button({ className, variant = 'primary', size = 'default', label, icon, textStyle, ...props }: ButtonProps) {
