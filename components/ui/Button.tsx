@@ -2,7 +2,6 @@ import { TouchableOpacity, Text, TouchableOpacityProps, View } from 'react-nativ
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-// 工具函数：合并 Tailwind 类名
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
@@ -12,16 +11,17 @@ interface ButtonProps extends TouchableOpacityProps {
     size?: 'default' | 'sm' | 'lg';
     label: string;
     icon?: React.ReactNode;
+    textStyle?: string; // <--- 新增这行
 }
 
-export function Button({ className, variant = 'primary', size = 'default', label, icon, ...props }: ButtonProps) {
-    const baseStyles = "flex-row items-center justify-center rounded-full font-bold active:opacity-80";
+export function Button({ className, variant = 'primary', size = 'default', label, icon, textStyle, ...props }: ButtonProps) {
+    const baseStyles = "flex-row items-center justify-center rounded-full active:opacity-80";
 
     const variants = {
-        primary: "bg-neon text-black", // 对应 Main Button (实心)
-        secondary: "bg-surface text-white",
-        outline: "border border-gray-600 bg-transparent text-white", // 对应 Filter Button
-        ghost: "bg-transparent text-gray-400"
+        primary: "bg-[#CCFF00] text-black",
+        secondary: "bg-[#1E1E1E] border border-gray-700",
+        outline: "border border-gray-600 bg-transparent",
+        ghost: "bg-transparent"
     };
 
     const sizes = {
@@ -43,7 +43,7 @@ export function Button({ className, variant = 'primary', size = 'default', label
             {...props}
         >
             {icon && <View className="mr-2">{icon}</View>}
-            <Text className={cn(textStyles[variant])}>{label}</Text>
+            <Text className={cn(textStyles[variant], textStyle)}>{label}</Text>
         </TouchableOpacity>
     );
 }

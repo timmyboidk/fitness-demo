@@ -62,7 +62,7 @@ export default function OnboardingScreen() {
                         <View className="flex-1 justify-end px-8 pb-40">
                             <Text className="text-neon font-bold mb-2 tracking-widest">FITBODY</Text>
                             <Text className="text-white text-5xl font-black leading-tight mb-4">
-                                {item.title.split(' ').map((word, i) => (
+                                {item.title.split(' ').map((word: string, i: number) => (
                                     <Text key={i}>{word}{'\n'}</Text>
                                 ))}
                             </Text>
