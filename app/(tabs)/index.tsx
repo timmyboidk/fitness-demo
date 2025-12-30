@@ -1,71 +1,45 @@
-import { View, Text, FlatList, Image, ActivityIndicator } from 'react-native';
-import { Button } from '../../components/ui/Button';
-import { useEffect, useState } from 'react';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-// 模拟 MongoDB API 调用 (在 Step 2 中定义的 /api/moves)
-const fetchMoves = async () => {
-    try {
-        // 真实开发中: const res = await fetch('/api/moves'); return res.json();
-        // 这里为了演示直接返回数据
-        return [
-            { id: '1', name: 'Push Up', level: 'Beginner', image: 'https://via.placeholder.com/150' },
-            { id: '2', name: 'Squat', level: 'Intermediate', image: 'https://via.placeholder.com/150' },
-            { id: '3', name: 'Lunges', level: 'Beginner', image: 'https://via.placeholder.com/150' },
-            { id: '4', name: 'Plank', level: 'All Levels', image: 'https://via.placeholder.com/150' },
-        ];
-    } catch (e) {
-        return [];
-    }
-};
+// 火柴人风格数据 (Stick Figure Style Data)
+const MOVES = [
+    { id: 'm1', name: '标准俯卧撑', level: '初级', icon: 'body' },
+    { id: 'm2', name: '深蹲', level: '中级', icon: 'accessibility' }, // Accessibility 图标很像站立的人
+    { id: 'm3', name: '弓步蹲', level: '初级', icon: 'walk' },        // Walk 图标像弓步
+    { id: 'm4', name: '平板支撑', level: '全等级', icon: 'fitness' },
+    { id: 'm5', name: '开合跳', level: '有氧', icon: 'happy' },       // 模拟跳跃
+    { id: 'm6', name: '高抬腿', level: '高强度', icon: 'bicycle' },
+];
 
 export default function MovesScreen() {
-    const [moves, setMoves] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchMoves().then(data => {
-            setMoves(data);
-            setLoading(false);
-        });
-    }, []);
-
     return (
-        <View className="flex-1 bg-matte pt-16 px-4">
-            <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-white text-4xl font-black">MOVES</Text>
-                {/* 对应 Filter Button */}
-                <Button label="Filter" variant="outline" size="sm" />
-            </View>
+        <View className="flex-1 bg-[#121212] px-4 pt-4">
+            <FlatList
+                data={MOVES}
+                numColumns={2}
+                keyExtractor={item => item.id}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        onPress={() => router.push(`/workout/${item.id}?mode=move`)}
+                        className="w-[48%] bg-[#1E1E1E] mb-4 rounded-2xl overflow-hidden border border-gray-800"
+                    >
+                        {/* 模拟火柴人图片的区域 */}
+                        <View className="h-32 items-center justify-center bg-[#252525]">
+                            <Ionicons name={item.icon as any} size={60} color="white" />
+                        </View>
 
-            {loading ? (
-                <ActivityIndicator color="#CCFF00" />
-            ) : (
-                <FlatList
-                    data={moves}
-                    numColumns={2}
-                    keyExtractor={item => item.id}
-                    columnWrapperStyle={{ justifyContent: 'space-between' }}
-                    renderItem={({ item }) => (
-                        <View className="w-[48%] bg-surface rounded-2xl mb-4 overflow-hidden border border-gray-800">
-                            <View className="h-32 bg-gray-700 items-center justify-center">
-                                {/*  */}
-                                <Text className="text-gray-500">IMG</Text>
-                            </View>
-                            <View className="p-3">
-                                <Text className="text-white font-bold text-lg">{item.name}</Text>
-                                <Text className="text-neon text-xs uppercase mb-3">{item.level}</Text>
-                                <Button
-                                    label="Train"
-                                    size="sm"
-                                    className="h-8"
-                                    onPress={() => router.push(`/workout/${item.id}`)}
-                                />
+                        <View className="p-3">
+                            <Text className="text-white font-bold text-lg mb-1">{item.name}</Text>
+                            <View className="flex-row items-center">
+                                <View className="w-2 h-2 rounded-full bg-[#CCFF00] mr-2" />
+                                <Text className="text-gray-400 text-xs">{item.level}</Text>
                             </View>
                         </View>
-                    )}
-                />
-            )}
+                    </TouchableOpacity>
+                )}
+            />
         </View>
     );
 }

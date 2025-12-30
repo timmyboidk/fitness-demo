@@ -1,73 +1,73 @@
-import { View, Text, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 import { router } from 'expo-router';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Ionicons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur'; // 需要安装
+import { Button } from '../../components/ui/Button';
 
-// 背景图
 const BG_IMAGE = { uri: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop' };
 
 export default function LoginScreen() {
     return (
         <ImageBackground source={BG_IMAGE} className="flex-1" resizeMode="cover">
-            <View className="flex-1 bg-black/50"> {/* 整体压暗 */}
-                <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}>
+            <View className="flex-1 bg-black/60 justify-center p-6">
 
-                    {/* 顶部返回 */}
-                    <TouchableOpacity onPress={() => router.back()} className="absolute top-14 left-6 z-10">
-                        <Ionicons name="arrow-back" size={28} color="white" />
-                    </TouchableOpacity>
+                {/* Logo区 */}
+                <View className="items-center mb-12">
+                    <Text className="text-[#CCFF00] text-5xl font-black tracking-widest italic">FITBODY</Text>
+                    <Text className="text-gray-300 text-lg">智能 AI 健身助手</Text>
+                </View>
 
-                    {/* 主要内容区域 - 毛玻璃卡片 */}
-                    <BlurView intensity={30} tint="dark" className="rounded-t-[40px] overflow-hidden">
-                        <View className="bg-black/40 p-8 pt-10">
-                            <Text className="text-white text-4xl font-black mb-2">Welcome Back</Text>
-                            <Text className="text-gray-300 text-lg mb-8">Please log in to continue</Text>
+                {/* 手机号登录表单 */}
+                <View className="space-y-4 mb-8">
+                    <View className="flex-row items-center bg-[#1E1E1E] h-14 px-4 rounded-xl border border-gray-700">
+                        <Text className="text-gray-400 text-lg mr-3 font-bold">+86</Text>
+                        <View className="h-6 w-[1px] bg-gray-700 mr-3" />
+                        <TextInput
+                            placeholder="请输入手机号码"
+                            placeholderTextColor="#666"
+                            keyboardType="number-pad"
+                            className="flex-1 text-white text-lg font-bold"
+                        />
+                    </View>
 
-                            <View className="space-y-4">
-                                <Input placeholder="Email address" icon="mail-outline" />
-                                <Input placeholder="Password" secureTextEntry icon="lock-closed-outline" />
-                            </View>
-
-                            <TouchableOpacity className="items-end mt-3 mb-8">
-                                <Text className="text-gray-400">Forgot password?</Text>
-                            </TouchableOpacity>
-
-                            <Button label="Log In" onPress={() => router.replace('/(tabs)')} className="mb-8" />
-
-                            {/* 社交登录 */}
-                            <View className="flex-row items-center mb-6">
-                                <View className="flex-1 h-[1px] bg-gray-700" />
-                                <Text className="mx-4 text-gray-400">or continue with</Text>
-                                <View className="flex-1 h-[1px] bg-gray-700" />
-                            </View>
-
-                            <View className="flex-row justify-center space-x-4 mb-6">
-                                <SocialButton icon="logo-google" />
-                                <SocialButton icon="logo-apple" />
-                                <SocialButton icon="logo-facebook" />
-                            </View>
-
-                            <View className="flex-row justify-center mb-8">
-                                <Text className="text-gray-400">Don&#39;t have an account? </Text>
-                                <TouchableOpacity onPress={() => router.push('/(auth)/signup')}>
-                                    <Text className="text-neon font-bold">Sign Up</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View className="flex-row gap-3">
+                        <View className="flex-1 bg-[#1E1E1E] h-14 px-4 rounded-xl border border-gray-700 justify-center">
+                            <TextInput
+                                placeholder="验证码"
+                                placeholderTextColor="#666"
+                                keyboardType="number-pad"
+                                className="text-white text-lg font-bold"
+                            />
                         </View>
-                    </BlurView>
-                </ScrollView>
+                        <TouchableOpacity className="w-32 bg-[#333] h-14 rounded-xl items-center justify-center border border-gray-700">
+                            <Text className="text-[#CCFF00] font-bold">获取验证码</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <Button label="登录 / 注册" onPress={() => router.replace('/(tabs)')} className="mb-10" />
+
+                {/* 微信登录 */}
+                <View className="items-center">
+                    <View className="flex-row items-center mb-6 w-full">
+                        <View className="flex-1 h-[1px] bg-gray-700" />
+                        <Text className="mx-4 text-gray-400">其他登录方式</Text>
+                        <View className="flex-1 h-[1px] bg-gray-700" />
+                    </View>
+
+                    <TouchableOpacity
+                        onPress={() => router.replace('/(tabs)')}
+                        className="flex-row items-center bg-[#07C160] px-8 py-3 rounded-full"
+                    >
+                        <Ionicons name="logo-wechat" size={24} color="white" style={{ marginRight: 8 }} />
+                        <Text className="text-white font-bold text-lg">微信一键登录</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <Text className="text-gray-600 text-xs text-center mt-10">
+                    登录即代表同意《用户协议》与《隐私政策》
+                </Text>
+
             </View>
         </ImageBackground>
-    );
-}
-
-// 简单的辅助组件
-function SocialButton({ icon }: { icon: any }) {
-    return (
-        <TouchableOpacity className="w-16 h-16 bg-white/10 rounded-full items-center justify-center border border-white/20">
-            <Ionicons name={icon} size={28} color="white" />
-        </TouchableOpacity>
     );
 }
