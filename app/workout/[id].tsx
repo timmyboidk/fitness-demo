@@ -1,69 +1,80 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera'; // 使用新版 CameraView
+import { Camera, useCameraDevice, useFrameProcessor } from 'react-native-vision-camera';
+import { useSharedValue } from 'react-native-worklets-core';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function WorkoutScreen() {
-    const { mode } = useLocalSearchParams();
-    const [permission, requestPermission] = useCameraPermissions();
-    const [facing, setFacing] = useState<'front' | 'back'>('front');
+export default function WorkoutSession() {
+    const { id } = useLocalSearchParams();
+    const device = useCameraDevice('front');
+    const [hasPermission, setHasPermission] = useState(false);
 
-    if (!permission) return <View />;
-    if (!permission.granted) {
-        return (
-            <View className="flex-1 bg-matte justify-center items-center p-6">
-                <Text className="text-white text-center mb-4">我们需要相机权限来纠正你的动作。</Text>
-                <TouchableOpacity onPress={requestPermission} className="bg-neon px-6 py-3 rounded-full">
-                    <Text className="font-bold text-black">授权相机</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+    // 1. ONNX 模型状态共享
+    // const poseData = useSharedValue(null);
+
+    useEffect(() => {
+        (async () => {
+            const status = await Camera.requestCameraPermission();
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
+
+    // 2. 帧处理器 (Worklet) - 这里是未来放入 ONNX 逻辑的地方
+    const frameProcessor = useFrameProcessor((frame) => {
+        'worklet';
+        // console.log("Frame processed:", frame.width, frame.height);
+        // const result = OnnxModel.run(frame);
+        // poseData.value = result;
+    }, []);
+
+    if (!hasPermission) return <View className="flex-1 bg-black justify-center items-center"><Text className="text-white">Requesting Permissions...</Text></View>;
+    if (!device) return <View className="flex-1 bg-black justify-center items-center"><Text className="text-white">No Camera Device</Text></View>;
 
     return (
         <View className="flex-1 bg-black">
-            <CameraView style={{ flex: 1 }} facing={facing}>
-                {/* HUD 界面层 */}
-                <View className="flex-1 safe-area p-6 justify-between">
+            <Camera
+                style={{ flex: 1 }}
+                device={device}
+                isActive={true}
+                frameProcessor={frameProcessor}
+                pixelFormat="yuv" // ONNX 常用格式
+            />
 
-                    {/* 顶部栏 */}
-                    <View className="flex-row justify-between items-start mt-10">
-                        <View>
-                            <Text className="text-neon text-4xl font-black italic">00:24</Text>
-                            <Text className="text-white font-bold bg-black/50 px-2 rounded">
-                                {mode === 'session' ? 'SESSION PROGRESS' : 'SINGLE MOVE'}
-                            </Text>
-                        </View>
-                        <TouchableOpacity onPress={() => router.back()} className="bg-black/40 p-2 rounded-full">
-                            <Ionicons name="close" size={28} color="white" />
-                        </TouchableOpacity>
+            {/* UI Overlay */}
+            <View className="absolute top-0 left-0 w-full h-full safe-area p-6 flex justify-between">
+                {/* Header */}
+                <View className="flex-row justify-between mt-4">
+                    <View className="bg-black/60 px-3 py-1 rounded-lg border border-neon/30">
+                        <Text className="text-neon font-bold">AI TRACKING: ACTIVE</Text>
                     </View>
-
-                    {/* 3D 骨骼模拟层 (居中) */}
-                    <View className="items-center opacity-60">
-                        <Ionicons name="body" size={250} color={mode === 'session' ? '#CCFF00' : '#ffffff'} />
-                        {/* 模拟 AI 反馈 */}
-                        <View className="bg-alert/80 px-4 py-2 rounded mt-4">
-                            <Text className="text-white font-bold">KNEES INWARD DETECTED</Text>
-                        </View>
-                    </View>
-
-                    {/* 底部控制 */}
-                    <View className="flex-row justify-around items-center bg-black/60 p-4 rounded-3xl mb-4">
-                        <TouchableOpacity onPress={() => setFacing(current => (current === 'back' ? 'front' : 'back'))}>
-                            <Ionicons name="camera-reverse-outline" size={32} color="white" />
-                        </TouchableOpacity>
-                        <TouchableOpacity className="bg-neon w-16 h-16 rounded-full items-center justify-center">
-                            <Ionicons name="pause" size={32} color="black" />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Ionicons name="settings-outline" size={32} color="white" />
-                        </TouchableOpacity>
-                    </View>
-
+                    <TouchableOpacity onPress={() => router.back()} className="bg-black/50 p-2 rounded-full">
+                        <Ionicons name="close" size={24} color="white" />
+                    </TouchableOpacity>
                 </View>
-            </CameraView>
+
+                {/* Center Guide (Placeholder for 3D Model) */}
+                <View className="items-center opacity-50">
+                    {/*  */}
+                    <Ionicons name="body-outline" size={300} color="white" />
+                </View>
+
+                {/* Bottom Stats */}
+                <View className="bg-black/70 rounded-3xl p-6 flex-row justify-between items-center">
+                    <View>
+                        <Text className="text-gray-400 text-xs">REPS</Text>
+                        <Text className="text-white text-3xl font-black">0/12</Text>
+                    </View>
+                    <View>
+                        <Text className="text-gray-400 text-xs">FORM</Text>
+                        <Text className="text-neon text-3xl font-black">98%</Text>
+                    </View>
+                    <View>
+                        <Text className="text-gray-400 text-xs">TIME</Text>
+                        <Text className="text-white text-3xl font-black">00:45</Text>
+                    </View>
+                </View>
+            </View>
         </View>
     );
 }
