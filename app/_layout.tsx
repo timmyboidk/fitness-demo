@@ -1,24 +1,21 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { View } from 'react-native';
 import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+// import '../global.css'; // 如果你有全局css，没有则忽略
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    return (
+        <View style={{ flex: 1, backgroundColor: '#121212' }}>
+            <StatusBar style="light" />
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#121212' } }}>
+                {/* 登录页组 */}
+                <Stack.Screen name="(auth)" />
+                {/* 主程序 Tabs */}
+                <Stack.Screen name="(tabs)" />
+                {/* 核心 AI 训练页 (全屏模态) */}
+                <Stack.Screen name="workout/[id]" options={{ presentation: 'fullScreenModal' }} />
+            </Stack>
+        </View>
+    );
 }
