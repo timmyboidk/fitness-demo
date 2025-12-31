@@ -1,105 +1,137 @@
-import { View, Text, TouchableOpacity, TextInput, ImageBackground, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const BG_IMAGE = { uri: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop' };
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
 
 export default function LoginScreen() {
+    const insets = useSafeAreaInsets();
     const [phone, setPhone] = useState('');
     const [code, setCode] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (type: 'phone' | 'wechat') => {
-        if (type === 'phone' && (phone.length !== 11 || code.length !== 4)) {
-            return Alert.alert("提示", "请输入正确的手机号和4位验证码");
-        }
+        setLoading(true);
 
-        try {
-            // 调用我们在 app/api/auth+api.ts 中写的接口
-            const res = await fetch('http://localhost:8081/api/auth', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: type === 'phone' ? 'login_phone' : 'login_wechat',
-                    payload: { phone, code }
-                })
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                // 持久化存储用户信息
-                await AsyncStorage.setItem('user', JSON.stringify(data.user));
-                router.replace('/(tabs)');
+        // 模拟 API 请求逻辑
+        setTimeout(async () => {
+            let userData;
+            if (type === 'wechat') {
+                // 模拟微信用户数据
+                userData = {
+                    _id: 'wx_user_888',
+                    nickname: '微信用户_Tim',
+                    avatar: 'https://ui-avatars.com/api/?name=WeChat&background=07C160&color=fff',
+                    vip: true
+                };
+                Alert.alert("微信授权成功", `欢迎回来，${userData.nickname}`);
             } else {
-                Alert.alert("登录失败", "请稍后重试");
+                if (phone.length !== 11 || code.length !== 4) {
+                    setLoading(false);
+                    return Alert.alert("提示", "请输入11位手机号和4位验证码");
+                }
+                // 模拟手机用户数据
+                userData = {
+                    _id: `ph_${phone}`,
+                    nickname: `用户${phone.slice(-4)}`,
+                    avatar: 'https://ui-avatars.com/api/?name=User&background=333&color=fff',
+                    phone: phone
+                };
             }
-        } catch (e) {
-            Alert.alert("网络错误", "无法连接到服务器");
-        }
+
+            try {
+                await AsyncStorage.setItem('user', JSON.stringify(userData));
+                router.replace('/(tabs)');
+            } catch (e) {
+                Alert.alert("登录错误", "数据存储失败");
+            } finally {
+                setLoading(false);
+            }
+        }, 800);
     };
 
     return (
-        <ImageBackground source={BG_IMAGE} className="flex-1" resizeMode="cover">
-            <View className="flex-1 bg-black/70 justify-center p-8">
-                <View className="items-center mb-16">
-                    <Text className="text-[#CCFF00] text-5xl font-black italic tracking-widest">FITBODY</Text>
-                    <Text className="text-gray-300 text-lg mt-2">专业 AI 健身助手</Text>
-                </View>
+        <View className="flex-1 bg-[#121212]">
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+            >
+                <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 24, paddingTop: insets.top + 20 }}>
 
-                {/* 手机号登录区域 */}
-                <View className="space-y-4 w-full mb-10">
-                    <View className="bg-[#1E1E1E] h-14 rounded-2xl flex-row items-center px-4 border border-gray-700">
-                        <Text className="text-white font-bold text-lg border-r border-gray-600 pr-3 mr-3">+86</Text>
-                        <TextInput
-                            placeholder="请输入手机号码"
-                            placeholderTextColor="#666"
-                            className="flex-1 text-white text-lg font-bold"
+                    {/* 顶部返回 */}
+                    <TouchableOpacity onPress={() => router.back()} className="mb-8">
+                        <Ionicons name="close" size={28} color="white" />
+                    </TouchableOpacity>
+
+                    {/* 标题区 */}
+                    <View className="mb-10">
+                        <Text className="text-white text-4xl font-black mb-2 italic">FITBODY</Text>
+                        <Text className="text-gray-400 text-lg">欢迎回来，请登录您的账号</Text>
+                    </View>
+
+                    {/* 表单区 */}
+                    <View className="space-y-4">
+                        <Input
+                            placeholder="手机号码"
                             keyboardType="number-pad"
                             value={phone}
                             onChangeText={setPhone}
+                            maxLength={11}
+                            icon="call-outline"
+                        />
+
+                        <View className="flex-row gap-3">
+                            <View className="flex-1">
+                                <Input
+                                    placeholder="验证码"
+                                    keyboardType="number-pad"
+                                    value={code}
+                                    onChangeText={setCode}
+                                    maxLength={4}
+                                    icon="key-outline"
+                                />
+                            </View>
+                            <TouchableOpacity className="h-14 w-32 bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-800 active:bg-gray-800">
+                                <Text className="text-[#CCFF00] font-bold">获取验证码</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <Button
+                            label={loading ? "登录中..." : "登 录"}
+                            onPress={() => handleLogin('phone')}
+                            className="mt-4"
+                            disabled={loading}
                         />
                     </View>
-                    <View className="flex-row gap-3">
-                        <View className="flex-1 bg-[#1E1E1E] h-14 rounded-2xl justify-center px-4 border border-gray-700">
-                            <TextInput
-                                placeholder="验证码"
-                                placeholderTextColor="#666"
-                                className="text-white text-lg font-bold"
-                                keyboardType="number-pad"
-                                value={code}
-                                onChangeText={setCode}
-                            />
-                        </View>
-                        <TouchableOpacity className="w-32 bg-[#333] rounded-2xl items-center justify-center border border-gray-600">
-                            <Text className="text-[#CCFF00] font-bold">获取验证码</Text>
+
+                    {/* 分割线 */}
+                    <View className="flex-row items-center my-10">
+                        <View className="h-[1px] bg-gray-800 flex-1" />
+                        <Text className="mx-4 text-gray-500 text-xs">社交账号一键登录</Text>
+                        <View className="h-[1px] bg-gray-800 flex-1" />
+                    </View>
+
+                    {/* 微信登录 */}
+                    <TouchableOpacity
+                        onPress={() => handleLogin('wechat')}
+                        className="flex-row items-center justify-center bg-[#07C160] h-14 rounded-full mb-6"
+                    >
+                        <Ionicons name="logo-wechat" size={24} color="white" style={{ marginRight: 8 }} />
+                        <Text className="text-white font-bold text-lg">微信登录</Text>
+                    </TouchableOpacity>
+
+                    <View className="flex-row justify-center mt-auto pb-8">
+                        <Text className="text-gray-500">还没有账号？ </Text>
+                        <TouchableOpacity onPress={() => router.push('/(auth)/signup')}>
+                            <Text className="text-[#CCFF00] font-bold">立即注册</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => handleLogin('phone')} className="bg-[#CCFF00] h-14 rounded-full items-center justify-center mt-4 shadow-lg shadow-[#CCFF00]/20">
-                        <Text className="text-black text-xl font-black">登 录</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* 微信登录 */}
-                <View className="w-full items-center">
-                    <View className="flex-row items-center w-full mb-8">
-                        <View className="h-[1px] bg-gray-700 flex-1" />
-                        <Text className="text-gray-500 mx-4 text-xs">其他方式登录</Text>
-                        <View className="h-[1px] bg-gray-700 flex-1" />
-                    </View>
-
-                    <TouchableOpacity onPress={() => handleLogin('wechat')} className="flex-row items-center bg-[#07C160] px-8 py-3 rounded-full">
-                        <Ionicons name="logo-wechat" size={28} color="white" style={{ marginRight: 8 }} />
-                        <Text className="text-white font-bold text-lg">微信一键登录</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <Text className="text-gray-600 text-[10px] text-center mt-12">
-                    登录即代表同意《用户协议》与《隐私政策》
-                </Text>
-            </View>
-        </ImageBackground>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View>
     );
 }
