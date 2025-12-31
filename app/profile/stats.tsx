@@ -16,7 +16,7 @@ export default function StatsScreen() {
             </View>
 
             <ScrollView className="p-4">
-                {/* 这里展示更详细的图表或数据，暂时用静态布局演示 */}
+                {/* 顶部大卡片 */}
                 <View className="bg-[#1E1E1E] p-6 rounded-3xl mb-4 border border-gray-800">
                     <Text className="text-gray-400 mb-2">本周运动时长</Text>
                     <View className="flex-row items-baseline">
@@ -28,9 +28,14 @@ export default function StatsScreen() {
                     </View>
                 </View>
 
-                <View className="flex-row gap-4 mb-4">
-                    <InfoCard title="累计消耗" value="2,400" unit="千卡" icon="flame" color="#FF3B30" />
-                    <InfoCard title="动作达标率" value="88" unit="%" icon="checkmark-circle" color="#30D158" />
+                {/* 修复：使用 justify-between 和 宽度控制，确保间距充足 */}
+                <View className="flex-row justify-between mb-4">
+                    <View style={{ width: '48%' }}>
+                        <InfoCard title="累计消耗" value="2,400" unit="千卡" icon="flame" color="#FF3B30" />
+                    </View>
+                    <View style={{ width: '48%' }}>
+                        <InfoCard title="动作达标率" value="88" unit="%" icon="checkmark-circle" color="#30D158" />
+                    </View>
                 </View>
 
                 <Text className="text-white font-bold text-lg mb-4 mt-2">最近记录</Text>
@@ -49,7 +54,7 @@ export default function StatsScreen() {
 }
 
 const InfoCard = ({ title, value, unit, icon, color }: any) => (
-    <View className="flex-1 bg-[#1E1E1E] p-4 rounded-3xl border border-gray-800">
+    <View className="bg-[#1E1E1E] p-4 rounded-3xl border border-gray-800 w-full">
         <Ionicons name={icon} size={24} color={color} style={{ marginBottom: 8 }} />
         <Text className="text-gray-400 text-xs">{title}</Text>
         <View className="flex-row items-baseline mt-1">

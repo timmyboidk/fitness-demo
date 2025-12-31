@@ -3,12 +3,15 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function WorkoutSession() {
-    const { id, mode } = useLocalSearchParams(); // mode: 'move' or 'session'
+    const { id, mode } = useLocalSearchParams();
     const [permission, requestPermission] = useCameraPermissions();
     const [facing, setFacing] = useState<'front' | 'back'>('front');
+
+    //  获取安全区域距离 (刘海屏/Home条高度)
+    const insets = useSafeAreaInsets();
 
     // 快捷设置状态
     const [showSettings, setShowSettings] = useState(false);
@@ -28,26 +31,50 @@ export default function WorkoutSession() {
         <View className="flex-1 bg-black">
             <CameraView style={{ flex: 1 }} facing={facing} mirror={settings.mirror}>
 
-                {/* 顶部 HUD */}
-                <SafeAreaView className="absolute top-0 w-full flex-row justify-between items-center p-4 z-10">
+                {/*
+                   - 改用 View + style padding
+                   - insets.top 避开刘海
+                   - +10 增加额外呼吸空间
+                */}
+                <View
+                    className="absolute top-0 w-full flex-row justify-between items-center px-4 z-50"
+                    style={{ paddingTop: insets.top + 10 }}
+                >
                     <View className="bg-black/60 px-3 py-1 rounded-lg border border-[#CCFF00]/30">
                         <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
                     </View>
-                    <TouchableOpacity onPress={() => router.back()} className="bg-black/50 p-2 rounded-full">
+
+                    {/* 4. 退出按钮修复:
+                       - 增加 hitSlop 扩大点击范围 (上下左右各扩大 20px)
+                       - 确保手指粗也能点中
+                    */}
+                    <TouchableOpacity
+                        onPress={() => router.back()}
+                        className="bg-black/50 w-10 h-10 rounded-full items-center justify-center border border-white/10"
+                        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    >
                         <Ionicons name="close" size={24} color="white" />
                     </TouchableOpacity>
-                </SafeAreaView>
-
-                {/* 中间引导区 */}
-                <View className="absolute top-1/3 w-full items-center opacity-70 pointer-events-none">
-                    <Ionicons name="body-outline" size={200} color="white" />
-                    <Text className="text-white font-bold mt-4 bg-black/40 px-4 py-2 rounded-full">
-                        请将身体对准框线
-                    </Text>
                 </View>
 
-                {/* 底部控制栏 */}
-                <SafeAreaView className="absolute bottom-0 w-full p-6" edges={['bottom']}>
+                {/* 中间引导区 */}
+                {settings.aiGuide && (
+                    <View className="absolute top-1/3 w-full items-center opacity-70 pointer-events-none">
+                        <Ionicons name="body-outline" size={200} color="white" />
+                        <Text className="text-white font-bold mt-4 bg-black/40 px-4 py-2 rounded-full">
+                            请将身体对准框线
+                        </Text>
+                    </View>
+                )}
+
+                {/* 5. 底部控制栏修复:
+                   - 使用 insets.bottom 避开 Home 条
+                   - 增加 paddingBottom 提升视觉舒适度
+                */}
+                <View
+                    className="absolute bottom-0 w-full px-6"
+                    style={{ paddingBottom: insets.bottom + 20 }}
+                >
                     {/* 数据统计行 */}
                     <View className="bg-black/80 rounded-3xl p-5 flex-row justify-between items-center mb-6 backdrop-blur-md border border-gray-800">
                         <StatItem label="次数" value="0" />
@@ -64,19 +91,19 @@ export default function WorkoutSession() {
                             <Ionicons name="pause" size={36} color="black" />
                         </TouchableOpacity>
 
-                        {/* 齿轮设置按钮：呼出新图层 */}
+                        {/* 齿轮设置按钮 */}
                         <ControlButton icon="settings-outline" onPress={() => setShowSettings(true)} />
                     </View>
-                </SafeAreaView>
+                </View>
             </CameraView>
 
             {/* 快捷设置图层 (Layer) */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
-                <TouchableOpacity className="flex-1 bg-black/50" activeOpacity={1} onPress={() => setShowSettings(false)}>
+                <TouchableOpacity className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
                     <View className="absolute bottom-0 w-full bg-[#1E1E1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
                         <View className="flex-row justify-between items-center mb-6">
                             <Text className="text-white text-xl font-bold">训练设置</Text>
-                            <TouchableOpacity onPress={() => setShowSettings(false)}>
+                            <TouchableOpacity onPress={() => setShowSettings(false)} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
                                 <Ionicons name="close-circle" size={28} color="#666" />
                             </TouchableOpacity>
                         </View>

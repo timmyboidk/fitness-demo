@@ -42,9 +42,6 @@ export default function ProfileScreen() {
                 {/* 顶部 Header */}
                 <View className="pt-4 px-6 pb-8 flex-row justify-between items-center">
                     <Text className="text-white text-3xl font-black italic">个人中心</Text>
-                    <TouchableOpacity onPress={() => router.push('/profile/settings')}>
-                        <Ionicons name="create-outline" size={28} color="white" />
-                    </TouchableOpacity>
                 </View>
 
                 {/* 用户信息卡片 */}
