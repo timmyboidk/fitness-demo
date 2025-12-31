@@ -9,7 +9,7 @@ const MENU_ITEMS = [
     { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
     { icon: 'trophy-outline', label: '排行榜', route: '/profile/leaderboard' },
     { icon: 'share-social-outline', label: '社交账号', route: '/profile/social' },
-    { icon: 'help-circle-outline', label: '帮助中心', route: '/profile/settings' },
+    { icon: 'help-circle-outline', label: '帮助中心', route: '/profile/help' },
 ];
 
 export default function ProfileScreen() {
