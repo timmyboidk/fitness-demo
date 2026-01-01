@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Modal, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { aiScoringService } from '../../services/AIScoringService';
 import { libraryStore } from '../../store/library';
 
 export default function WorkoutSession() {
@@ -30,6 +31,30 @@ export default function WorkoutSession() {
     // Playback State
     const [isPlaying, setIsPlaying] = useState(false);
 
+    // AI Scoring Hook (Mock integration)
+    const scoreCurrentMove = async () => {
+        if (!sequence[currentMoveIndex]) return;
+
+        console.log("Hook: Integrating AI Model...");
+        try {
+            const response = await aiScoringService.scoreMove({
+                moveId: sequence[currentMoveIndex].id,
+                sessionId: mode === 'session' ? (id as string) : undefined,
+                timestamp: Date.now(),
+                data: {
+                    frame: "mock_base64_frame_data"
+                }
+            });
+
+            if (response.success) {
+                console.log(`AI Score Received: ${response.score}`);
+                console.log("AI Feedback:", response.feedback.map((f: any) => f.message).join(", "));
+            }
+        } catch (error) {
+            console.error("AI Scoring failed", error);
+        }
+    };
+
     useEffect(() => {
         if (mode === 'session') {
             const moves = libraryStore.getSessionMoves(id as string);
@@ -42,8 +67,17 @@ export default function WorkoutSession() {
 
     // Hooks for buttons
     const handlePlayPause = () => {
-        setIsPlaying(!isPlaying);
+        const nextState = !isPlaying;
+        setIsPlaying(nextState);
         console.log("Hook: Toggle Play/Pause");
+
+        if (nextState) {
+            // Start scoring loop or trigger single score
+            console.log("Starting AI Analysis Stream...");
+            scoreCurrentMove();
+        } else {
+            console.log("Pausing AI Analysis...");
+        }
     };
 
     const handleSkip = () => {

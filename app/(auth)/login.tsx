@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { authService } from '../../services/AuthService';
 
 export default function LoginScreen() {
     const insets = useSafeAreaInsets();
@@ -13,44 +14,80 @@ export default function LoginScreen() {
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // OTP Timer
+    const [timer, setTimer] = useState(0);
+    const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+    useEffect(() => {
+        let interval: any;
+        if (isTimerRunning && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            setIsTimerRunning(false);
+        }
+        return () => clearInterval(interval);
+    }, [isTimerRunning, timer]);
+
+    const handleSendCode = async () => {
+        if (!/^1[3-9]\d{9}$/.test(phone)) {
+            return Alert.alert("错误", "请输入正确的11位手机号码");
+        }
+
+        setIsTimerRunning(true);
+        setTimer(60);
+
+        try {
+            const res = await authService.requestOTP(phone);
+            if (res.success) {
+                Alert.alert("提示", "验证码已发送 (默认1234)");
+            } else {
+                Alert.alert("错误", res.message || "由于网络原因发送失败");
+                setIsTimerRunning(false);
+                setTimer(0);
+            }
+        } catch (e) {
+            Alert.alert("错误", "发送失败，请稍后重试");
+            setIsTimerRunning(false);
+            setTimer(0);
+        }
+    };
+
     const handleLogin = async (type: 'phone' | 'wechat') => {
         setLoading(true);
 
-        // 模拟 API 请求逻辑
-        setTimeout(async () => {
-            let userData;
+        try {
+            let result;
+
             if (type === 'wechat') {
-                // 模拟微信用户数据
-                userData = {
-                    _id: 'wx_user_888',
-                    nickname: '微信用户_Tim',
-                    avatar: 'https://ui-avatars.com/api/?name=WeChat&background=07C160&color=fff',
-                    vip: true
-                };
-                Alert.alert("微信授权成功", `欢迎回来，${userData.nickname}`);
+                // Simulate WeChat SDK Login Code
+                const mockCode = "wx_code_" + Math.random().toString(36).substring(7);
+                result = await authService.loginWithWeChat(mockCode);
             } else {
-                if (phone.length !== 11 || code.length !== 4) {
+                if (!phone || !code) {
                     setLoading(false);
-                    return Alert.alert("提示", "请输入11位手机号和4位验证码");
+                    return Alert.alert("提示", "请输入手机号和验证码");
                 }
-                // 模拟手机用户数据
-                userData = {
-                    _id: `ph_${phone}`,
-                    nickname: `用户${phone.slice(-4)}`,
-                    avatar: 'https://ui-avatars.com/api/?name=User&background=333&color=fff',
-                    phone: phone
-                };
+                result = await authService.verifyOTP(phone, code);
             }
 
-            try {
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                router.replace('/(tabs)');
-            } catch (e) {
-                Alert.alert("登录错误", "数据存储失败");
-            } finally {
-                setLoading(false);
+            if (result.success && result.user) {
+                await AsyncStorage.setItem('user', JSON.stringify(result.user));
+                Alert.alert(
+                    "登录成功",
+                    `欢迎回来，${result.user.nickname}`,
+                    [{ text: "OK", onPress: () => router.replace('/(tabs)') }]
+                );
+            } else {
+                Alert.alert("登录失败", result.message || "请检查您的输入或网络连接");
             }
-        }, 800);
+        } catch (e) {
+            Alert.alert("系统错误", "请稍后重试");
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -94,8 +131,14 @@ export default function LoginScreen() {
                                     icon="key-outline"
                                 />
                             </View>
-                            <TouchableOpacity className="h-14 w-32 bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-800 active:bg-gray-800">
-                                <Text className="text-[#CCFF00] font-bold">获取验证码</Text>
+                            <TouchableOpacity
+                                onPress={handleSendCode}
+                                disabled={isTimerRunning}
+                                className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-800 ${isTimerRunning ? 'bg-gray-800' : 'bg-[#1E1E1E] active:bg-gray-800'}`}
+                            >
+                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#CCFF00] font-bold"}>
+                                    {isTimerRunning ? `${timer}s` : "获取验证码"}
+                                </Text>
                             </TouchableOpacity>
                         </View>
 
@@ -117,6 +160,7 @@ export default function LoginScreen() {
                     {/* 微信登录 */}
                     <TouchableOpacity
                         onPress={() => handleLogin('wechat')}
+                        disabled={loading}
                         className="flex-row items-center justify-center bg-[#07C160] h-14 rounded-full mb-6"
                     >
                         <Ionicons name="logo-wechat" size={24} color="white" style={{ marginRight: 8 }} />
