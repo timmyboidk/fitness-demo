@@ -1,5 +1,6 @@
-import { View, Text, FlatList, Image } from 'react-native';
-import { Stack } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { Stack, router } from 'expo-router';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RANKINGS = [
@@ -12,11 +13,14 @@ const RANKINGS = [
 export default function LeaderboardScreen() {
     return (
         <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
-            <Stack.Screen options={{
-                title: "好友排行榜",
-                headerStyle: { backgroundColor: '#121212' },
-                headerTintColor: '#fff'
-            }} />
+            <Stack.Screen options={{ headerShown: false }} />
+
+            <View className="flex-row items-center px-4 py-4">
+                <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
+                    <Ionicons name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+                <Text className="text-white text-xl font-bold">好友排行榜</Text>
+            </View>
 
             <View className="p-4 bg-[#1E1E1E] mb-2 flex-row justify-between items-center">
                 <Text className="text-[#CCFF00] font-bold text-lg">本周排名</Text>

@@ -1,7 +1,7 @@
-import { View, Text, Switch, ScrollView, TouchableOpacity } from 'react-native';
-import { router, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { router, Stack } from 'expo-router';
 import { useState } from 'react';
+import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
@@ -11,12 +11,14 @@ export default function SettingsScreen() {
     return (
 
         <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
-            <Stack.Screen options={{
-                title: "设置",
-                headerStyle: { backgroundColor: '#121212' },
-                headerTintColor: '#fff',
-                headerBackTitle: "返回"
-            }} />
+            <Stack.Screen options={{ headerShown: false }} />
+
+            <View className="flex-row items-center px-4 py-4">
+                <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
+                    <Ionicons name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+                <Text className="text-white text-xl font-bold">设置</Text>
+            </View>
 
             <ScrollView className="p-4">
                 <View className="bg-[#1E1E1E] rounded-2xl overflow-hidden mb-6">

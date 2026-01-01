@@ -9,7 +9,7 @@ export default function HelpScreen() {
             <Stack.Screen options={{ headerShown: false }} />
 
             {/* 统一的带返回键 Header */}
-            <View className="flex-row items-center px-4 py-4 border-b border-[#333]">
+            <View className="flex-row items-center px-4 py-4">
                 <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
                     <Ionicons name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
