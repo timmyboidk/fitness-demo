@@ -109,9 +109,20 @@ export default function WorkoutSession() {
 
                 {/* 中间引导区 */}
                 {settings.aiGuide && (
-                    <View className="absolute top-1/3 w-full items-center opacity-70 pointer-events-none">
-                        <Ionicons name="body-outline" size={200} color="white" />
-                        <Text className="text-white font-bold mt-4 bg-black/40 px-4 py-2 rounded-full">
+                    <View className="absolute top-0 left-0 w-full h-full justify-center items-center pointer-events-none z-0">
+                        {/* Viewfinder Frame */}
+                        <View className="w-3/4 h-[60%] relative opacity-80">
+                            {/* TL */}
+                            <View className="absolute top-0 left-0 w-10 h-10 border-t-[6px] border-l-[6px] border-white rounded-tl-3xl shadow-sm" />
+                            {/* TR */}
+                            <View className="absolute top-0 right-0 w-10 h-10 border-t-[6px] border-r-[6px] border-white rounded-tr-3xl shadow-sm" />
+                            {/* BL */}
+                            <View className="absolute bottom-0 left-0 w-10 h-10 border-b-[6px] border-l-[6px] border-white rounded-bl-3xl shadow-sm" />
+                            {/* BR */}
+                            <View className="absolute bottom-0 right-0 w-10 h-10 border-b-[6px] border-r-[6px] border-white rounded-br-3xl shadow-sm" />
+                        </View>
+
+                        <Text className="text-white font-bold mt-8 bg-black/40 px-6 py-3 rounded-full overflow-hidden text-base tracking-widest">
                             请将身体对准框线
                         </Text>
                     </View>
