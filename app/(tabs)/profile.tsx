@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MENU_ITEMS = [
     { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
@@ -13,6 +13,7 @@ const MENU_ITEMS = [
 ];
 
 export default function ProfileScreen() {
+    const insets = useSafeAreaInsets();
     // 2. 新增状态和副作用：读取本地存储的用户信息
     const [user, setUser] = useState<any>(null);
 
@@ -37,8 +38,12 @@ export default function ProfileScreen() {
     const userId = user?._id ? `ID: ${user._id.slice(-6).toUpperCase()}` : '点击登录';
 
     return (
-        <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
-            <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <View className="flex-1 bg-[#121212]" style={{ paddingTop: insets.top }}>
+            <ScrollView
+                contentContainerStyle={{ paddingBottom: 100 }}
+                contentInsetAdjustmentBehavior="never"
+                showsVerticalScrollIndicator={false}
+            >
                 {/* 顶部 Header */}
                 <View className="pt-4 px-6 pb-8 flex-row justify-between items-center">
                     <Text className="text-white text-3xl font-black italic">个人中心</Text>
@@ -110,7 +115,7 @@ export default function ProfileScreen() {
                     </View>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 

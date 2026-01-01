@@ -8,6 +8,7 @@ export default function SocialScreen() {
         <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
             <Stack.Screen options={{ headerShown: false }} />
 
+            {/* 统一的带返回键 Header */}
             <View className="flex-row items-center px-4 py-4">
                 <TouchableOpacity onPress={() => {
                     console.log("Hook: Social Back Pressed");
