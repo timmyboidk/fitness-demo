@@ -1,8 +1,8 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const MENU_ITEMS = [
@@ -46,7 +46,10 @@ export default function ProfileScreen() {
 
                 {/* 用户信息卡片 */}
                 <TouchableOpacity
-                    onPress={() => !user && router.push('/(auth)/login')} // 如果没登录，点击头像去登录
+                    onPress={() => {
+                        console.log("Hook: Profile Avatar Pressed - User:", user ? "LoggedIn" : "Guest");
+                        if (!user) router.push('/(auth)/login');
+                    }}
                     className="px-6 mb-8 flex-row items-center"
                 >
                     {/* 3. 修改头像区域：使用动态数据 */}
@@ -66,7 +69,10 @@ export default function ProfileScreen() {
                 </TouchableOpacity>
 
                 {/* 4. 修改统计卡片：添加点击跳转事件 */}
-                <TouchableOpacity onPress={() => router.push('/profile/stats')}>
+                <TouchableOpacity onPress={() => {
+                    console.log("Hook: Profile Stats Card Pressed");
+                    router.push('/profile/stats');
+                }}>
                     <View className="mx-6 p-6 bg-[#1E1E1E] rounded-3xl border border-gray-800 mb-8 flex-row justify-between">
                         <StatItem value={user?.stats?.totalWorkouts || "0"} label="累计训练" />
                         <View className="w-[1px] bg-gray-800 h-full" />
@@ -88,7 +94,10 @@ export default function ProfileScreen() {
                         {MENU_ITEMS.map((item, index) => (
                             <TouchableOpacity
                                 key={item.label}
-                                onPress={() => router.push(item.route as any)}
+                                onPress={() => {
+                                    console.log(`Hook: Profile Menu Item Pressed - ${item.label}`);
+                                    router.push(item.route as any);
+                                }}
                                 className={`flex-row items-center p-5 ${index < MENU_ITEMS.length - 1 ? 'border-b border-gray-800' : ''}`}
                             >
                                 <View className="w-10 h-10 bg-[#2C2C2C] rounded-full items-center justify-center mr-4">

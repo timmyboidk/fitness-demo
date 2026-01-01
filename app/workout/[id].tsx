@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -11,10 +12,13 @@ export default function WorkoutSession() {
     const [permission, requestPermission] = useCameraPermissions();
     const [facing, setFacing] = useState<'front' | 'back'>('front');
 
+    // Performance: Pause camera when screen is not focused
+    const isFocused = useIsFocused();
+
     //  获取安全区域距离 (刘海屏/Home条高度)
     const insets = useSafeAreaInsets();
 
-    // 快捷设置状态
+    // ... rest of state ...
     const [showSettings, setShowSettings] = useState(false);
     const [settings, setSettings] = useState({ sound: true, mirror: true, aiGuide: true });
 
@@ -23,28 +27,43 @@ export default function WorkoutSession() {
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
     const [isSessionComplete, setIsSessionComplete] = useState(false);
 
+    // Playback State
+    const [isPlaying, setIsPlaying] = useState(false);
+
     useEffect(() => {
         if (mode === 'session') {
             const moves = libraryStore.getSessionMoves(id as string);
             setSequence(moves);
         } else {
-            // Single move mode
-            // For now, we mock a single sequence item if we can find it, or just rely on generic logic.
-            // But since getSessionMoves returns Move[], let's stick to that pattern.
-            // Ideally we'd fetch the single move.
             const move = libraryStore.getMoves().find(m => m.id === id);
             if (move) setSequence([move]);
         }
     }, [id, mode]);
 
-    const handleNext = () => {
+    // Hooks for buttons
+    const handlePlayPause = () => {
+        setIsPlaying(!isPlaying);
+        console.log("Hook: Toggle Play/Pause");
+    };
+
+    const handleSkip = () => {
         if (currentMoveIndex < sequence.length - 1) {
             setCurrentMoveIndex(prev => prev + 1);
         } else {
             setIsSessionComplete(true);
-            // Optionally auto-exit or show summary
             router.back();
         }
+        console.log("Hook: Skip Move");
+    };
+
+    const handleReverseCamera = () => {
+        setFacing(c => c === 'back' ? 'front' : 'back');
+        console.log("Hook: Reverse Camera");
+    };
+
+    const handleSettingsPress = () => {
+        setShowSettings(true);
+        console.log("Hook: Open Settings");
     };
 
     const currentMove = sequence[currentMoveIndex];
@@ -62,56 +81,60 @@ export default function WorkoutSession() {
 
     return (
         <View className="flex-1 bg-black">
-            <CameraView style={{ flex: 1 }} facing={facing} mirror={settings.mirror}>
+            {isFocused && (
+                <CameraView
+                    style={{ position: 'absolute', width: '100%', height: '100%' }}
+                    facing={facing}
+                    mirror={settings.mirror}
+                />
+            )}
 
-                {/*
-                   - 改用 View + style padding
-                   - insets.top 避开刘海
-                   - +10 增加额外呼吸空间
-                */}
-                <View
-                    className="absolute top-0 w-full flex-row justify-between items-center px-4 z-50"
-                    style={{ paddingTop: insets.top + 10 }}
-                >
-                    <View className="bg-black/60 px-3 py-1 rounded-lg border border-[#CCFF00]/30">
-                        <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
+            {/* UI Overlay Container - Safe Area */}
+            <View
+                className="absolute top-0 left-0 w-full h-full flex justify-between"
+                style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
+                pointerEvents="box-none"
+            >
+                {/* Top Section: Header + Info */}
+                <View className="z-50" pointerEvents="box-none">
+                    {/* Header Bar */}
+                    <View className="flex-row justify-between items-center px-4 pt-2">
+                        <View className="bg-black/60 px-3 py-1 rounded-lg border border-[#CCFF00]/30">
+                            <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
+                        </View>
+
+                        {mode === 'session' && (
+                            <View className="bg-black/60 px-3 py-1 rounded-lg border border-white/20">
+                                <Text className="text-white font-bold text-xs">{progressText}</Text>
+                            </View>
+                        )}
+
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            className="bg-black/50 w-10 h-10 rounded-full items-center justify-center border border-white/10"
+                            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                        >
+                            <Ionicons name="close" size={24} color="white" />
+                        </TouchableOpacity>
                     </View>
 
-                    {/* Progress Indicator for Session */}
-                    {mode === 'session' && (
-                        <View className="bg-black/60 px-3 py-1 rounded-lg border border-white/20">
-                            <Text className="text-white font-bold text-xs">{progressText}</Text>
-                        </View>
-                    )}
-
-                    {/* 4. 退出按钮修复:
-                       - 增加 hitSlop 扩大点击范围 (上下左右各扩大 20px)
-                       - 确保手指粗也能点中
-                    */}
-                    <TouchableOpacity
-                        onPress={() => router.back()}
-                        className="bg-black/50 w-10 h-10 rounded-full items-center justify-center border border-white/10"
-                        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                    >
-                        <Ionicons name="close" size={24} color="white" />
-                    </TouchableOpacity>
+                    {/* Move Info */}
+                    <View className="items-center mt-6">
+                        <Text className="text-white font-black text-3xl shadow-black shadow-lg">
+                            {currentMove?.name || 'Loading...'}
+                        </Text>
+                        <Text className="text-[#CCFF00] font-bold text-lg shadow-black shadow-lg">
+                            {currentMove?.level}
+                        </Text>
+                    </View>
                 </View>
 
-                {/* Info Overlay: Current Move */}
-                <View className="absolute top-20 w-full items-center z-40" style={{ marginTop: insets.top + 20 }}>
-                    <Text className="text-white font-black text-3xl shadow-black shadow-lg">
-                        {currentMove?.name || 'Loading...'}
-                    </Text>
-                    <Text className="text-[#CCFF00] font-bold text-lg shadow-black shadow-lg">
-                        {currentMove?.level}
-                    </Text>
-                </View>
-
-                {/* 中间引导区 */}
+                {/* Middle Section: Viewfinder Guide */}
+                {/* Flex-1 ensures it takes available space but doesn't force overlap if space is tight */}
                 {settings.aiGuide && (
-                    <View className="absolute top-0 left-0 w-full h-full justify-center items-center pointer-events-none z-0">
-                        {/* Viewfinder Frame */}
-                        <View className="w-3/4 h-[60%] relative opacity-80">
+                    <View className="flex-1 justify-center items-center pointer-events-none z-0 px-8 py-4">
+                        {/* Frame */}
+                        <View className="w-full aspect-[3/4] max-h-[70%] relative opacity-80 border-white/0">
                             {/* TL */}
                             <View className="absolute top-0 left-0 w-10 h-10 border-t-[6px] border-l-[6px] border-white rounded-tl-3xl shadow-sm" />
                             {/* TR */}
@@ -122,52 +145,38 @@ export default function WorkoutSession() {
                             <View className="absolute bottom-0 right-0 w-10 h-10 border-b-[6px] border-r-[6px] border-white rounded-br-3xl shadow-sm" />
                         </View>
 
-                        <Text className="text-white font-bold mt-8 bg-black/40 px-6 py-3 rounded-full overflow-hidden text-base tracking-widest">
+                        {/* Text Prompt - Positioned relative to the flex container, ensuring it pushes down or sits below */}
+                        <Text className="text-white font-bold bg-black/40 px-6 py-3 rounded-full overflow-hidden text-base tracking-widest mt-6">
                             请将身体对准框线
                         </Text>
                     </View>
                 )}
 
-                {/* 5. 底部控制栏修复:
-                   - 使用 insets.bottom 避开 Home 条
-                   - 增加 paddingBottom 提升视觉舒适度
-                */}
-                <View
-                    className="absolute bottom-0 w-full px-6"
-                    style={{ paddingBottom: insets.bottom + 20 }}
-                >
-                    {/* 数据统计行 */}
+                {/* Bottom Section: Controls */}
+                <View className="w-full px-6 pb-4">
                     <View className="bg-black/80 rounded-3xl p-5 flex-row justify-between items-center mb-6 backdrop-blur-md border border-gray-800">
                         <StatItem label="次数" value="0" />
                         <StatItem label="标准度" value="--%" color="#CCFF00" />
                         <StatItem label="耗时" value="00:00" />
                     </View>
 
-                    {/* 按钮行 */}
                     <View className="flex-row justify-around items-center">
-                        <ControlButton icon="camera-reverse-outline" onPress={() => setFacing(c => c === 'back' ? 'front' : 'back')} />
+                        <ControlButton icon="camera-reverse-outline" onPress={handleReverseCamera} />
 
-                        {/* 暂停/开始/Next 按钮 */}
-                        {/* If session, show Next logic */}
+                        {/* Play/Pause Button */}
                         <TouchableOpacity
-                            onPress={handleNext}
+                            onPress={handlePlayPause}
                             className="w-20 h-20 bg-[#CCFF00] rounded-full items-center justify-center shadow-lg shadow-[#CCFF00]/40"
                         >
-                            {/* Make it look like "Next" if not last move? Or just keep Play/Pause logic? 
-                                Requirement: "implicit call a series of moves".
-                                Let's simulate 'finishing' a move to go to next. 
-                                For this demo, let's use a "Forward" icon to signify 'Next Move' 
-                            */}
-                            <Ionicons name={currentMoveIndex < sequence.length - 1 ? "play-skip-forward" : "checkmark"} size={36} color="black" />
+                            <Ionicons name={isPlaying ? "pause" : "play"} size={36} color="black" />
                         </TouchableOpacity>
 
-                        {/* 齿轮设置按钮 */}
-                        <ControlButton icon="settings-outline" onPress={() => setShowSettings(true)} />
+                        <ControlButton icon="settings-outline" onPress={handleSettingsPress} />
                     </View>
                 </View>
-            </CameraView>
+            </View>
 
-            {/* 快捷设置图层 (Layer) */}
+            {/* Settings Modal - Outside UI container to overlay everything */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
                 <TouchableOpacity className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
                     <View className="absolute bottom-0 w-full bg-[#1E1E1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>

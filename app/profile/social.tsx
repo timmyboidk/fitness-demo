@@ -9,24 +9,27 @@ export default function SocialScreen() {
             <Stack.Screen options={{ headerShown: false }} />
 
             <View className="flex-row items-center px-4 py-4">
-                <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
+                <TouchableOpacity onPress={() => {
+                    console.log("Hook: Social Back Pressed");
+                    router.back();
+                }} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
                     <Ionicons name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
                 <Text className="text-white text-xl font-bold">社交账号绑定</Text>
             </View>
 
             <View className="p-4">
-                <SocialItem icon="logo-wechat" name="微信" status="已连接" color="#07C160" />
-                <SocialItem icon="logo-apple" name="Apple ID" status="未连接" color="#fff" />
-                <SocialItem icon="logo-instagram" name="Instagram" status="未连接" color="#E1306C" />
+                <SocialItem icon="logo-wechat" name="微信" status="已连接" color="#07C160" onPress={() => console.log("Hook: Social Link - WeChat")} />
+                <SocialItem icon="logo-apple" name="Apple ID" status="未连接" color="#fff" onPress={() => console.log("Hook: Social Link - Apple")} />
+                <SocialItem icon="logo-instagram" name="Instagram" status="未连接" color="#E1306C" onPress={() => console.log("Hook: Social Link - Instagram")} />
             </View>
         </SafeAreaView>
     );
 }
 
-function SocialItem({ icon, name, status, color }: any) {
+function SocialItem({ icon, name, status, color, onPress }: any) {
     return (
-        <TouchableOpacity className="flex-row items-center justify-between bg-[#1E1E1E] p-5 rounded-2xl mb-4">
+        <TouchableOpacity onPress={onPress} className="flex-row items-center justify-between bg-[#1E1E1E] p-5 rounded-2xl mb-4">
             <View className="flex-row items-center">
                 <Ionicons name={icon} size={28} color={color} style={{ marginRight: 16 }} />
                 <Text className="text-white font-bold text-lg">{name}</Text>

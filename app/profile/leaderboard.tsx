@@ -16,7 +16,10 @@ export default function LeaderboardScreen() {
             <Stack.Screen options={{ headerShown: false }} />
 
             <View className="flex-row items-center px-4 py-4">
-                <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
+                <TouchableOpacity onPress={() => {
+                    console.log("Hook: Leaderboard Back Pressed");
+                    router.back();
+                }} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
                     <Ionicons name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
                 <Text className="text-white text-xl font-bold">好友排行榜</Text>
