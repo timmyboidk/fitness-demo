@@ -1,8 +1,7 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { withLayoutContext } from 'expo-router';
-import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { router, usePathname } from 'expo-router';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { router, usePathname, withLayoutContext } from 'expo-router';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // 1. 创建支持滑动的 Tab 导航器
@@ -74,10 +73,18 @@ export default function TabLayout() {
 
     if (pathname === '/' || pathname === '/index') {
         headerTitle = '训练动作';
-        HeaderRight = AddButton;
+        HeaderRight = () => (
+            <TouchableOpacity onPress={() => router.push('/add-move')} className="mr-4">
+                <Ionicons name="add-circle" size={32} color="#CCFF00" />
+            </TouchableOpacity>
+        );
     } else if (pathname === '/sessions') {
         headerTitle = '课程计划';
-        HeaderRight = AddButton;
+        HeaderRight = () => (
+            <TouchableOpacity onPress={() => router.push('/add-session')} className="mr-4">
+                <Ionicons name="add-circle" size={32} color="#CCFF00" />
+            </TouchableOpacity>
+        );
     } else if (pathname === '/profile') {
         showHeader = false; // 个人中心不显示这个 Header
     }
