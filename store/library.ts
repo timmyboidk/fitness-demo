@@ -14,6 +14,7 @@ export interface Session {
     count: string;
     color: string;
     isVisible: boolean;
+    moveIds: string[];
 }
 
 // Helper to capitalize first letter
@@ -65,11 +66,26 @@ export const INITIAL_MOVES: Move[] = [
 ];
 
 export const INITIAL_SESSIONS: Session[] = [
-    { id: 's1', name: 'HIIT 燃脂核心', time: '20 分钟', count: '12 个动作', color: '#FF3B30', isVisible: true },
-    { id: 's2', name: '腿部力量轰炸', time: '45 分钟', count: '8 个动作', color: '#CCFF00', isVisible: true },
-    { id: 's3', name: '晨间唤醒瑜伽', time: '15 分钟', count: '5 个动作', color: '#5AC8FA', isVisible: true },
-    { id: 's4', name: '腹肌撕裂者', time: '15 分钟', count: '6 个动作', color: '#FF9500', isVisible: false },
-    { id: 's5', name: '全身拉伸', time: '10 分钟', count: '8 个动作', color: '#AF52DE', isVisible: false },
+    {
+        id: 's1', name: 'HIIT 燃脂核心', time: '20 分钟', count: '4 个动作', color: '#FF3B30', isVisible: true,
+        moveIds: ['m_hiit', 'm_core_training', 'm_boxing', 'm_jumprope']
+    },
+    {
+        id: 's2', name: '腿部力量轰炸', time: '45 分钟', count: '4 个动作', color: '#CCFF00', isVisible: true,
+        moveIds: ['m_strength_trad', 'm_stairs', 'm_run', 'm_flexibility']
+    },
+    {
+        id: 's3', name: '晨间唤醒瑜伽', time: '15 分钟', count: '3 个动作', color: '#5AC8FA', isVisible: true,
+        moveIds: ['m_yoga', 'm_mind_body', 'm_cooldown']
+    },
+    {
+        id: 's4', name: '腹肌撕裂者', time: '15 分钟', count: '3 个动作', color: '#FF9500', isVisible: false,
+        moveIds: ['m_core_training', 'm_strength_func', 'm_rolling']
+    },
+    {
+        id: 's5', name: '全身拉伸', time: '10 分钟', count: '3 个动作', color: '#AF52DE', isVisible: false,
+        moveIds: ['m_flexibility', 'm_cooldown', 'm_yoga']
+    },
 ];
 
 class LibraryStore {
@@ -83,6 +99,12 @@ class LibraryStore {
 
     getSessions() {
         return this.sessions;
+    }
+
+    getSessionMoves(sessionId: string): Move[] {
+        const session = this.sessions.find(s => s.id === sessionId);
+        if (!session) return [];
+        return session.moveIds.map(id => this.moves.find(m => m.id === id)).filter(Boolean) as Move[];
     }
 
     toggleMoveVisibility(id: string) {

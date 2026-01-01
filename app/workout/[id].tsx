@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity, Modal, Switch } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Modal, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { libraryStore } from '../../store/library';
 
 export default function WorkoutSession() {
     const { id, mode } = useLocalSearchParams();
@@ -16,6 +17,38 @@ export default function WorkoutSession() {
     // 快捷设置状态
     const [showSettings, setShowSettings] = useState(false);
     const [settings, setSettings] = useState({ sound: true, mirror: true, aiGuide: true });
+
+    // Session Execution Logic
+    const [sequence, setSequence] = useState<any[]>([]);
+    const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
+    const [isSessionComplete, setIsSessionComplete] = useState(false);
+
+    useEffect(() => {
+        if (mode === 'session') {
+            const moves = libraryStore.getSessionMoves(id as string);
+            setSequence(moves);
+        } else {
+            // Single move mode
+            // For now, we mock a single sequence item if we can find it, or just rely on generic logic.
+            // But since getSessionMoves returns Move[], let's stick to that pattern.
+            // Ideally we'd fetch the single move.
+            const move = libraryStore.getMoves().find(m => m.id === id);
+            if (move) setSequence([move]);
+        }
+    }, [id, mode]);
+
+    const handleNext = () => {
+        if (currentMoveIndex < sequence.length - 1) {
+            setCurrentMoveIndex(prev => prev + 1);
+        } else {
+            setIsSessionComplete(true);
+            // Optionally auto-exit or show summary
+            router.back();
+        }
+    };
+
+    const currentMove = sequence[currentMoveIndex];
+    const progressText = mode === 'session' ? `Move ${currentMoveIndex + 1}/${sequence.length}` : 'Single Move';
 
     if (!permission) return <View className="flex-1 bg-black" />;
     if (!permission.granted) {
@@ -44,6 +77,13 @@ export default function WorkoutSession() {
                         <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
                     </View>
 
+                    {/* Progress Indicator for Session */}
+                    {mode === 'session' && (
+                        <View className="bg-black/60 px-3 py-1 rounded-lg border border-white/20">
+                            <Text className="text-white font-bold text-xs">{progressText}</Text>
+                        </View>
+                    )}
+
                     {/* 4. 退出按钮修复:
                        - 增加 hitSlop 扩大点击范围 (上下左右各扩大 20px)
                        - 确保手指粗也能点中
@@ -55,6 +95,16 @@ export default function WorkoutSession() {
                     >
                         <Ionicons name="close" size={24} color="white" />
                     </TouchableOpacity>
+                </View>
+
+                {/* Info Overlay: Current Move */}
+                <View className="absolute top-20 w-full items-center z-40" style={{ marginTop: insets.top + 20 }}>
+                    <Text className="text-white font-black text-3xl shadow-black shadow-lg">
+                        {currentMove?.name || 'Loading...'}
+                    </Text>
+                    <Text className="text-[#CCFF00] font-bold text-lg shadow-black shadow-lg">
+                        {currentMove?.level}
+                    </Text>
                 </View>
 
                 {/* 中间引导区 */}
@@ -86,9 +136,18 @@ export default function WorkoutSession() {
                     <View className="flex-row justify-around items-center">
                         <ControlButton icon="camera-reverse-outline" onPress={() => setFacing(c => c === 'back' ? 'front' : 'back')} />
 
-                        {/* 暂停/开始大按钮 */}
-                        <TouchableOpacity className="w-20 h-20 bg-[#CCFF00] rounded-full items-center justify-center shadow-lg shadow-[#CCFF00]/40">
-                            <Ionicons name="pause" size={36} color="black" />
+                        {/* 暂停/开始/Next 按钮 */}
+                        {/* If session, show Next logic */}
+                        <TouchableOpacity
+                            onPress={handleNext}
+                            className="w-20 h-20 bg-[#CCFF00] rounded-full items-center justify-center shadow-lg shadow-[#CCFF00]/40"
+                        >
+                            {/* Make it look like "Next" if not last move? Or just keep Play/Pause logic? 
+                                Requirement: "implicit call a series of moves".
+                                Let's simulate 'finishing' a move to go to next. 
+                                For this demo, let's use a "Forward" icon to signify 'Next Move' 
+                            */}
+                            <Ionicons name={currentMoveIndex < sequence.length - 1 ? "play-skip-forward" : "checkmark"} size={36} color="black" />
                         </TouchableOpacity>
 
                         {/* 齿轮设置按钮 */}
@@ -108,9 +167,9 @@ export default function WorkoutSession() {
                             </TouchableOpacity>
                         </View>
 
-                        <SettingRow label="开启语音指导" value={settings.sound} onToggle={(v: any) => setSettings({...settings, sound: v})} />
-                        <SettingRow label="前置摄像头镜像" value={settings.mirror} onToggle={(v: any) => setSettings({...settings, mirror: v})} />
-                        <SettingRow label="显示 AI 骨架辅助" value={settings.aiGuide} onToggle={(v: any) => setSettings({...settings, aiGuide: v})} />
+                        <SettingRow label="开启语音指导" value={settings.sound} onToggle={(v: any) => setSettings({ ...settings, sound: v })} />
+                        <SettingRow label="前置摄像头镜像" value={settings.mirror} onToggle={(v: any) => setSettings({ ...settings, mirror: v })} />
+                        <SettingRow label="显示 AI 骨架辅助" value={settings.aiGuide} onToggle={(v: any) => setSettings({ ...settings, aiGuide: v })} />
                     </View>
                 </TouchableOpacity>
             </Modal>
