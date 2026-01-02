@@ -8,65 +8,69 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const { Navigator } = createMaterialTopTabNavigator();
 export const MaterialTopTabs = withLayoutContext(Navigator);
 
+// 2. 自定义底部 Tab Bar 指示器
+const CustomTabBar = ({ state, descriptors, navigation }: any) => {
+    return (
+        <View style={{ backgroundColor: '#121212' }}>
+            <SafeAreaView edges={['bottom']}>
+                <View className="flex-row h-[60px] border-t border-[#333] bg-[#121212] items-center">
+                    {state.routes.map((route: any, index: number) => {
+                        const { options } = descriptors[route.key];
+                        // 优先使用 tabBarLabel
+                        const label = options.tabBarLabel !== undefined
+                            ? options.tabBarLabel
+                            : options.title !== undefined
+                                ? options.title
+                                : route.name;
+
+                        const isFocused = state.index === index;
+
+                        const onPress = () => {
+                            const event = navigation.emit({
+                                type: 'tabPress',
+                                target: route.key,
+                                canPreventDefault: true,
+                            });
+
+                            if (!isFocused && !event.defaultPrevented) {
+                                navigation.navigate(route.name, route.params);
+                            }
+                        };
+
+                        // 图标逻辑
+                        let iconName: any = 'help';
+                        if (route.name === 'index') iconName = isFocused ? 'barbell' : 'barbell-outline';
+                        else if (route.name === 'sessions') iconName = isFocused ? 'timer' : 'timer-outline';
+                        else if (route.name === 'profile') iconName = isFocused ? 'person' : 'person-outline';
+
+                        return (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={onPress}
+                                className="flex-1 items-center justify-center h-full"
+                                activeOpacity={0.7}
+                            >
+                                <Ionicons name={iconName} size={26} color={isFocused ? '#CCFF00' : '#666'} />
+                                <Text style={{ fontSize: 10, marginTop: 4, color: isFocused ? '#CCFF00' : '#888' }}>
+                                    {label}
+                                </Text>
+                            </TouchableOpacity>
+                        );
+                    })}
+                </View>
+            </SafeAreaView>
+        </View>
+    );
+};
+
 export default function TabLayout() {
     const pathname = usePathname();
 
-    // 2. 自定义底部 Tab Bar
-    const CustomTabBar = ({ state, descriptors, navigation }: any) => {
-        return (
-            <View style={{ backgroundColor: '#121212' }}>
-                <SafeAreaView edges={['bottom']}>
-                    <View className="flex-row h-[60px] border-t border-[#333] bg-[#121212] items-center">
-                        {state.routes.map((route: any, index: number) => {
-                            const { options } = descriptors[route.key];
-                            const label = options.tabBarLabel;
-                            const isFocused = state.index === index;
+    // 动态 Header 配置 logic
+    // 注意：我们将 Header 放在 Tab Navigator 之外，这样 Tab 切换时 Header 会更新，但 Navigator 本身如果不卸载，就能保持状态。
+    // 之前的问题可能是 CustomTabBar 每次都是新函数导致 TabBar 重新挂载，进而导致 Tab view 异常。
+    // 现在 CustomTabBar 是外部静态组件，应该没问题。
 
-                            const onPress = () => {
-                                const event = navigation.emit({
-                                    type: 'tabPress',
-                                    target: route.key,
-                                    canPreventDefault: true,
-                                });
-                                if (!isFocused && !event.defaultPrevented) {
-                                    navigation.navigate(route.name);
-                                }
-                            };
-
-                            // 图标逻辑
-                            let iconName: any = 'help';
-                            if (route.name === 'index') iconName = isFocused ? 'barbell' : 'barbell-outline';
-                            else if (route.name === 'sessions') iconName = isFocused ? 'timer' : 'timer-outline';
-                            else if (route.name === 'profile') iconName = isFocused ? 'person' : 'person-outline';
-
-                            return (
-                                <TouchableOpacity
-                                    key={index}
-                                    onPress={onPress}
-                                    className="flex-1 items-center justify-center h-full"
-                                    activeOpacity={0.7}
-                                >
-                                    <Ionicons name={iconName} size={26} color={isFocused ? '#CCFF00' : '#666'} />
-                                    <Text style={{ fontSize: 10, marginTop: 4, color: isFocused ? '#CCFF00' : '#888' }}>
-                                        {label}
-                                    </Text>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-                </SafeAreaView>
-            </View>
-        );
-    };
-
-    // 右上角加号按钮
-    const AddButton = () => (
-        <TouchableOpacity onPress={() => router.push('/add-item')} className="mr-4">
-            <Ionicons name="add-circle" size={32} color="#CCFF00" />
-        </TouchableOpacity>
-    );
-
-    // 动态 Header 配置
     let headerTitle = '';
     let showHeader = true;
     let HeaderRight = null;
@@ -86,12 +90,13 @@ export default function TabLayout() {
             </TouchableOpacity>
         );
     } else if (pathname === '/profile') {
-        showHeader = false; // 个人中心不显示这个 Header
+        headerTitle = '个人中心';
+        // showHeader defaults to true, so we don't need to set it to false anymore
     }
 
     return (
         <View className="flex-1 bg-[#121212]">
-            {/* 自定义顶部 Header */}
+            {/* Header */}
             {showHeader && (
                 <SafeAreaView edges={['top']} style={{ backgroundColor: '#121212', zIndex: 10 }}>
                     <View className="h-[50px] flex-row items-center justify-between px-4 bg-[#121212]">
@@ -101,23 +106,18 @@ export default function TabLayout() {
                 </SafeAreaView>
             )}
 
-            {/* 滑动 Tab 内容区 */}
             <MaterialTopTabs
                 tabBarPosition="bottom"
                 tabBar={(props) => <CustomTabBar {...props} />}
                 screenOptions={{
-                    swipeEnabled: true,      // 核心：开启滑动
-                    animationEnabled: true,  // 核心：开启过渡动画
-                    lazy: true,              // 性能优化：懒加载
-                    tabBarStyle: { display: 'none' }, // 隐藏默认的 top tab bar
+                    swipeEnabled: true,
+                    animationEnabled: true,
+                    tabBarStyle: { display: 'none' }, // 这里的 style 其实被 CustomTabBar 取代了，但保留配置无害
                 }}
             >
                 <MaterialTopTabs.Screen name="index" options={{ tabBarLabel: '动作' }} />
                 <MaterialTopTabs.Screen name="sessions" options={{ tabBarLabel: '课程' }} />
                 <MaterialTopTabs.Screen name="profile" options={{ tabBarLabel: '我的' }} />
-
-                {/* 隐藏不需要的路由 */}
-                <MaterialTopTabs.Screen name="explore" options={{ tabBarItemStyle: { display: 'none' } }} />
             </MaterialTopTabs>
         </View>
     );

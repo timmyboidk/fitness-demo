@@ -9,7 +9,8 @@ export default function RootLayout() {
             <StatusBar style="light" />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#121212' } }}>
                 {/* 登录页组 */}
-                <Stack.Screen name="(auth)" />
+                {/* 登录页组 - (auth) is a group without layout, so we don't list it as a screen */}
+
                 {/* 主程序 Tabs */}
                 <Stack.Screen name="(tabs)" />
                 {/* 核心 AI 训练页 (全屏模态) */}

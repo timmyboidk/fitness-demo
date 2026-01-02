@@ -1,8 +1,8 @@
 import { ExpoRequest } from 'expo-router/server';
 import connectToDatabase from '../../lib/mongoose';
-import { User } from '../../models/User';
 import { Move } from '../../models/Move';
 import { Session } from '../../models/Session';
+import { User } from '../../models/User';
 
 // 模拟的公共库种子数据 (如果数据库为空)
 async function seedLibrary() {
@@ -68,31 +68,7 @@ export async function POST(request: ExpoRequest) {
             return Response.json({ success: true, user });
         }
 
-        // 获取公共库内容 (用于 Add Item 页面)
-        if (type === 'get_library') {
-            const allMoves = await Move.find({});
-            const allSessions = await Session.find({});
-            return Response.json({ moves: allMoves, sessions: allSessions });
-        }
 
-        // 用户添加内容到自己的列表
-        if (type === 'add_item') {
-            const { userId, itemId, itemType } = payload;
-            const user = await User.findById(userId);
-            if (itemType === 'move') {
-                if (!user.myMoves.includes(itemId)) {
-                    user.myMoves.push(itemId);
-                }
-            } else {
-                if (!user.mySessions.includes(itemId)) {
-                    user.mySessions.push(itemId);
-                }
-            }
-            await user.save();
-            // 返回更新后的用户数据
-            const updatedUser = await User.findById(userId).populate('myMoves').populate('mySessions');
-            return Response.json({ success: true, user: updatedUser });
-        }
 
         return Response.json({ error: 'Unknown type' }, { status: 400 });
 

@@ -56,7 +56,15 @@ export default function SettingsScreen() {
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => console.log("Hook: Logout Pressed")}
+                    onPress={async () => {
+                        console.log("Hook: Logout Pressed");
+                        // 1. 调用 Service 清除状态
+                        await import('../../services/AuthService').then(m => m.authService.logout());
+
+                        // 2. 导航回个人中心
+                        router.dismissAll();
+                        router.replace('/(tabs)/profile');
+                    }}
                     className="bg-[#1E1E1E] rounded-2xl p-4 flex-row items-center justify-center mt-4"
                 >
                     <Text className="text-red-500 font-bold text-lg">退出登录</Text>

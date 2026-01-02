@@ -88,10 +88,22 @@ export const INITIAL_SESSIONS: Session[] = [
     },
 ];
 
+import { libraryService } from '../services/LibraryService';
+
 class LibraryStore {
     moves: Move[] = [...INITIAL_MOVES];
     sessions: Session[] = [...INITIAL_SESSIONS];
     listeners: (() => void)[] = [];
+
+    // 新增：从后端同步数据接口
+    async sync() {
+        const data = await libraryService.fetchLibrary();
+        if (data && data.moves) {
+            // 这里简略处理：直接合并或替换。
+            // 实际项目需考虑 merging logic，这里仅作接口演示。
+            console.log("Library synced from backend", data.moves.length);
+        }
+    }
 
     getMoves() {
         return this.moves;
@@ -134,5 +146,6 @@ class LibraryStore {
         this.listeners.forEach(l => l());
     }
 }
+
 
 export const libraryStore = new LibraryStore();

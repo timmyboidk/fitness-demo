@@ -1,19 +1,24 @@
 # Backend API Specification
 
-This document outlines the API contracts required for the frontend implementation of Authentication and AI Move Scoring.
+This document outlines the API contracts required for the frontend implementation of Authentication, Library Management, and AI Move Scoring.
+
+> **Note:** The current implementation uses Expo Router API Routes. The base URL is relative `/api` in development or the deployed domain.
 
 ## 1. Authentication (`/api/auth`)
 
-### 1.1 Phone Number & OTP Login
+The Auth API uses a single `POST` endpoint with a `type` parameter to handle different authentication methods.
 
-#### POST `/api/auth/otp/request`
-Request an OTP code to be sent to the user's phone number.
+**Endpoint:** `POST /api/auth`
 
+### 1.1 Phone Login / Registration
 **Request Body:**
 ```json
 {
-  "phoneNumber": "+8613800138000",
-  "region": "CN" // Optional, default CN
+  "type": "login_phone",
+  "payload": {
+    "phone": "13800138000",
+    "code": "1234" // Mocked, any code works for demo if logic allows
+  }
 }
 ```
 
@@ -21,44 +26,23 @@ Request an OTP code to be sent to the user's phone number.
 ```json
 {
   "success": true,
-  "message": "OTP sent successfully",
-  "expiresIn": 60 // Seconds until allowed to resend
-}
-```
-
-#### POST `/api/auth/otp/verify`
-Verify the OTP code and log the user in.
-
-**Request Body:**
-```json
-{
-  "phoneNumber": "+8613800138000",
-  "code": "123456"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "token": "eyJhbGciOiJIUzI1Ni...", // JWT Token
   "user": {
-    "id": "u_123456",
-    "nickname": "Tim",
-    "avatar": "https://..."
+    "_id": "u_123",
+    "nickname": "User 8000",
+    "phone": "13800138000",
+    "token": "..." 
   }
 }
 ```
 
 ### 1.2 WeChat Login
-
-#### POST `/api/auth/wechat`
-Exchange the WeChat authorization code for an app token.
-
 **Request Body:**
 ```json
 {
-  "code": "021Fw5000..." // Code received from WeChat SDK
+  "type": "login_wechat",
+  "payload": {
+    "code": "wx_code_xyz"
+  }
 }
 ```
 
@@ -66,40 +50,46 @@ Exchange the WeChat authorization code for an app token.
 ```json
 {
   "success": true,
-  "token": "eyJhbGciOiJIUzI1Ni...",
   "user": {
-    "id": "u_123456",
-    "nickname": "Tim",
-    "avatar": "https://..."
-  },
-  "isNewUser": false // To trigger onboarding if needed
+    "_id": "u_wx_123",
+    "nickname": "WeChat User",
+    "avatar": "http://..."
+  }
 }
 ```
 
 ---
 
-## 2. AI Move Scoring (`/api/ai`)
+## 2. Library Management (`/api/library`)
 
-### 2.1 Score Move
+Manages fetching global library content and syncing user data.
 
-#### POST `/api/ai/score`
-Submit movement data (e.g., video frames or keypoints) for scoring.
+### 2.1 Fetch Library
+**Endpoint:** `GET /api/library`
+
+**Response:**
+```json
+{
+  "moves": [
+    { "name": "Squat", "category": "Legs", ... }
+  ],
+  "sessions": [
+    { "name": "Full Body", ... }
+  ]
+}
+```
+
+### 2.2 Add Item to User Library
+**Endpoint:** `POST /api/library`
 
 **Request Body:**
 ```json
 {
-  "moveId": "move_squat_01",
-  "sessionId": "session_leg_day_01",
-  "timestamp": 1704067200,
-  "data": {
-    // Structure depends on model input requirements
-    // Option A: Keypoints (Pose Estimation Result)
-    "keypoints": [
-       [0.5, 0.2, 0.9], // x, y, confidence
-       ...
-    ],
-    // Option B: Base64 Image (Less efficient)
-    "frame": "data:image/jpeg;base64,..." 
+  "type": "add_item",
+  "payload": {
+    "userId": "u_123",
+    "itemId": "m_squat",
+    "itemType": "move" // or 'session'
   }
 }
 ```
@@ -108,21 +98,30 @@ Submit movement data (e.g., video frames or keypoints) for scoring.
 ```json
 {
   "success": true,
-  "score": 85, // 0-100
-  "feedback": [
-    {
-      "type": "correction",
-      "message": "Keep your back straight",
-      "severity": "medium"
-    },
-    {
-      "type": "praise",
-      "message": "Good depth!"
-    }
-  ],
-  "metrics": {
-    "depth": "parallel",
-    "stability": "high"
-  }
+  "user": { ...updated_user_object }
+}
+```
+
+---
+
+## 3. AI Move Scoring (`/api/ai`) - *Planned*
+
+### 3.1 Score Move
+**Endpoint:** `POST /api/ai/score`
+
+**Request Body:**
+```json
+{
+  "moveId": "move_squat_01",
+  "data": { "keypoints": [...] }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "score": 85,
+  "feedback": [...]
 }
 ```

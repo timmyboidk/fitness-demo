@@ -6,46 +6,65 @@ export interface User {
 }
 
 class AuthService {
-    private baseUrl = 'https://api.fitbody.com/api/auth'; // Mock URL
+    // 自动判断环境 URL (Demo 中既然是 Expo Router API Route，前端直接 fetch 相对路径即可，或者 localhost)
+    // 注意：React Native 中 fetch 需要完整 URL 或配 Proxy。Expo Go 中 localhost 指向设备本身而非电脑。
+    // 这里假设开发环境 ip 地址，实际生产应配环境变量。
+    private baseUrl = 'http://10.0.0.169:8081/api/auth'; // 根据 Log 中 Metro waiting on exp://10.0.0.169:8081 推断
 
     async requestOTP(phoneNumber: string): Promise<{ success: boolean; message: string }> {
+        // Demo: 这里的 API 还没实现 OTP 发送，前端直接模拟成功，因为 API 只要手机号就能登录
         console.log(`[AuthService] Requesting OTP for ${phoneNumber}`);
-        // Mock API Call
-        await new Promise(resolve => setTimeout(resolve, 500));
         return { success: true, message: 'OTP sent' };
     }
 
     async verifyOTP(phoneNumber: string, code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        console.log(`[AuthService] Verifying OTP: ${code} for ${phoneNumber}`);
-        await new Promise(resolve => setTimeout(resolve, 800));
-
-        if (code === '1234') {
-            return {
-                success: true,
-                user: {
-                    id: `ph_${phoneNumber}`,
-                    nickname: `User ${phoneNumber.slice(-4)}`,
-                    avatar: 'https://ui-avatars.com/api/?name=User&background=333&color=fff',
-                    token: 'mock_jwt_token'
-                }
-            };
+        try {
+            const res = await fetch(this.baseUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'login_phone',
+                    payload: { phone: phoneNumber, code } // code 实际上 API 没验，Demo 逻辑
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                return { success: true, user: data.user };
+            }
+            return { success: false, message: data.error || 'Login failed' };
+        } catch (e) {
+            console.error(e);
+            return { success: false, message: 'Network error' };
         }
-        return { success: false, message: 'Invalid code' };
     }
 
     async loginWithWeChat(code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        console.log(`[AuthService] Exchanging WeChat code: ${code}`);
-        await new Promise(resolve => setTimeout(resolve, 800));
-
-        return {
-            success: true,
-            user: {
-                id: 'wx_user_mock',
-                nickname: 'WeChat User',
-                avatar: 'https://ui-avatars.com/api/?name=WeChat&background=07C160&color=fff',
-                token: 'mock_wx_jwt_token'
+        try {
+            const res = await fetch(this.baseUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'login_wechat',
+                    payload: { code }
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                return { success: true, user: data.user };
             }
-        };
+            return { success: false, message: data.error || 'Login failed' };
+        } catch (e) {
+            console.error(e);
+            return { success: false, message: 'Network error' };
+        }
+    }
+
+    async logout() {
+        // 如果有服务器端 Session，这里调用 logout api
+        // 目前只是客户端清除 token，逻辑在 UI 层做了，也可以移到这里
+        const keys = ['user', 'token'];
+        const AsyncStorage = require('@react-native-async-storage/async-storage').default;
+        await AsyncStorage.multiRemove(keys);
     }
 }
 
