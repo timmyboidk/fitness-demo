@@ -101,7 +101,7 @@ class LibraryStore {
         if (data && data.moves) {
             // 这里简略处理：直接合并或替换。
             // 实际项目需考虑 merging logic，这里仅作接口演示。
-            console.log("Library synced from backend", data.moves.length);
+
         }
     }
 

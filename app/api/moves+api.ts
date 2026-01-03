@@ -11,7 +11,7 @@ export async function GET(request: ExpoRequest) {
 
         // 2. 如果为空，自动插入演示数据 (Seeding)
         if (count === 0) {
-            console.log("Database empty, seeding demo data...");
+
             await Move.create([
                 {
                     name: 'Push Up',

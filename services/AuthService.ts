@@ -13,7 +13,7 @@ class AuthService {
 
     async requestOTP(phoneNumber: string): Promise<{ success: boolean; message: string }> {
         // Demo: 这里的 API 还没实现 OTP 发送，前端直接模拟成功，因为 API 只要手机号就能登录
-        console.log(`[AuthService] Requesting OTP for ${phoneNumber}`);
+
         return { success: true, message: 'OTP sent' };
     }
 

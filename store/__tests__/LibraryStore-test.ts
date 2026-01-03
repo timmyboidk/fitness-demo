@@ -64,14 +64,11 @@ describe('LibraryStore', () => {
         expect(listener).toHaveBeenCalledTimes(1); // No extra call
     });
 
-    it('sync calls service and logs count', async () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation();
+    it('sync calls service', async () => {
         (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ moves: [1, 2, 3] });
 
         await libraryStore.sync();
         expect(libraryService.fetchLibrary).toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledWith(expect.stringContaining("Library synced"), 3);
-        spy.mockRestore();
     });
 
     it('toggles move visibility safely for invalid ID', () => {

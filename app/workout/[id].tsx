@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Modal, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../../components/ui/Button';
 import { aiScoringService } from '../../services/AIScoringService';
 import { libraryStore } from '../../store/library';
 
@@ -35,7 +36,7 @@ export default function WorkoutSession() {
     const scoreCurrentMove = async () => {
         if (!sequence[currentMoveIndex]) return;
 
-        console.log("Hook: Integrating AI Model...");
+
         try {
             const response = await aiScoringService.scoreMove({
                 moveId: sequence[currentMoveIndex].id,
@@ -47,8 +48,7 @@ export default function WorkoutSession() {
             });
 
             if (response.success) {
-                console.log(`AI Score Received: ${response.score}`);
-                console.log("AI Feedback:", response.feedback.map((f: any) => f.message).join(", "));
+
             }
         } catch (error) {
             console.error("AI Scoring failed", error);
@@ -69,14 +69,9 @@ export default function WorkoutSession() {
     const handlePlayPause = () => {
         const nextState = !isPlaying;
         setIsPlaying(nextState);
-        console.log("Hook: Toggle Play/Pause");
-
         if (nextState) {
             // Start scoring loop or trigger single score
-            console.log("Starting AI Analysis Stream...");
             scoreCurrentMove();
-        } else {
-            console.log("Pausing AI Analysis...");
         }
     };
 
@@ -84,12 +79,10 @@ export default function WorkoutSession() {
 
     const handleReverseCamera = () => {
         setFacing(c => c === 'back' ? 'front' : 'back');
-        console.log("Hook: Reverse Camera");
     };
 
     const handleSettingsPress = () => {
         setShowSettings(true);
-        console.log("Hook: Open Settings");
     };
 
     const currentMove = sequence[currentMoveIndex];
@@ -248,11 +241,4 @@ const SettingRow = ({ label, value, onToggle }: any) => (
             thumbColor={value ? "black" : "#f4f3f4"}
         />
     </View>
-);
-
-// 临时的 Button 组件，避免报错
-const Button = ({ label, onPress }: any) => (
-    <TouchableOpacity onPress={onPress} className="bg-[#CCFF00] px-6 py-3 rounded-full">
-        <Text className="font-bold text-black">{label}</Text>
-    </TouchableOpacity>
 );

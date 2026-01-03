@@ -46,7 +46,6 @@ export default function ProfileScreen() {
                 {/* 用户信息卡片 */}
                 <TouchableOpacity
                     onPress={() => {
-                        console.log("Hook: Profile Avatar Pressed - User:", user ? "LoggedIn" : "Guest");
                         if (!user) router.push('/(auth)/login');
                     }}
                     className="px-6 mb-8 flex-row items-center"
@@ -69,7 +68,6 @@ export default function ProfileScreen() {
 
                 {/* 4. 修改统计卡片：添加点击跳转事件 */}
                 <TouchableOpacity onPress={() => {
-                    console.log("Hook: Profile Stats Card Pressed");
                     router.push('/profile/stats');
                 }}>
                     <View className="mx-6 p-6 bg-[#1E1E1E] rounded-3xl border border-gray-800 mb-8 flex-row justify-between">
@@ -94,7 +92,6 @@ export default function ProfileScreen() {
                             <TouchableOpacity
                                 key={item.label}
                                 onPress={() => {
-                                    console.log(`Hook: Profile Menu Item Pressed - ${item.label}`);
                                     router.push(item.route as any);
                                 }}
                                 className={`flex-row items-center p-5 ${index < MENU_ITEMS.length - 1 ? 'border-b border-gray-800' : ''}`}

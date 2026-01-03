@@ -16,7 +16,6 @@ export default function SettingsScreen() {
             {/* 统一的带返回键 Header */}
             <View className="flex-row items-center px-4 py-4">
                 <TouchableOpacity onPress={() => {
-                    console.log("Hook: Settings Back Pressed");
                     router.back();
                 }} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
                     <Ionicons name="arrow-back" size={24} color="white" />
@@ -31,7 +30,6 @@ export default function SettingsScreen() {
                         label="推送通知"
                         value={notifications}
                         onValueChange={(v: boolean) => {
-                            console.log("Hook: Setting Toggle - Notifications:", v);
                             setNotifications(v);
                         }}
                         isSwitch
@@ -42,7 +40,6 @@ export default function SettingsScreen() {
                         label="语音指导"
                         value={sound}
                         onValueChange={(v: boolean) => {
-                            console.log("Hook: Setting Toggle - Sound:", v);
                             setSound(v);
                         }}
                         isSwitch
@@ -50,14 +47,13 @@ export default function SettingsScreen() {
                 </View>
 
                 <View className="bg-[#1E1E1E] rounded-2xl overflow-hidden mb-6">
-                    <SettingItem icon="language-outline" label="语言" value="简体中文" onPress={() => console.log("Hook: Setting Item Pressed - Language")} />
+                    <SettingItem icon="language-outline" label="语言" value="简体中文" onPress={() => { }} />
                     <View className="h-[1px] bg-gray-800 mx-4" />
-                    <SettingItem icon="moon-outline" label="深色模式" value="已开启" onPress={() => console.log("Hook: Setting Item Pressed - Dark Mode")} />
+                    <SettingItem icon="moon-outline" label="深色模式" value="已开启" onPress={() => { }} />
                 </View>
 
                 <TouchableOpacity
                     onPress={async () => {
-                        console.log("Hook: Logout Pressed");
                         // 1. 调用 Service 清除状态
                         await import('../../services/AuthService').then(m => m.authService.logout());
 

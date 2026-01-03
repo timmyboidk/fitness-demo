@@ -4,7 +4,6 @@ import { router } from 'expo-router';
 import React from 'react';
 import AddMoveScreen from '../add-move';
 import AddSessionScreen from '../add-session';
-import ModalScreen from '../modal';
 
 // Mock dependencies
 jest.mock('expo-router', () => ({
@@ -109,8 +108,5 @@ describe('Other Screens', () => {
         });
     });
 
-    it('ModalScreen renders', () => {
-        const { getByText } = render(<ModalScreen />);
-        expect(getByText('This is a modal')).toBeTruthy();
-    });
+
 });

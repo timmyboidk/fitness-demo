@@ -25,7 +25,7 @@ class AIScoringService {
     private baseUrl = 'https://api.fitbody.com/api/ai'; // Mock URL
 
     async scoreMove(request: ScoreRequest): Promise<ScoreResponse> {
-        console.log(`[AIScoringService] Submitting move ${request.moveId} for scoring...`);
+
 
         // Mock API Call Delay
         await new Promise(resolve => setTimeout(resolve, 500));
