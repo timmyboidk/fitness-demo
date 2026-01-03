@@ -80,15 +80,7 @@ export default function WorkoutSession() {
         }
     };
 
-    const handleSkip = () => {
-        if (currentMoveIndex < sequence.length - 1) {
-            setCurrentMoveIndex(prev => prev + 1);
-        } else {
-            setIsSessionComplete(true);
-            router.back();
-        }
-        console.log("Hook: Skip Move");
-    };
+
 
     const handleReverseCamera = () => {
         setFacing(c => c === 'back' ? 'front' : 'back');
@@ -212,11 +204,11 @@ export default function WorkoutSession() {
 
             {/* Settings Modal - Outside UI container to overlay everything */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
-                <TouchableOpacity className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
+                <TouchableOpacity testID="modal-backdrop" className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
                     <View className="absolute bottom-0 w-full bg-[#1E1E1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
                         <View className="flex-row justify-between items-center mb-6">
                             <Text className="text-white text-xl font-bold">训练设置</Text>
-                            <TouchableOpacity onPress={() => setShowSettings(false)} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
+                            <TouchableOpacity testID="close-modal-button" onPress={() => setShowSettings(false)} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
                                 <Ionicons name="close-circle" size={28} color="#666" />
                             </TouchableOpacity>
                         </View>
@@ -249,6 +241,7 @@ const SettingRow = ({ label, value, onToggle }: any) => (
     <View className="flex-row justify-between items-center mb-6">
         <Text className="text-white text-lg font-medium">{label}</Text>
         <Switch
+            testID={`switch-${label}`}
             value={value}
             onValueChange={onToggle}
             trackColor={{ false: "#333", true: "#CCFF00" }}
