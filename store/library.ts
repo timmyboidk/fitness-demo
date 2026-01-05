@@ -95,13 +95,16 @@ class LibraryStore {
     sessions: Session[] = [...INITIAL_SESSIONS];
     listeners: (() => void)[] = [];
 
-    // 新增：从后端同步数据接口
     async sync() {
         const data = await libraryService.fetchLibrary();
-        if (data && data.moves) {
-            // 这里简略处理：直接合并或替换。
-            // 实际项目需考虑 merging logic，这里仅作接口演示。
-
+        if (data) {
+            if (data.moves) {
+                this.moves = data.moves;
+            }
+            if (data.sessions) {
+                this.sessions = data.sessions;
+            }
+            this.notify();
         }
     }
 
