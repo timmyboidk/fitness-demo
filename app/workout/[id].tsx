@@ -1,10 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useCameraPermissions } from 'expo-camera'; // Keep valid permission hook or replace if totally removing expo-camera
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Modal, Switch, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { PoseDetectorCamera } from '../../components/PoseDetectorCamera';
 import { Button } from '../../components/ui/Button';
 import { aiScoringService } from '../../services/AIScoringService';
 import { libraryStore } from '../../store/library';
@@ -101,11 +102,12 @@ export default function WorkoutSession() {
     return (
         <View className="flex-1 bg-black">
             {isFocused && (
-                <CameraView
-                    style={{ position: 'absolute', width: '100%', height: '100%' }}
-                    facing={facing}
-                    mirror={settings.mirror}
-                />
+                <View style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                    <PoseDetectorCamera
+                        onInferenceResult={(res) => console.log("Inference:", res)}
+                        modelUrl="https://github.com/onnx/models/raw/main/vision/body_analysis/ultraface/models/version-RFB-320.onnx" // Mock URL
+                    />
+                </View>
             )}
 
             {/* UI Overlay Container - Safe Area */}
