@@ -9,6 +9,10 @@ jest.mock('../../services/LibraryService', () => ({
 }));
 
 describe('LibraryStore', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('initializes with default data', () => {
         expect(libraryStore.getMoves().length).toBeGreaterThan(0);
         expect(libraryStore.getSessions().length).toBeGreaterThan(0);
@@ -64,11 +68,37 @@ describe('LibraryStore', () => {
         expect(listener).toHaveBeenCalledTimes(1); // No extra call
     });
 
-    it('sync calls service', async () => {
-        (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ moves: [1, 2, 3] });
+    it('sync calls service and updates data', async () => {
+        const newMoves = [{ id: 'new', name: 'New Move' }];
+        const newSessions = [{ id: 's_new', name: 'New Session' }];
+        (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ moves: newMoves, sessions: newSessions });
 
         await libraryStore.sync();
         expect(libraryService.fetchLibrary).toHaveBeenCalled();
+        expect(libraryStore.getMoves()).toEqual(newMoves);
+        expect(libraryStore.getSessions()).toEqual(newSessions);
+    });
+
+    it('sync handles partial data (only moves)', async () => {
+        const newMoves = [{ id: 'only_moves' }];
+        (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ moves: newMoves });
+
+        await libraryStore.sync();
+        expect(libraryStore.getMoves()).toEqual(newMoves);
+    });
+
+    it('sync handles partial data (only sessions)', async () => {
+        const newSessions = [{ id: 'only_sessions', name: 'S', time: '10', count: '1', color: 'red', isVisible: true, moveIds: [] }];
+        (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ sessions: newSessions });
+
+        await libraryStore.sync();
+        expect(libraryStore.getSessions()).toEqual(newSessions);
+    });
+
+    it('sync handles no data', async () => {
+        (libraryService.fetchLibrary as jest.Mock).mockResolvedValue(null);
+        await libraryStore.sync();
+        // Should not crash
     });
 
     it('toggles move visibility safely for invalid ID', () => {

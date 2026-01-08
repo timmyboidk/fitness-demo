@@ -29,4 +29,10 @@ describe('useThemeColor', () => {
         const { result } = renderHook(() => useThemeColor({ light: '#123456' }, 'text'));
         expect(result.current).toBe('#123456');
     });
+
+    it('defaults to light when theme is undefined', () => {
+        useColorScheme.mockReturnValue(undefined);
+        const { result } = renderHook(() => useThemeColor({}, 'text'));
+        expect(result.current).toBe(Colors.light.text);
+    });
 });
