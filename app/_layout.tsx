@@ -1,13 +1,19 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+
     return (
-        <View style={{ flex: 1, backgroundColor: '#121212' }}>
-            <StatusBar style="light" />
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#121212' } }}>
+        <View className="flex-1 bg-white dark:bg-matte" style={{ flex: 1, backgroundColor: isDark ? '#121212' : '#FFFFFF' }}>
+            <StatusBar style={isDark ? 'light' : 'dark'} />
+            <Stack screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: isDark ? '#121212' : '#FFFFFF' }
+            }}>
                 {/* 登录页组 */}
                 {/* 登录页组 - (auth) is a group without layout, so we don't list it as a screen */}
 

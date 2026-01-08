@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
@@ -10,6 +10,8 @@ import { authService } from '../../services/AuthService';
 
 export default function LoginScreen() {
     const insets = useSafeAreaInsets();
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
     const [phone, setPhone] = useState('');
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
@@ -91,7 +93,7 @@ export default function LoginScreen() {
     };
 
     return (
-        <View className="flex-1 bg-[#121212]">
+        <View className="flex-1 bg-white dark:bg-[#121212]">
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
@@ -100,13 +102,13 @@ export default function LoginScreen() {
 
                     {/* 顶部返回 */}
                     <TouchableOpacity onPress={() => router.back()} className="mb-8">
-                        <Ionicons name="close" size={28} color="white" />
+                        <Ionicons name="close" size={28} color={isDark ? "white" : "black"} />
                     </TouchableOpacity>
 
                     {/* 标题区 */}
                     <View className="mb-10">
-                        <Text className="text-white text-4xl font-black mb-2 italic">FITBODY</Text>
-                        <Text className="text-gray-400 text-lg">欢迎回来，请登录您的账号</Text>
+                        <Text className="text-black dark:text-white text-4xl font-black mb-2 italic">FITBODY</Text>
+                        <Text className="text-gray-500 dark:text-gray-400 text-lg">欢迎回来，请登录您的账号</Text>
                     </View>
 
                     {/* 表单区 */}
@@ -134,9 +136,9 @@ export default function LoginScreen() {
                             <TouchableOpacity
                                 onPress={handleSendCode}
                                 disabled={isTimerRunning}
-                                className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-800 ${isTimerRunning ? 'bg-gray-800' : 'bg-[#1E1E1E] active:bg-gray-800'}`}
+                                className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 ${isTimerRunning ? 'bg-gray-200 dark:bg-gray-800' : 'bg-gray-100 dark:bg-[#1E1E1E] active:bg-gray-200 dark:active:bg-gray-800'}`}
                             >
-                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#CCFF00] font-bold"}>
+                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#0a7ea4] dark:text-[#CCFF00] font-bold"}>
                                     {isTimerRunning ? `${timer}s` : "获取验证码"}
                                 </Text>
                             </TouchableOpacity>
@@ -152,9 +154,9 @@ export default function LoginScreen() {
 
                     {/* 分割线 */}
                     <View className="flex-row items-center my-10">
-                        <View className="h-[1px] bg-gray-800 flex-1" />
+                        <View className="h-[1px] bg-gray-300 dark:bg-gray-800 flex-1" />
                         <Text className="mx-4 text-gray-500 text-xs">社交账号一键登录</Text>
-                        <View className="h-[1px] bg-gray-800 flex-1" />
+                        <View className="h-[1px] bg-gray-300 dark:bg-gray-800 flex-1" />
                     </View>
 
                     {/* 微信登录 */}
@@ -170,7 +172,7 @@ export default function LoginScreen() {
                     <View className="flex-row justify-center mt-auto pb-8">
                         <Text className="text-gray-500">还没有账号？ </Text>
                         <TouchableOpacity onPress={() => router.push('/(auth)/signup')}>
-                            <Text className="text-[#CCFF00] font-bold">立即注册</Text>
+                            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">立即注册</Text>
                         </TouchableOpacity>
                     </View>
 

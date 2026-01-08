@@ -1,14 +1,16 @@
-import { View, Text, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 
 export default function SignupScreen() {
     const insets = useSafeAreaInsets();
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
     const [phone, setPhone] = useState('');
     const [code, setCode] = useState('');
     const [nickname, setNickname] = useState('');
@@ -47,7 +49,7 @@ export default function SignupScreen() {
     };
 
     return (
-        <View className="flex-1 bg-[#121212]">
+        <View className="flex-1 bg-white dark:bg-[#121212]">
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
@@ -57,15 +59,15 @@ export default function SignupScreen() {
                     {/* 顶部导航 */}
                     <View className="flex-row items-center mb-10">
                         <TouchableOpacity onPress={() => router.back()} className="mr-4">
-                            <Ionicons name="arrow-back" size={28} color="white" />
+                            <Ionicons name="arrow-back" size={28} color={isDark ? "white" : "black"} />
                         </TouchableOpacity>
-                        <Text className="text-white text-xl font-bold">创建新账号</Text>
+                        <Text className="text-black dark:text-white text-xl font-bold">创建新账号</Text>
                     </View>
 
                     {/* 标题 */}
                     <View className="mb-10">
-                        <Text className="text-white text-3xl font-black mb-2">加入 FITBODY</Text>
-                        <Text className="text-gray-400">完善资料，开启你的 AI 健身之旅</Text>
+                        <Text className="text-black dark:text-white text-3xl font-black mb-2">加入 FITBODY</Text>
+                        <Text className="text-gray-500 dark:text-gray-400">完善资料，开启你的 AI 健身之旅</Text>
                     </View>
 
                     {/* 表单 */}
@@ -97,8 +99,8 @@ export default function SignupScreen() {
                                     icon="shield-checkmark-outline"
                                 />
                             </View>
-                            <TouchableOpacity className="h-14 w-32 bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-800 active:bg-gray-800">
-                                <Text className="text-[#CCFF00] font-bold">发送</Text>
+                            <TouchableOpacity className="h-14 w-32 bg-gray-100 dark:bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 active:bg-gray-200 dark:active:bg-gray-800">
+                                <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">发送</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -113,7 +115,7 @@ export default function SignupScreen() {
                     <View className="flex-row justify-center mt-auto pb-8">
                         <Text className="text-gray-500">已有账号？ </Text>
                         <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
-                            <Text className="text-[#CCFF00] font-bold">去登录</Text>
+                            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">去登录</Text>
                         </TouchableOpacity>
                     </View>
 

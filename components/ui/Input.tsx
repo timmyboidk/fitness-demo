@@ -1,6 +1,6 @@
-import { TextInput, View, Text, TextInputProps } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // <--- 新增引入
+import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
+import { Text, TextInput, TextInputProps, useColorScheme, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
 function cn(...inputs: any[]) {
@@ -10,29 +10,34 @@ function cn(...inputs: any[]) {
 interface InputProps extends TextInputProps {
     label?: string;
     error?: string;
-    icon?: keyof typeof Ionicons.glyphMap; // <--- 新增图标属性
+    icon?: keyof typeof Ionicons.glyphMap;
 }
 
 export function Input({ label, error, icon, className, ...props }: InputProps) {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const placeholderColor = isDark ? '#666' : '#999';
+    const iconColor = isDark ? '#666' : '#999';
+
     return (
         <View className="mb-4 space-y-2 w-full">
-            {label && <Text className="text-gray-400 text-sm ml-1">{label}</Text>}
+            {label && <Text className="text-gray-500 dark:text-gray-400 text-sm ml-1">{label}</Text>}
 
             {/* 输入框容器：负责背景和边框 */}
             <View className={cn(
-                "flex-row items-center bg-[#1E1E1E] h-14 px-4 rounded-xl border border-gray-800 focus:border-[#CCFF00]",
+                "flex-row items-center bg-gray-50 dark:bg-[#1E1E1E] h-14 px-4 rounded-xl border border-gray-200 dark:border-gray-800 focus:border-[#0a7ea4] dark:focus:border-[#CCFF00]",
                 error && "border-red-500",
                 className
             )}>
                 {/* 如果有图标，显示图标 */}
                 {icon && (
-                    <Ionicons name={icon} size={20} color="#666" style={{ marginRight: 10 }} />
+                    <Ionicons name={icon} size={20} color={iconColor} style={{ marginRight: 10 }} />
                 )}
 
                 {/* TextInput 填满剩余空间 */}
                 <TextInput
-                    placeholderTextColor="#666"
-                    className="flex-1 text-white h-full"
+                    placeholderTextColor={placeholderColor}
+                    className="flex-1 text-black dark:text-white h-full"
                     {...props}
                 />
             </View>

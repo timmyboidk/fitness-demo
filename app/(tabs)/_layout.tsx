@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, usePathname, withLayoutContext } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // 1. 创建支持滑动的 Tab 导航器
@@ -10,10 +10,20 @@ export const MaterialTopTabs = withLayoutContext(Navigator);
 
 // 2. 自定义底部 Tab Bar 指示器
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+
+    // Dynamic Colors
+    const bgColor = isDark ? '#121212' : '#FFFFFF';
+    const borderColor = isDark ? '#333' : '#E5E5E5';
+    const activeColor = isDark ? '#CCFF00' : '#0a7ea4'; // Match theme.ts tint if possible, or keep neon for dark
+    const inactiveColor = isDark ? '#666' : '#999';
+    const textColor = isDark ? '#888' : '#666';
+
     return (
-        <View style={{ backgroundColor: '#121212' }}>
+        <View style={{ backgroundColor: bgColor }}>
             <SafeAreaView edges={['bottom']}>
-                <View className="flex-row h-[60px] border-t border-[#333] bg-[#121212] items-center">
+                <View className="flex-row h-[60px] border-t items-center" style={{ backgroundColor: bgColor, borderColor: borderColor }}>
                     {state.routes.map((route: any, index: number) => {
                         const { options } = descriptors[route.key];
                         // 优先使用 tabBarLabel
@@ -50,8 +60,8 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                                 className="flex-1 items-center justify-center h-full"
                                 activeOpacity={0.7}
                             >
-                                <Ionicons name={iconName} size={26} color={isFocused ? '#CCFF00' : '#666'} />
-                                <Text style={{ fontSize: 10, marginTop: 4, color: isFocused ? '#CCFF00' : '#888' }}>
+                                <Ionicons name={iconName} size={26} color={isFocused ? activeColor : inactiveColor} />
+                                <Text style={{ fontSize: 10, marginTop: 4, color: isFocused ? activeColor : textColor }}>
                                     {label}
                                 </Text>
                             </TouchableOpacity>
@@ -65,6 +75,11 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
 
 export default function TabLayout() {
     const pathname = usePathname();
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const bgColor = isDark ? '#121212' : '#FFFFFF';
+    const primaryTextColor = isDark ? '#FFFFFF' : '#000000';
+    const iconColor = isDark ? '#CCFF00' : '#0a7ea4';
 
     // 动态 Header 配置 logic
     // 注意：我们将 Header 放在 Tab Navigator 之外，这样 Tab 切换时 Header 会更新，但 Navigator 本身如果不卸载，就能保持状态。
@@ -79,14 +94,14 @@ export default function TabLayout() {
         headerTitle = '训练动作';
         HeaderRight = () => (
             <TouchableOpacity onPress={() => router.push('/add-move')} className="mr-4">
-                <Ionicons name="add-circle" size={32} color="#CCFF00" />
+                <Ionicons name="add-circle" size={32} color={iconColor} />
             </TouchableOpacity>
         );
     } else if (pathname === '/sessions') {
         headerTitle = '课程计划';
         HeaderRight = () => (
             <TouchableOpacity onPress={() => router.push('/add-session')} className="mr-4">
-                <Ionicons name="add-circle" size={32} color="#CCFF00" />
+                <Ionicons name="add-circle" size={32} color={iconColor} />
             </TouchableOpacity>
         );
     } else if (pathname === '/profile') {
@@ -95,12 +110,12 @@ export default function TabLayout() {
     }
 
     return (
-        <View className="flex-1 bg-[#121212]">
+        <View className="flex-1" style={{ backgroundColor: bgColor }}>
             {/* Header */}
             {showHeader && (
-                <SafeAreaView edges={['top']} style={{ backgroundColor: '#121212', zIndex: 10 }}>
-                    <View className="h-[50px] flex-row items-center justify-between px-4 bg-[#121212]">
-                        <Text className="text-white text-2xl font-black italic tracking-wider">{headerTitle}</Text>
+                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor, zIndex: 10 }}>
+                    <View className="h-[50px] flex-row items-center justify-between px-4" style={{ backgroundColor: bgColor }}>
+                        <Text className="text-2xl font-black italic tracking-wider" style={{ color: primaryTextColor }}>{headerTitle}</Text>
                         {HeaderRight && <HeaderRight />}
                     </View>
                 </SafeAreaView>
