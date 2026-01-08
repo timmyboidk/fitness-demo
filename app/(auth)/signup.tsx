@@ -100,7 +100,7 @@ export default function SignupScreen() {
                                 />
                             </View>
                             <TouchableOpacity className="h-14 w-32 bg-gray-100 dark:bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 active:bg-gray-200 dark:active:bg-gray-800">
-                                <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">发送</Text>
+                                <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">发送</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -115,7 +115,7 @@ export default function SignupScreen() {
                     <View className="flex-row justify-center mt-auto pb-8">
                         <Text className="text-gray-500">已有账号？ </Text>
                         <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
-                            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">去登录</Text>
+                            <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">去登录</Text>
                         </TouchableOpacity>
                     </View>
 

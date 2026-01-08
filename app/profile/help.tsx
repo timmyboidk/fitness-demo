@@ -27,14 +27,14 @@ export default function HelpScreen() {
                 <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
                     <TouchableOpacity onPress={() => console.log("Hook: Help - Contact Service")} className="flex-row items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
                         <View className="flex-row items-center">
-                            <Ionicons name="chatbubbles-outline" size={22} color={isDark ? "#CCFF00" : "#0a7ea4"} style={{ marginRight: 12 }} />
+                            <Ionicons name="chatbubbles-outline" size={22} color={isDark ? "#CCFF00" : "#16a34a"} style={{ marginRight: 12 }} />
                             <Text className="text-black dark:text-white text-base font-bold">联系在线客服</Text>
                         </View>
                         <Ionicons name="chevron-forward" size={18} color="#666" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => console.log("Hook: Help - Feedback")} className="flex-row items-center justify-between p-5">
                         <View className="flex-row items-center">
-                            <Ionicons name="mail-outline" size={22} color={isDark ? "#CCFF00" : "#0a7ea4"} style={{ marginRight: 12 }} />
+                            <Ionicons name="mail-outline" size={22} color={isDark ? "#CCFF00" : "#16a34a"} style={{ marginRight: 12 }} />
                             <Text className="text-black dark:text-white text-base font-bold">意见反馈</Text>
                         </View>
                         <Ionicons name="chevron-forward" size={18} color="#666" />
@@ -55,7 +55,7 @@ export default function HelpScreen() {
 
                 {/* 版本号 */}
                 <View className="items-center mt-10">
-                    <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-black text-2xl italic mb-1">FITBODY</Text>
+                    <Text className="text-[#16a34a] dark:text-[#CCFF00] font-black text-2xl italic mb-1">FITBODY</Text>
                     <Text className="text-gray-500 dark:text-gray-600 text-sm">Version 1.0.0 (Build 20240101)</Text>
                 </View>
             </ScrollView>

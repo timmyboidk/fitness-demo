@@ -53,7 +53,7 @@ export default function ProfileScreen() {
                     className="px-6 mb-8 flex-row items-center"
                 >
                     {/* 3. 修改头像区域：使用动态数据 */}
-                    <View className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-[#0a7ea4] dark:border-[#CCFF00] overflow-hidden mr-5 justify-center items-center">
+                    <View className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-[#16a34a] dark:border-[#CCFF00] overflow-hidden mr-5 justify-center items-center">
                         <Image
                             source={{ uri: avatarUrl }}
                             className="w-full h-full"
@@ -62,8 +62,8 @@ export default function ProfileScreen() {
                     <View>
                         <Text className="text-black dark:text-white text-2xl font-bold mb-1">{nickname}</Text>
                         <Text className="text-gray-500 dark:text-gray-400">{userId}</Text>
-                        <View className="bg-[#0a7ea4]/20 dark:bg-[#CCFF00]/20 px-3 py-1 rounded-full self-start mt-2">
-                            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] text-xs font-bold">PRO 会员</Text>
+                        <View className="bg-[#16a34a]/20 dark:bg-[#CCFF00]/20 px-3 py-1 rounded-full self-start mt-2">
+                            <Text className="text-[#16a34a] dark:text-[#CCFF00] text-xs font-bold">PRO 会员</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -99,7 +99,7 @@ export default function ProfileScreen() {
                                 className={`flex-row items-center p-5 ${index < MENU_ITEMS.length - 1 ? 'border-b border-gray-200 dark:border-gray-800' : ''}`}
                             >
                                 <View className="w-10 h-10 bg-gray-200 dark:bg-[#2C2C2C] rounded-full items-center justify-center mr-4">
-                                    <Ionicons name={item.icon as any} size={20} color={isDark ? "#CCFF00" : "#0a7ea4"} />
+                                    <Ionicons name={item.icon as any} size={20} color={isDark ? "#CCFF00" : "#16a34a"} />
                                 </View>
                                 <Text className="text-black dark:text-white font-bold text-lg flex-1">{item.label}</Text>
                                 <Ionicons name="chevron-forward" size={20} color={isDark ? "#555" : "#ccc"} />
@@ -115,7 +115,7 @@ export default function ProfileScreen() {
 function StatItem({ value, label }: { value: string, label: string }) {
     return (
         <View className="items-center flex-1">
-            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] text-2xl font-black mb-1 italic">{value}</Text>
+            <Text className="text-[#16a34a] dark:text-[#CCFF00] text-2xl font-black mb-1 italic">{value}</Text>
             <Text className="text-gray-500 dark:text-gray-400 text-xs">{label}</Text>
         </View>
     );

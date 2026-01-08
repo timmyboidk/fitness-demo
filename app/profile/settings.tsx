@@ -86,7 +86,7 @@ function SettingItem({ icon, label, value, onValueChange, isSwitch, onPress }: a
                 <Switch
                     value={value}
                     onValueChange={onValueChange}
-                    trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#0a7ea4" }}
+                    trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#16a34a" }}
                     thumbColor={value ? (isDark ? "#000" : "#fff") : "#f4f3f4"}
                 />
             ) : (

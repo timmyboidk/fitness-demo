@@ -16,7 +16,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     // Dynamic Colors
     const bgColor = isDark ? '#121212' : '#FFFFFF';
     const borderColor = isDark ? '#333' : '#E5E5E5';
-    const activeColor = isDark ? '#CCFF00' : '#0a7ea4'; // Match theme.ts tint if possible, or keep neon for dark
+    const activeColor = isDark ? '#CCFF00' : '#16a34a'; // Match theme.ts tint if possible, or keep neon for dark
     const inactiveColor = isDark ? '#666' : '#999';
     const textColor = isDark ? '#888' : '#666';
 
@@ -79,7 +79,7 @@ export default function TabLayout() {
     const isDark = colorScheme === 'dark';
     const bgColor = isDark ? '#121212' : '#FFFFFF';
     const primaryTextColor = isDark ? '#FFFFFF' : '#000000';
-    const iconColor = isDark ? '#CCFF00' : '#0a7ea4';
+    const iconColor = isDark ? '#CCFF00' : '#16a34a';
 
     // 动态 Header 配置 logic
     // 注意：我们将 Header 放在 Tab Navigator 之外，这样 Tab 切换时 Header 会更新，但 Navigator 本身如果不卸载，就能保持状态。

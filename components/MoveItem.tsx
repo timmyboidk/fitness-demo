@@ -17,7 +17,7 @@ export function MoveItem({ item, onPress, showAddButton, onAdd, showRemoveButton
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     const tintColor = isDark ? "white" : "black";
-    const highlightColor = isDark ? "#CCFF00" : "#0a7ea4";
+    const highlightColor = isDark ? "#CCFF00" : "#16a34a";
 
     return (
         <TouchableOpacity
@@ -33,7 +33,7 @@ export function MoveItem({ item, onPress, showAddButton, onAdd, showRemoveButton
                 <Text className="text-black dark:text-white font-bold text-lg mb-1">{item.name}</Text>
                 <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
-                        <View className="w-2 h-2 rounded-full bg-[#0a7ea4] dark:bg-[#CCFF00] mr-2" />
+                        <View className="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#CCFF00] mr-2" />
                         <Text className="text-gray-500 dark:text-gray-400 text-xs">{item.level}</Text>
                     </View>
 

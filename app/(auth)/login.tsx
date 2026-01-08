@@ -138,7 +138,7 @@ export default function LoginScreen() {
                                 disabled={isTimerRunning}
                                 className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 ${isTimerRunning ? 'bg-gray-200 dark:bg-gray-800' : 'bg-gray-100 dark:bg-[#1E1E1E] active:bg-gray-200 dark:active:bg-gray-800'}`}
                             >
-                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#0a7ea4] dark:text-[#CCFF00] font-bold"}>
+                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#16a34a] dark:text-[#CCFF00] font-bold"}>
                                     {isTimerRunning ? `${timer}s` : "获取验证码"}
                                 </Text>
                             </TouchableOpacity>
@@ -172,7 +172,7 @@ export default function LoginScreen() {
                     <View className="flex-row justify-center mt-auto pb-8">
                         <Text className="text-gray-500">还没有账号？ </Text>
                         <TouchableOpacity onPress={() => router.push('/(auth)/signup')}>
-                            <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">立即注册</Text>
+                            <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">立即注册</Text>
                         </TouchableOpacity>
                     </View>
 

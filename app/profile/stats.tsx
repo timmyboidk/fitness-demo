@@ -24,10 +24,10 @@ export default function StatsScreen() {
                     <Text className="text-gray-500 dark:text-gray-400 mb-2">本周运动时长</Text>
                     <View className="flex-row items-baseline">
                         <Text className="text-black dark:text-white text-5xl font-black">128</Text>
-                        <Text className="text-[#0a7ea4] dark:text-[#CCFF00] ml-2 font-bold">分钟</Text>
+                        <Text className="text-[#16a34a] dark:text-[#CCFF00] ml-2 font-bold">分钟</Text>
                     </View>
                     <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-4 overflow-hidden">
-                        <View className="h-full bg-[#0a7ea4] dark:bg-[#CCFF00] w-[60%]" />
+                        <View className="h-full bg-[#16a34a] dark:bg-[#CCFF00] w-[60%]" />
                     </View>
                 </View>
 
@@ -48,7 +48,7 @@ export default function StatsScreen() {
                             <Text className="text-black dark:text-white font-bold">全身燃脂初级</Text>
                             <Text className="text-gray-500 text-xs">昨天 19:30</Text>
                         </View>
-                        <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold">15 min</Text>
+                        <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">15 min</Text>
                     </View>
                 ))}
             </ScrollView>

@@ -16,7 +16,7 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
     const handlePress = onPress || (() => router.push(`/workout/${item.id}?mode=session`));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const highlightColor = isDark ? "#CCFF00" : "#0a7ea4";
+    const highlightColor = isDark ? "#CCFF00" : "#16a34a";
 
     return (
         <TouchableOpacity

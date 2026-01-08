@@ -27,7 +27,7 @@ export default function LeaderboardScreen() {
             </View>
 
             <View className="p-4 bg-gray-50 dark:bg-[#1C1C1E] mb-2 flex-row justify-between items-center mx-4 rounded-2xl">
-                <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-bold text-lg">本周排名</Text>
+                <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold text-lg">本周排名</Text>
                 <Text className="text-gray-500 dark:text-gray-400">距离上一名还差 200 分</Text>
             </View>
 
@@ -35,13 +35,13 @@ export default function LeaderboardScreen() {
                 data={RANKINGS}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                    <View className={`flex-row items-center p-4 mx-4 mb-3 rounded-2xl ${item.name === 'You' ? 'bg-[#0a7ea4]/10 dark:bg-[#CCFF00]/10 border border-[#0a7ea4] dark:border-[#CCFF00]' : 'bg-gray-50 dark:bg-[#1C1C1E]'}`}>
-                        <Text className={`text-xl font-black w-8 ${item.rank <= 3 ? 'text-[#0a7ea4] dark:text-[#CCFF00]' : 'text-gray-500'}`}>
+                    <View className={`flex-row items-center p-4 mx-4 mb-3 rounded-2xl ${item.name === 'You' ? 'bg-[#16a34a]/10 dark:bg-[#CCFF00]/10 border border-[#16a34a] dark:border-[#CCFF00]' : 'bg-gray-50 dark:bg-[#1C1C1E]'}`}>
+                        <Text className={`text-xl font-black w-8 ${item.rank <= 3 ? 'text-[#16a34a] dark:text-[#CCFF00]' : 'text-gray-500'}`}>
                             #{item.rank}
                         </Text>
                         <Image source={{ uri: item.avatar }} className="w-10 h-10 rounded-full mx-3" />
                         <Text className="text-black dark:text-white font-bold flex-1">{item.name}</Text>
-                        <Text className="text-[#0a7ea4] dark:text-[#CCFF00] font-black">{item.score}</Text>
+                        <Text className="text-[#16a34a] dark:text-[#CCFF00] font-black">{item.score}</Text>
                     </View>
                 )}
             />
