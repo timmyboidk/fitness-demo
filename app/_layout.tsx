@@ -8,7 +8,7 @@ export default function RootLayout() {
     const isDark = colorScheme === 'dark';
 
     return (
-        <View className="flex-1 bg-white dark:bg-matte" style={{ flex: 1, backgroundColor: isDark ? '#121212' : '#FFFFFF' }}>
+        <View className="flex-1 bg-white dark:bg-[#121212]" style={{ flex: 1, backgroundColor: isDark ? '#121212' : '#FFFFFF' }}>
             <StatusBar style={isDark ? 'light' : 'dark'} />
             <Stack screenOptions={{
                 headerShown: false,
