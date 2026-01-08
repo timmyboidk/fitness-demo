@@ -78,9 +78,12 @@ describe('WorkoutSession', () => {
         expect(mockRequestPermission).toHaveBeenCalled();
     });
 
-    it('renders camera and controls when granted', () => {
+    it('renders camera and controls when granted', async () => {
         const { getByTestId, getByText } = render(<WorkoutSession />);
-        expect(getByTestId('camera-view')).toBeTruthy();
+        // Wait for permission hook to resolve and camera to render
+        await waitFor(() => {
+            expect(getByTestId('camera-front')).toBeTruthy();
+        });
         expect(getByText('Test Move')).toBeTruthy();
     });
 
