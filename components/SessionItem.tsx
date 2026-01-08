@@ -21,7 +21,7 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
     return (
         <TouchableOpacity
             onPress={handlePress}
-            className="w-full bg-gray-50 dark:bg-[#1E1E1E] mb-4 p-5 rounded-3xl flex-row justify-between items-center border border-gray-200 dark:border-gray-800"
+            className="w-full bg-gray-50 dark:bg-[#1C1C1E] mb-4 p-5 rounded-3xl flex-row justify-between items-center border border-gray-200 dark:border-transparent"
         >
             <View className="flex-row items-center flex-1">
                 {/* Left Decoration Bar */}

@@ -19,7 +19,7 @@ export function Button({ className, variant = 'primary', size = 'default', label
 
     const variants = {
         primary: "bg-[#0a7ea4] dark:bg-[#CCFF00] text-white dark:text-black", // Brand color adaption
-        secondary: "bg-gray-100 dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700",
+        secondary: "bg-gray-100 dark:bg-[#1C1C1E] border border-gray-200 dark:border-transparent",
         outline: "border border-gray-300 dark:border-gray-600 bg-transparent",
         ghost: "bg-transparent"
     };

@@ -1,30 +1,32 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Switch, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
     const [notifications, setNotifications] = useState(true);
     const [sound, setSound] = useState(true);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     return (
 
-        <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
+        <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
             <Stack.Screen options={{ headerShown: false }} />
 
             {/* 统一的带返回键 Header */}
             <View className="flex-row items-center px-4 py-4">
                 <TouchableOpacity onPress={() => {
                     router.back();
-                }} className="mr-4 w-10 h-10 items-center justify-center bg-[#1E1E1E] rounded-full">
-                    <Ionicons name="arrow-back" size={24} color="white" />
+                }} className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-[#1C1C1E] rounded-full">
+                    <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "black"} />
                 </TouchableOpacity>
-                <Text className="text-white text-xl font-bold">设置</Text>
+                <Text className="text-black dark:text-white text-xl font-bold">设置</Text>
             </View>
 
             <ScrollView className="p-4">
-                <View className="bg-[#1E1E1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
                     <SettingItem
                         icon="notifications-outline"
                         label="推送通知"
@@ -34,7 +36,7 @@ export default function SettingsScreen() {
                         }}
                         isSwitch
                     />
-                    <View className="h-[1px] bg-gray-800 mx-4" />
+                    <View className="h-[1px] bg-gray-200 dark:bg-gray-800 mx-4" />
                     <SettingItem
                         icon="volume-high-outline"
                         label="语音指导"
@@ -46,9 +48,9 @@ export default function SettingsScreen() {
                     />
                 </View>
 
-                <View className="bg-[#1E1E1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
                     <SettingItem icon="language-outline" label="语言" value="简体中文" onPress={() => { }} />
-                    <View className="h-[1px] bg-gray-800 mx-4" />
+                    <View className="h-[1px] bg-gray-200 dark:bg-gray-800 mx-4" />
                     <SettingItem icon="moon-outline" label="深色模式" value="已开启" onPress={() => { }} />
                 </View>
 
@@ -61,7 +63,7 @@ export default function SettingsScreen() {
                         router.dismissAll();
                         router.replace('/(tabs)/profile');
                     }}
-                    className="bg-[#1E1E1E] rounded-2xl p-4 flex-row items-center justify-center mt-4"
+                    className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl p-4 flex-row items-center justify-center mt-4"
                 >
                     <Text className="text-red-500 font-bold text-lg">退出登录</Text>
                 </TouchableOpacity>
@@ -71,18 +73,21 @@ export default function SettingsScreen() {
 }
 
 function SettingItem({ icon, label, value, onValueChange, isSwitch, onPress }: any) {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+
     const Content = (
-        <View className="flex-row items-center justify-between p-4 bg-[#1E1E1E]">
+        <View className="flex-row items-center justify-between p-4 bg-gray-50 dark:bg-[#1C1C1E]">
             <View className="flex-row items-center">
-                <Ionicons name={icon} size={22} color="#999" style={{ marginRight: 12 }} />
-                <Text className="text-white text-base font-bold">{label}</Text>
+                <Ionicons name={icon} size={22} color={isDark ? "#999" : "#666"} style={{ marginRight: 12 }} />
+                <Text className="text-black dark:text-white text-base font-bold">{label}</Text>
             </View>
             {isSwitch ? (
                 <Switch
                     value={value}
                     onValueChange={onValueChange}
-                    trackColor={{ false: "#333", true: "#CCFF00" }}
-                    thumbColor={value ? "#000" : "#f4f3f4"}
+                    trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#0a7ea4" }}
+                    thumbColor={value ? (isDark ? "#000" : "#fff") : "#f4f3f4"}
                 />
             ) : (
                 <View className="flex-row items-center">

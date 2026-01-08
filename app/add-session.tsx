@@ -1,6 +1,6 @@
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SessionItem } from '../components/SessionItem';
 import { libraryStore, Session } from '../store/library';
@@ -8,6 +8,8 @@ import { libraryStore, Session } from '../store/library';
 export default function AddSessionScreen() {
     // Only show items that are NOT visible
     const [sessions, setSessions] = useState<Session[]>(libraryStore.getSessions().filter(s => !s.isVisible));
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     const handleAdd = (id: string) => {
         libraryStore.toggleSessionVisibility(id);
@@ -15,12 +17,12 @@ export default function AddSessionScreen() {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
+        <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
             <View className="flex-1 px-4 pt-4">
                 <Stack.Screen options={{
                     headerTitle: '添加课程',
-                    headerStyle: { backgroundColor: '#121212' },
-                    headerTintColor: '#fff',
+                    headerStyle: { backgroundColor: isDark ? '#000000' : '#ffffff' },
+                    headerTintColor: isDark ? '#fff' : '#000',
                     headerBackTitle: "返回",
                     headerRight: () => null
                 }} />

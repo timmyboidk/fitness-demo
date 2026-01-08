@@ -6,8 +6,9 @@ module.exports = {
     extend: {
       colors: {
         neon: '#CCFF00',
-        matte: '#121212',
-        surface: '#1E1E1E',
+        matte: '#000000',
+        surface: '#121212',
+        card: '#1C1C1E',
         alert: '#FF3B30',
       },
     },

@@ -25,7 +25,7 @@ export function Input({ label, error, icon, className, ...props }: InputProps) {
 
             {/* 输入框容器：负责背景和边框 */}
             <View className={cn(
-                "flex-row items-center bg-gray-50 dark:bg-[#1E1E1E] h-14 px-4 rounded-xl border border-gray-200 dark:border-gray-800 focus:border-[#0a7ea4] dark:focus:border-[#CCFF00]",
+                "flex-row items-center bg-gray-50 dark:bg-[#1C1C1E] h-14 px-5 rounded-2xl border border-gray-200 dark:border-transparent focus:border-[#0a7ea4] dark:focus:border-[#CCFF00]",
                 error && "border-red-500",
                 className
             )}>

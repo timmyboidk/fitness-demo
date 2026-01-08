@@ -1,6 +1,6 @@
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../components/MoveItem';
 import { libraryStore, Move } from '../store/library';
@@ -8,6 +8,8 @@ import { libraryStore, Move } from '../store/library';
 export default function AddMoveScreen() {
     // Only show items that are NOT visible
     const [moves, setMoves] = useState<Move[]>(libraryStore.getMoves().filter(m => !m.isVisible));
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     const handleAdd = (id: string) => {
         libraryStore.toggleMoveVisibility(id);
@@ -15,12 +17,12 @@ export default function AddMoveScreen() {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
+        <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
             <View className="flex-1 px-4 pt-4">
                 <Stack.Screen options={{
                     headerTitle: '添加动作',
-                    headerStyle: { backgroundColor: '#121212' },
-                    headerTintColor: '#fff',
+                    headerStyle: { backgroundColor: isDark ? '#000000' : '#ffffff' },
+                    headerTintColor: isDark ? '#fff' : '#000',
                     headerBackTitle: "返回",
                     headerRight: () => null // Ensure no + button here
                 }} />

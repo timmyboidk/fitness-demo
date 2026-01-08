@@ -198,7 +198,7 @@ export default function WorkoutSession() {
             {/* Settings Modal - Outside UI container to overlay everything */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
                 <TouchableOpacity testID="modal-backdrop" className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
-                    <View className="absolute bottom-0 w-full bg-[#1E1E1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
+                    <View className="absolute bottom-0 w-full bg-[#1C1C1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
                         <View className="flex-row justify-between items-center mb-6">
                             <Text className="text-white text-xl font-bold">训练设置</Text>
                             <TouchableOpacity testID="close-modal-button" onPress={() => setShowSettings(false)} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>

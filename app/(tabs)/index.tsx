@@ -19,7 +19,7 @@ export default function MovesScreen() {
     }, []);
 
     return (
-        <View className="flex-1 bg-white dark:bg-[#121212] px-4 pt-4">
+        <View className="flex-1 bg-white dark:bg-black px-4 pt-4">
             <FlatList
                 data={moves}
                 numColumns={2}

@@ -8,11 +8,11 @@ export default function RootLayout() {
     const isDark = colorScheme === 'dark';
 
     return (
-        <View className="flex-1 bg-white dark:bg-[#121212]" style={{ flex: 1, backgroundColor: isDark ? '#121212' : '#FFFFFF' }}>
+        <View className="flex-1 bg-white dark:bg-black" style={{ flex: 1, backgroundColor: isDark ? '#000000' : '#FFFFFF' }}>
             <StatusBar style={isDark ? 'light' : 'dark'} />
             <Stack screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: isDark ? '#121212' : '#FFFFFF' }
+                contentStyle: { backgroundColor: isDark ? '#000000' : '#FFFFFF' }
             }}>
                 {/* 登录页组 */}
                 {/* 登录页组 - (auth) is a group without layout, so we don't list it as a screen */}

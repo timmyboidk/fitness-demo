@@ -38,7 +38,7 @@ export default function ProfileScreen() {
     const userId = user?._id ? `ID: ${user._id.slice(-6).toUpperCase()}` : '点击登录';
 
     return (
-        <View className="flex-1 bg-white dark:bg-[#121212] pt-4">
+        <View className="flex-1 bg-white dark:bg-black pt-4">
             <ScrollView
                 contentContainerStyle={{ paddingBottom: 100 }}
                 contentInsetAdjustmentBehavior="never"
@@ -72,7 +72,7 @@ export default function ProfileScreen() {
                 <TouchableOpacity onPress={() => {
                     router.push('/profile/stats');
                 }}>
-                    <View className="mx-6 p-6 bg-gray-50 dark:bg-[#1E1E1E] rounded-3xl border border-gray-200 dark:border-gray-800 mb-8 flex-row justify-between">
+                    <View className="mx-6 p-6 bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl border border-gray-200 dark:border-transparent mb-8 flex-row justify-between">
                         <StatItem value={user?.stats?.totalWorkouts || "0"} label="累计训练" />
                         <View className="w-[1px] bg-gray-300 dark:bg-gray-800 h-full" />
                         <StatItem value={user?.stats?.accuracyAvg ? `${user.stats.accuracyAvg}%` : "-"} label="动作评分" />
@@ -89,7 +89,7 @@ export default function ProfileScreen() {
                 {/* 菜单列表 */}
                 <View className="px-6">
                     <Text className="text-gray-500 dark:text-gray-400 mb-4 font-bold ml-2">常用功能</Text>
-                    <View className="bg-gray-50 dark:bg-[#1E1E1E] rounded-3xl overflow-hidden">
+                    <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl overflow-hidden">
                         {MENU_ITEMS.map((item, index) => (
                             <TouchableOpacity
                                 key={item.label}
