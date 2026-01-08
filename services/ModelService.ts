@@ -1,5 +1,6 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import { InferenceSession } from 'onnxruntime-react-native';
+import { Logger } from './Logger';
 
 const MODEL_DIR = FileSystem.documentDirectory + 'models/';
 const MODEL_FILE_NAME = 'pose_detection.onnx';
@@ -27,14 +28,14 @@ export const modelService = {
         const fileInfo = await FileSystem.getInfoAsync(destination);
 
         if (fileInfo.exists) {
-            console.log("Model already exists at:", destination);
+            Logger.info('ModelService', "Model already exists at:", { destination });
             return destination;
         }
 
         if (url) {
-            console.log("Downloading model from:", url);
+            Logger.info('ModelService', "Downloading model from:", { url });
             const { uri } = await FileSystem.downloadAsync(url, destination);
-            console.log("Model downloaded to:", uri);
+            Logger.info('ModelService', "Model downloaded to:", { uri });
             return uri;
         } else {
             // Fallback or error if no URL provided and no local file
@@ -48,14 +49,14 @@ export const modelService = {
      * @param modelPath Local file URI of the model.
      */
     async createSession(modelPath: string): Promise<InferenceSession> {
-        console.log("Creating Inference Session with model:", modelPath);
+        Logger.info('ModelService', "Creating Inference Session with model:", { modelPath });
         try {
             // 'file://' prefix might need stripping depending on platform and library version
             // onnxruntime-react-native typically handles file paths well
             const session = await InferenceSession.create(modelPath);
             return session;
         } catch (e) {
-            console.error("Failed to create inference session:", e);
+            Logger.error('ModelService', "Failed to create inference session:", { error: e });
             throw e;
         }
     }

@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -114,7 +114,11 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,9 +133,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,7 +175,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Move } from '../store/library';
 &nbsp;
 interface MoveItemProps {
@@ -181,28 +189,32 @@ interface MoveItemProps {
 &nbsp;
 export function MoveItem({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: MoveItemProps) {
     const handlePress = onPress || (() =&gt; router.push(`/workout/${item.id}?mode=move`));
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const tintColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"white" </span>: "black";
+    const highlightColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"#CCFF00" </span>: "#16a34a";
 &nbsp;
     return (
         &lt;TouchableOpacity
             onPress={handlePress}
-            className="w-[48%] bg-[#1E1E1E] mb-4 rounded-2xl overflow-hidden border border-gray-800"
+            className="w-[48%] bg-gray-50 dark:bg-[#1C1C1E] mb-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-transparent"
         &gt;
-            &lt;View className="h-32 items-center justify-center bg-[#252525]"&gt;
+            &lt;View className="h-32 items-center justify-center bg-gray-200 dark:bg-[#252525]"&gt;
                 {/* SF Symbol implementation */}
-                &lt;SymbolView name={item.icon as any} size={60} tintColor="white" fallback="body" /&gt;
+                &lt;SymbolView name={item.icon as any} size={60} tintColor={tintColor} fallback="body" /&gt;
             &lt;/View&gt;
 &nbsp;
             &lt;View className="p-3"&gt;
-                &lt;Text className="text-white font-bold text-lg mb-1"&gt;{item.name}&lt;/Text&gt;
+                &lt;Text className="text-black dark:text-white font-bold text-lg mb-1"&gt;{item.name}&lt;/Text&gt;
                 &lt;View className="flex-row items-center justify-between"&gt;
                     &lt;View className="flex-row items-center"&gt;
-                        &lt;View className="w-2 h-2 rounded-full bg-[#CCFF00] mr-2" /&gt;
-                        &lt;Text className="text-gray-400 text-xs"&gt;{item.level}&lt;/Text&gt;
+                        &lt;View className="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#CCFF00] mr-2" /&gt;
+                        &lt;Text className="text-gray-500 dark:text-gray-400 text-xs"&gt;{item.level}&lt;/Text&gt;
                     &lt;/View&gt;
 &nbsp;
                     {showAddButton &amp;&amp; (
                         &lt;TouchableOpacity onPress={onAdd}&gt;
-                            &lt;SymbolView name={"plus.circle.fill" as any} size={24} tintColor="#CCFF00" /&gt;
+                            &lt;SymbolView name={"plus.circle.fill" as any} size={24} tintColor={highlightColor} /&gt;
                         &lt;/TouchableOpacity&gt;
                     )}
 &nbsp;
@@ -223,7 +235,7 @@ export function MoveItem({ item, onPress, showAddButton, onAdd, showRemoveButton
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-03T19:59:33.510Z
+                at 2026-01-08T05:30:51.865Z
             </div>
         <script src="../prettify.js"></script>
         <script>

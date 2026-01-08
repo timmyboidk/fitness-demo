@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/22</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>21/24</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/21</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -184,8 +184,7 @@
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
 <a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -200,6 +199,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
@@ -234,7 +235,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -257,7 +257,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -281,7 +280,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -311,7 +309,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 &nbsp;
 const MENU_ITEMS = [
     { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
@@ -323,6 +321,8 @@ const MENU_ITEMS = [
 export default function ProfileScreen() {
     // 2. 新增状态和副作用：读取本地存储的用户信息
     const [user, setUser] = useState&lt;any&gt;(null);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
 &nbsp;
     useEffect(() =&gt; {
         // 页面加载时读取用户信息
@@ -345,7 +345,7 @@ export default function ProfileScreen() {
     const userId = user?._id ? `ID: ${user._id.slice(-6).toUpperCase()}` : '点击登录';
 &nbsp;
     return (
-        &lt;View className="flex-1 bg-[#121212] pt-4"&gt;
+        &lt;View className="flex-1 bg-white dark:bg-black pt-4"&gt;
             &lt;ScrollView
                 contentContainerStyle={{ paddingBottom: 100 }}
                 contentInsetAdjustmentBehavior="never"
@@ -355,64 +355,61 @@ export default function ProfileScreen() {
                 {/* 用户信息卡片 */}
                 &lt;TouchableOpacity
                     onPress={() =&gt; {
-                        console.log("Hook: Profile Avatar Pressed - User:", user ? "LoggedIn" : "Guest");
                         if (!user) router.push('/(auth)/login');
                     }}
                     className="px-6 mb-8 flex-row items-center"
                 &gt;
                     {/* 3. 修改头像区域：使用动态数据 */}
-                    &lt;View className="w-24 h-24 rounded-full bg-gray-700 border-2 border-[#CCFF00] overflow-hidden mr-5 justify-center items-center"&gt;
+                    &lt;View className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-[#16a34a] dark:border-[#CCFF00] overflow-hidden mr-5 justify-center items-center"&gt;
                         &lt;Image
                             source={{ uri: avatarUrl }}
                             className="w-full h-full"
                         /&gt;
                     &lt;/View&gt;
                     &lt;View&gt;
-                        &lt;Text className="text-white text-2xl font-bold mb-1"&gt;{nickname}&lt;/Text&gt;
-                        &lt;Text className="text-gray-400"&gt;{userId}&lt;/Text&gt;
-                        &lt;View className="bg-[#CCFF00]/20 px-3 py-1 rounded-full self-start mt-2"&gt;
-                            &lt;Text className="text-[#CCFF00] text-xs font-bold"&gt;PRO 会员&lt;/Text&gt;
+                        &lt;Text className="text-black dark:text-white text-2xl font-bold mb-1"&gt;{nickname}&lt;/Text&gt;
+                        &lt;Text className="text-gray-500 dark:text-gray-400"&gt;{userId}&lt;/Text&gt;
+                        &lt;View className="bg-[#16a34a]/20 dark:bg-[#CCFF00]/20 px-3 py-1 rounded-full self-start mt-2"&gt;
+                            &lt;Text className="text-[#16a34a] dark:text-[#CCFF00] text-xs font-bold"&gt;PRO 会员&lt;/Text&gt;
                         &lt;/View&gt;
                     &lt;/View&gt;
                 &lt;/TouchableOpacity&gt;
 &nbsp;
                 {/* 4. 修改统计卡片：添加点击跳转事件 */}
                 &lt;TouchableOpacity onPress={() =&gt; {
-                    console.log("Hook: Profile Stats Card Pressed");
                     router.push('/profile/stats');
                 }}&gt;
-                    &lt;View className="mx-6 p-6 bg-[#1E1E1E] rounded-3xl border border-gray-800 mb-8 flex-row justify-between"&gt;
+                    &lt;View className="mx-6 p-6 bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl border border-gray-200 dark:border-transparent mb-8 flex-row justify-between"&gt;
                         &lt;StatItem value={user?.stats?.totalWorkouts || "0"} label="累计训练" /&gt;
-                        &lt;View className="w-[1px] bg-gray-800 h-full" /&gt;
+                        &lt;View className="w-[1px] bg-gray-300 dark:bg-gray-800 h-full" /&gt;
                         &lt;StatItem value={user?.stats?.accuracyAvg ? `${user.stats.accuracyAvg}%` : "-"} label="动作评分" /&gt;
-                        &lt;View className="w-[1px] bg-gray-800 h-full" /&gt;
+                        &lt;View className="w-[1px] bg-gray-300 dark:bg-gray-800 h-full" /&gt;
                         &lt;StatItem value={user?.stats?.activeDays || "0"} label="活跃天数" /&gt;
 &nbsp;
                         {/* 右上角的小箭头提示可以点击 */}
                         &lt;View className="absolute right-4 top-4 opacity-50"&gt;
-                            &lt;Ionicons name="chevron-forward" size={16} color="gray" /&gt;
+                            &lt;Ionicons name="chevron-forward" size={16} color={isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"gray" </span>: "#999"} /&gt;
                         &lt;/View&gt;
                     &lt;/View&gt;
                 &lt;/TouchableOpacity&gt;
 &nbsp;
                 {/* 菜单列表 */}
                 &lt;View className="px-6"&gt;
-                    &lt;Text className="text-gray-400 mb-4 font-bold ml-2"&gt;常用功能&lt;/Text&gt;
-                    &lt;View className="bg-[#1E1E1E] rounded-3xl overflow-hidden"&gt;
+                    &lt;Text className="text-gray-500 dark:text-gray-400 mb-4 font-bold ml-2"&gt;常用功能&lt;/Text&gt;
+                    &lt;View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl overflow-hidden"&gt;
                         {MENU_ITEMS.map((item, index) =&gt; (
                             &lt;TouchableOpacity
                                 key={item.label}
                                 onPress={() =&gt; {
-                                    console.log(`Hook: Profile Menu Item Pressed - ${item.label}`);
                                     router.push(item.route as any);
                                 }}
-                                className={`flex-row items-center p-5 ${index &lt; MENU_ITEMS.length - 1 ? 'border-b border-gray-800' : ''}`}
+                                className={`flex-row items-center p-5 ${index &lt; MENU_ITEMS.length - 1 ? 'border-b border-gray-200 dark:border-gray-800' : ''}`}
                             &gt;
-                                &lt;View className="w-10 h-10 bg-[#2C2C2C] rounded-full items-center justify-center mr-4"&gt;
-                                    &lt;Ionicons name={item.icon as any} size={20} color="#CCFF00" /&gt;
+                                &lt;View className="w-10 h-10 bg-gray-200 dark:bg-[#2C2C2C] rounded-full items-center justify-center mr-4"&gt;
+                                    &lt;Ionicons name={item.icon as any} size={20} color={isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"#CCFF00" </span>: "#16a34a"} /&gt;
                                 &lt;/View&gt;
-                                &lt;Text className="text-white font-bold text-lg flex-1"&gt;{item.label}&lt;/Text&gt;
-                                &lt;Ionicons name="chevron-forward" size={20} color="#555" /&gt;
+                                &lt;Text className="text-black dark:text-white font-bold text-lg flex-1"&gt;{item.label}&lt;/Text&gt;
+                                &lt;Ionicons name="chevron-forward" size={20} color={isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"#555" </span>: "#ccc"} /&gt;
                             &lt;/TouchableOpacity&gt;
                         ))}
                     &lt;/View&gt;
@@ -425,8 +422,8 @@ export default function ProfileScreen() {
 function StatItem({ value, label }: { value: string, label: string }) {
     return (
         &lt;View className="items-center flex-1"&gt;
-            &lt;Text className="text-[#CCFF00] text-2xl font-black mb-1 italic"&gt;{value}&lt;/Text&gt;
-            &lt;Text className="text-gray-400 text-xs"&gt;{label}&lt;/Text&gt;
+            &lt;Text className="text-[#16a34a] dark:text-[#CCFF00] text-2xl font-black mb-1 italic"&gt;{value}&lt;/Text&gt;
+            &lt;Text className="text-gray-500 dark:text-gray-400 text-xs"&gt;{label}&lt;/Text&gt;
         &lt;/View&gt;
     );
 }</pre></td></tr></table></pre>
@@ -436,7 +433,7 @@ function StatItem({ value, label }: { value: string, label: string }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-03T19:59:33.510Z
+                at 2026-01-08T05:30:51.865Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

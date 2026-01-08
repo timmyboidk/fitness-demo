@@ -106,6 +106,7 @@ export default function WorkoutSession() {
                     <PoseDetectorCamera
                         onInferenceResult={(res) => console.log("Inference:", res)}
                         modelUrl="https://github.com/onnx/models/raw/main/vision/body_analysis/ultraface/models/version-RFB-320.onnx" // Mock URL
+                        facing={facing}
                     />
                 </View>
             )}

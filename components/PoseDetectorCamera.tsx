@@ -1,20 +1,21 @@
-import { InferenceSession } from 'onnxruntime-react-native';
-import { useEffect, useState } from 'react';
+import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Camera, useCameraDevice, useFrameProcessor } from 'react-native-vision-camera';
 import { Worklets } from 'react-native-worklets-core';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
-import { modelService } from '../services/ModelService';
+import { useCameraPermissions } from '../hooks/useCameraPermissions';
+import { usePoseModel } from '../hooks/usePoseModel';
 
 interface PoseDetectorCameraProps {
     onInferenceResult?: (result: any) => void;
     modelUrl?: string; // Optional: download URL if not cached
+    facing?: 'front' | 'back';
 }
 
-export function PoseDetectorCamera({ onInferenceResult, modelUrl }: PoseDetectorCameraProps) {
-    const device = useCameraDevice('front');
-    const [hasPermission, setHasPermission] = useState(false);
-    const [session, setSession] = useState<InferenceSession | null>(null);
+export const PoseDetectorCamera = memo(function PoseDetectorCamera({ onInferenceResult, modelUrl, facing = 'back' }: PoseDetectorCameraProps) {
+    const device = useCameraDevice(facing);
+    const hasPermission = useCameraPermissions();
+    const session = usePoseModel(modelUrl);
     const { resize } = useResizePlugin();
 
     const handleInference = Worklets.createRunOnJS((output: any) => {
@@ -22,23 +23,6 @@ export function PoseDetectorCamera({ onInferenceResult, modelUrl }: PoseDetector
             onInferenceResult(output);
         }
     });
-
-    useEffect(() => {
-        (async () => {
-            const status = await Camera.requestCameraPermission();
-            setHasPermission(status === 'granted');
-
-            // Load Model
-            try {
-                const modelPath = await modelService.loadModel(modelUrl || "https://example.com/model.onnx"); // Replace with actual default or prop
-                const sess = await modelService.createSession(modelPath);
-                setSession(sess);
-                console.log("Model loaded successfully");
-            } catch (e) {
-                console.error("Failed to load model", e);
-            }
-        })();
-    }, []);
 
     const frameProcessor = useFrameProcessor((frame) => {
         'worklet';
@@ -78,22 +62,28 @@ export function PoseDetectorCamera({ onInferenceResult, modelUrl }: PoseDetector
         // Actual inference on JS thread:
         // runOnJS(runInference)(resizedArray);
 
-        console.log(`Frame: ${frame.width}x${frame.height} -> Resized: ${resized.width}x${resized.height}`);
+        // console.log causes issues in worklets if not careful, but typically safe in RN dev mode.
+        // Ideally we'd use a worklet-safe logger, but for this step we'll stick to console in worklets
+        // or use runOnJS to log via our service if strictly needed.
+        // For performance, logging every frame is bad practice. We'll comment it out or reduce it.
+        // console.log(`Frame: ${frame.width}x${frame.height} -> Resized: ${resized.width}x${resized.height}`);
     }, [session]);
 
     if (!hasPermission) return <View style={styles.center}><Text>No Camera Permission</Text></View>;
     if (!device) return <View style={styles.center}><Text>No Device Found</Text></View>;
 
     return (
-        <Camera
-            style={StyleSheet.absoluteFill}
-            device={device}
-            isActive={true}
-            frameProcessor={frameProcessor}
-            pixelFormat="yuv" // VisionCamera standard
-        />
+        <View style={StyleSheet.absoluteFill}>
+            <Camera
+                style={StyleSheet.absoluteFill}
+                device={device}
+                isActive={true}
+                frameProcessor={frameProcessor}
+                pixelFormat="yuv" // VisionCamera standard
+            />
+        </View>
     );
-}
+});
 
 const styles = StyleSheet.create({
     center: {

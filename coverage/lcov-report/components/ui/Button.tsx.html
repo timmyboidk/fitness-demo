@@ -116,7 +116,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,29 +128,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,8 +159,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { TouchableOpacity, Text, TouchableOpacityProps, View } from 'react-native';
-import { clsx, type ClassValue } from 'clsx';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { clsx, type ClassValue } from 'clsx';
+import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 &nbsp;
 function cn(...inputs: ClassValue[]) {
@@ -179,9 +179,9 @@ export function Button({ className, variant = 'primary', size = 'default', label
     const baseStyles = "flex-row items-center justify-center rounded-full active:opacity-80";
 &nbsp;
     const variants = {
-        primary: "bg-[#CCFF00] text-black",
-        secondary: "bg-[#1E1E1E] border border-gray-700",
-        outline: "border border-gray-600 bg-transparent",
+        primary: "bg-[#16a34a] dark:bg-[#CCFF00] text-white dark:text-black", // Brand color adaption
+        secondary: "bg-gray-100 dark:bg-[#1C1C1E] border border-gray-200 dark:border-transparent",
+        outline: "border border-gray-300 dark:border-gray-600 bg-transparent",
         ghost: "bg-transparent"
     };
 &nbsp;
@@ -192,10 +192,10 @@ export function Button({ className, variant = 'primary', size = 'default', label
     };
 &nbsp;
     const textStyles = {
-        primary: "text-black font-bold text-lg",
-        secondary: "text-white font-bold text-lg",
-        outline: "text-white font-medium",
-        ghost: "text-gray-400 font-medium"
+        primary: "text-white dark:text-black font-bold text-lg",
+        secondary: "text-black dark:text-white font-bold text-lg",
+        outline: "text-black dark:text-white font-medium",
+        ghost: "text-gray-500 dark:text-gray-400 font-medium"
     };
 &nbsp;
     return (
@@ -214,7 +214,7 @@ export function Button({ className, variant = 'primary', size = 'default', label
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-03T19:59:33.510Z
+                at 2026-01-08T05:30:51.865Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -1,6 +1,7 @@
+import { FlashList } from '@shopify/flash-list';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Text, useColorScheme, View } from 'react-native';
+import { Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../components/MoveItem';
 import { libraryStore, Move } from '../store/library';
@@ -32,20 +33,24 @@ export default function AddMoveScreen() {
                         <Text className="text-gray-500 text-lg">所有动作已添加</Text>
                     </View>
                 ) : (
-                    <FlatList
-                        data={moves}
-                        numColumns={2}
-                        keyExtractor={item => item.id}
-                        columnWrapperStyle={{ justifyContent: 'space-between' }}
-                        renderItem={({ item }) => (
-                            <MoveItem
-                                item={item}
-                                onPress={() => { }}
-                                showAddButton={true}
-                                onAdd={() => handleAdd(item.id)}
-                            />
-                        )}
-                    />
+                    <View style={{ flex: 1, minHeight: 2 }}>
+                        <FlashList
+                            data={moves}
+                            numColumns={2}
+                            keyExtractor={item => item.id}
+                            estimatedItemSize={200}
+                            renderItem={({ item }) => (
+                                <View style={{ flex: 1, padding: 4 }}>
+                                    <MoveItem
+                                        item={item}
+                                        onPress={() => { }}
+                                        showAddButton={true}
+                                        onAdd={() => handleAdd(item.id)}
+                                    />
+                                </View>
+                            )}
+                        />
+                    </View>
                 )}
             </View>
         </SafeAreaView>

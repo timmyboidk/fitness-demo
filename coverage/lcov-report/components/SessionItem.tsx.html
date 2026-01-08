@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>10/11</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -125,7 +125,10 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,6 +143,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -189,7 +195,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Session } from '../store/library';
 &nbsp;
 interface SessionItemProps {
@@ -203,26 +209,29 @@ interface SessionItemProps {
 &nbsp;
 export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: SessionItemProps) {
     const handlePress = onPress || (() =&gt; router.push(`/workout/${item.id}?mode=session`));
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const highlightColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >"#CCFF00" </span>: "#16a34a";
 &nbsp;
     return (
         &lt;TouchableOpacity
             onPress={handlePress}
-            className="w-full bg-[#1E1E1E] mb-4 p-5 rounded-3xl flex-row justify-between items-center border border-gray-800"
+            className="w-full bg-gray-50 dark:bg-[#1C1C1E] mb-4 p-5 rounded-3xl flex-row justify-between items-center border border-gray-200 dark:border-transparent"
         &gt;
             &lt;View className="flex-row items-center flex-1"&gt;
                 {/* Left Decoration Bar */}
                 &lt;View className="w-1 h-12 rounded-full mr-4" style={{ backgroundColor: item.color }} /&gt;
 &nbsp;
                 &lt;View&gt;
-                    &lt;Text className="text-white font-bold text-xl mb-2"&gt;{item.name}&lt;/Text&gt;
+                    &lt;Text className="text-black dark:text-white font-bold text-xl mb-2"&gt;{item.name}&lt;/Text&gt;
                     &lt;View className="flex-row space-x-4"&gt;
                         &lt;View className="flex-row items-center"&gt;
                             &lt;SymbolView name={"clock" as any} size={14} tintColor="#888" style={{ marginRight: 4 }} /&gt;
-                            &lt;Text className="text-gray-400 text-xs"&gt;{item.time}&lt;/Text&gt;
+                            &lt;Text className="text-gray-500 dark:text-gray-400 text-xs"&gt;{item.time}&lt;/Text&gt;
                         &lt;/View&gt;
                         &lt;View className="flex-row items-center"&gt;
                             &lt;SymbolView name={"square.stack.3d.up" as any} size={14} tintColor="#888" style={{ marginRight: 4 }} /&gt;
-                            &lt;Text className="text-gray-400 text-xs"&gt;{item.count}&lt;/Text&gt;
+                            &lt;Text className="text-gray-500 dark:text-gray-400 text-xs"&gt;{item.count}&lt;/Text&gt;
                         &lt;/View&gt;
                     &lt;/View&gt;
                 &lt;/View&gt;
@@ -231,7 +240,7 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
             {/* Action Buttons Area */}
             {showAddButton &amp;&amp; (
                 &lt;TouchableOpacity onPress={onAdd}&gt;
-                    &lt;SymbolView name={"plus.circle.fill" as any} size={30} tintColor="#CCFF00" /&gt;
+                    &lt;SymbolView name={"plus.circle.fill" as any} size={30} tintColor={highlightColor} /&gt;
                 &lt;/TouchableOpacity&gt;
             )}
 &nbsp;
@@ -242,7 +251,7 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
             )}
 &nbsp;
             {!showAddButton &amp;&amp; !showRemoveButton &amp;&amp; (
-                &lt;View className="w-12 h-12 rounded-full bg-white/10 items-center justify-center"&gt;
+                &lt;View className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 items-center justify-center"&gt;
                     &lt;SymbolView name={"play.fill" as any} size={24} tintColor={item.color} style={{ marginLeft: 4 }} /&gt;
                 &lt;/View&gt;
             )}
@@ -256,7 +265,7 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-03T19:59:33.510Z
+                at 2026-01-08T05:30:51.865Z
             </div>
         <script src="../prettify.js"></script>
         <script>
