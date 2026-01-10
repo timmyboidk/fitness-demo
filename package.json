@@ -13,11 +13,13 @@
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-community/netinfo": "^11.4.1",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/material-top-tabs": "^7.4.11",
     "@react-navigation/native": "^7.1.8",
     "@shopify/flash-list": "^2.2.0",
+    "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "expo": "~54.0.31",
     "expo-blur": "~15.0.8",
@@ -30,6 +32,7 @@
     "expo-linear-gradient": "~15.0.8",
     "expo-linking": "~8.0.11",
     "expo-router": "~6.0.21",
+    "expo-secure-store": "^15.0.8",
     "expo-splash-screen": "~31.0.13",
     "expo-status-bar": "~3.0.9",
     "expo-symbols": "~1.0.8",
@@ -52,6 +55,7 @@
     "react-native-worklets-core": "^1.6.2",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^3.3.2",
+    "uuid": "^13.0.0",
     "vision-camera-resize-plugin": "^3.2.0"
   },
   "devDependencies": {
