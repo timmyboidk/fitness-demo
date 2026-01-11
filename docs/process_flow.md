@@ -14,37 +14,37 @@ graph TD
     classDef service fill:#bbf,stroke:#333,stroke-width:2px;
     classDef infrastructure fill:#fbb,stroke:#333,stroke-width:2px;
 
-    subgraph 表现层 [表现层 (UI/App)]
+    subgraph UI_Layer [表现层 (UI/App)]
         direction TB
-        AppEntry[应用入口 (App.tsx)]:::app --> AuthScreen[认证页面]:::app
-        AppEntry --> MainTabs[主导航]:::app
-        MainTabs --> WorkoutScreen[训练页面]:::app
+        AppEntry["应用入口 (App.tsx)"]:::app --> AuthScreen["认证页面"]:::app
+        AppEntry --> MainTabs["主导航"]:::app
+        MainTabs --> WorkoutScreen["训练页面"]:::app
     end
 
-    subgraph 组件层 [组件层 (Components)]
-        WorkoutScreen --> PoseCamera[姿态检测相机<br/>(PoseDetectorCamera)]:::component
+    subgraph Component_Layer [组件层 (Components)]
+        WorkoutScreen --> PoseCamera["姿态检测相机<br/>(PoseDetectorCamera)"]:::component
     end
 
-    subgraph 服务层 [服务层 (Services)]
-        PoseCamera --> AIScoring[AI评分服务<br/>(AIScoringService)]:::service
-        PoseCamera --> DataCollector[数据采集服务<br/>(DataCollector)]:::service
+    subgraph Service_Layer [服务层 (Services)]
+        PoseCamera --> AIScoring["AI评分服务<br/>(AIScoringService)"]:::service
+        PoseCamera --> DataCollector["数据采集服务<br/>(DataCollector)"]:::service
         
-        AIScoring -.-> Logic{评分逻辑}
+        AIScoring -.-> Logic{"评分逻辑"}
         
-        DataCollector --> Privacy[隐私脱敏处理]:::service
-        Privacy --> Buffer[本地缓冲]:::service
+        DataCollector --> Privacy["隐私脱敏处理"]:::service
+        Privacy --> Buffer["本地缓冲"]:::service
         
-        ModelUpdater[模型更新服务<br/>(ModelUpdater)]:::service
+        ModelUpdater["模型更新服务<br/>(ModelUpdater)"]:::service
     end
 
-    subgraph 基础设施与后端 [基础设施 (Infra & Backend)]
-        AuthService[认证服务]:::service --> APIClient[API客户端]:::infrastructure
+    subgraph Infra_Layer [基础设施与后端 (Infra & Backend)]
+        AuthService["认证服务"]:::service --> APIClient["API客户端"]:::infrastructure
         AIScoring --> APIClient
         Buffer --> APIClient
         ModelUpdater --> APIClient
-        ModelUpdater --> FileSystem[本地文件系统]:::infrastructure
+        ModelUpdater --> FileSystem["本地文件系统"]:::infrastructure
         
-        APIClient --> BackendServer((后端服务器)):::infrastructure
+        APIClient --> BackendServer(("后端服务器")):::infrastructure
     end
 
     %% 关系连线
