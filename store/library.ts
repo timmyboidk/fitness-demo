@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface Move {
     id: string;
@@ -96,15 +97,45 @@ class LibraryStore {
     listeners: (() => void)[] = [];
 
     async sync() {
-        const data = await libraryService.fetchLibrary();
-        if (data) {
-            if (data.moves) {
-                this.moves = data.moves;
+        try {
+            const userStr = await AsyncStorage.getItem('user');
+            let difficultyLevel;
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                difficultyLevel = user.difficultyLevel;
             }
-            if (data.sessions) {
-                this.sessions = data.sessions;
+
+            const data = await libraryService.fetchLibrary(difficultyLevel);
+            if (data) {
+                if (data.moves) {
+                    // Update moves, preserving isVisible if it matched by id
+                    this.moves = data.moves.map(newMove => {
+                        const existing = this.moves.find(m => m.id === newMove.id);
+                        return {
+                            ...newMove,
+                            isVisible: existing ? existing.isVisible : (newMove as any).isVisible || false,
+                            level: (newMove as any).level || '全等级',
+                            icon: (newMove as any).icon || 'figure.run'
+                        };
+                    });
+                }
+                if (data.sessions) {
+                    this.sessions = data.sessions.map(newSession => {
+                        const existing = this.sessions.find(s => s.id === newSession.id);
+                        return {
+                            ...newSession,
+                            isVisible: existing ? existing.isVisible : (newSession as any).isVisible || false,
+                            time: (newSession as any).time || `${newSession.duration} 分钟`,
+                            count: (newSession as any).count || '多个动作',
+                            color: (newSession as any).color || '#CCFF00',
+                            moveIds: (newSession as any).moveIds || []
+                        };
+                    });
+                }
+                this.notify();
             }
-            this.notify();
+        } catch (e) {
+            console.error('LibraryStore sync error:', e);
         }
     }
 

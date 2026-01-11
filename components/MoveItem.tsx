@@ -22,6 +22,7 @@ export function MoveItem({ item, onPress, showAddButton, onAdd, showRemoveButton
     return (
         <TouchableOpacity
             onPress={handlePress}
+            testID={`move-item-${item.id}`}
             className="w-[48%] bg-gray-50 dark:bg-[#1C1C1E] mb-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-transparent"
         >
             <View className="h-32 items-center justify-center bg-gray-200 dark:bg-[#252525]">

@@ -6,11 +6,13 @@ import React from 'react';
 import { Alert } from 'react-native';
 import LoginScreen from '../(auth)/login';
 import MovesScreen from '../(tabs)/index';
+import client from '../../services/api/client';
 
 // --- Integrated Test Mocks ---
 
-// Mock fetch globally
-global.fetch = jest.fn();
+// Mock client
+jest.mock('../../services/api/client');
+const mockedClient = client as jest.Mocked<typeof client>;
 
 // Mock Alert.alert
 jest.spyOn(Alert, 'alert');
@@ -30,8 +32,8 @@ describe('Full Integrated Application Flow', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        // Totally reset the implementation to avoid leakage
-        (global.fetch as jest.Mock).mockReset();
+        mockedClient.post.mockReset();
+        mockedClient.get.mockReset();
     });
 
     /**
@@ -42,9 +44,8 @@ describe('Full Integrated Application Flow', () => {
         it('should log in successfully with valid phone and OTP', async () => {
             // Given: API will return success
             const mockUser = { id: 'u1', nickname: 'BetaTester', token: 'jwt-123' };
-            (global.fetch as jest.Mock).mockResolvedValue({
-                ok: true,
-                json: async () => ({ success: true, user: mockUser }),
+            mockedClient.post.mockResolvedValueOnce({
+                data: { success: true, data: { id: 'u1', nickname: 'BetaTester', token: 'jwt-123' } },
             });
 
             // When: Render Login screen
@@ -66,9 +67,9 @@ describe('Full Integrated Application Flow', () => {
             // Then: Verify Integrated Side Effects
             await waitFor(() => {
                 // 1. Network called correctly
-                expect(global.fetch).toHaveBeenCalledWith(
-                    expect.stringContaining('/api/auth'),
-                    expect.objectContaining({ method: 'POST' })
+                expect(mockedClient.post).toHaveBeenCalledWith(
+                    '/api/auth',
+                    expect.objectContaining({ type: 'login_phone' })
                 );
                 // 2. Data persisted
                 expect(AsyncStorage.setItem).toHaveBeenCalledWith('user', JSON.stringify(mockUser));
@@ -86,9 +87,8 @@ describe('Full Integrated Application Flow', () => {
 
         it('should handle API errors gracefully', async () => {
             // Given: API returns an error
-            (global.fetch as jest.Mock).mockResolvedValue({
-                ok: true,
-                json: async () => ({ success: false, error: 'Wrong code' }),
+            mockedClient.post.mockResolvedValueOnce({
+                data: { success: false, message: 'Wrong code' },
             });
 
             const { getByPlaceholderText, getByText } = render(<LoginScreen />);
@@ -115,9 +115,8 @@ describe('Full Integrated Application Flow', () => {
             const mockMoves = [
                 { id: 'm_int', name: 'Integrated Move', level: 'Beginner', icon: 'figure.run', isVisible: true },
             ];
-            (global.fetch as jest.Mock).mockResolvedValue({
-                ok: true,
-                json: async () => ({ moves: mockMoves, sessions: [] }),
+            mockedClient.get.mockResolvedValueOnce({
+                data: { success: true, data: { moves: mockMoves, sessions: [] } },
             });
 
             // When: Render Moves screen (subscribed to libraryStore)
@@ -136,7 +135,7 @@ describe('Full Integrated Application Flow', () => {
             expect(moveUI).toBeTruthy();
 
             // And: Verify network was called
-            expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/api/library'));
+            expect(mockedClient.get).toHaveBeenCalledWith('/api/library', expect.any(Object));
         });
 
         it('should allow user to toggle visibility which updates both store and UI', async () => {

@@ -21,6 +21,7 @@ export default function MovesScreen() {
     return (
         <View className="flex-1 bg-white dark:bg-black px-4 pt-4">
             <FlatList
+                testID="moves-list"
                 data={moves}
                 numColumns={2}
                 keyExtractor={item => item.id}

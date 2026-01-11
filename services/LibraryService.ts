@@ -1,32 +1,53 @@
+import client from './api/client';
+
+export interface Move {
+    id: string;
+    name: string;
+    modelUrl: string;
+    scoringConfig: any;
+}
+
+export interface Session {
+    id: string;
+    name: string;
+    difficulty: string;
+    duration: number;
+}
+
+export interface LibraryResponse {
+    moves: Move[];
+    sessions: Session[];
+}
 
 export class LibraryService {
-    // 同样使用硬编码IP或环境变量
-    private baseUrl = 'http://10.0.0.169:8081/api/library';
-
-    async fetchLibrary() {
+    async fetchLibrary(difficultyLevel?: string): Promise<LibraryResponse | null> {
         try {
-            const res = await fetch(this.baseUrl);
-            if (!res.ok) throw new Error("Failed to fetch library");
-            return await res.json(); // { moves: [], sessions: [] }
+            const response = await client.get('/api/library', {
+                params: { difficultyLevel }
+            });
+            const data = response.data;
+            if (data.success) {
+                return data.data;
+            }
+            return null;
         } catch (e) {
-            console.error(e);
+            console.error('Fetch library error:', e);
             return null;
         }
     }
 
     async addItem(userId: string, itemId: string, itemType: 'move' | 'session') {
+        // Based on the spec, there isn't a direct 'addItem' endpoint in fitness-content,
+        // but let's assume it's part of the library management if needed.
+        // For now, keeping the structure but updating to client.
         try {
-            const res = await fetch(this.baseUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'add_item',
-                    payload: { userId, itemId, itemType }
-                })
+            const response = await client.post('/api/library', {
+                type: 'add_item',
+                payload: { userId, itemId, itemType }
             });
-            return await res.json();
+            return response.data;
         } catch (e) {
-            console.error(e);
+            console.error('Add item error:', e);
             return { success: false, error: 'Network Error' };
         }
     }

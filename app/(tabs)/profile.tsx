@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 
 const MENU_ITEMS = [
+    { icon: 'fitness-outline', label: '健身基础', route: '/onboarding/difficulty' },
     { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
     { icon: 'trophy-outline', label: '排行榜', route: '/profile/leaderboard' },
     { icon: 'share-social-outline', label: '社交账号', route: '/profile/social' },
@@ -93,6 +94,7 @@ export default function ProfileScreen() {
                         {MENU_ITEMS.map((item, index) => (
                             <TouchableOpacity
                                 key={item.label}
+                                testID={`menu-item-${item.label}`}
                                 onPress={() => {
                                     router.push(item.route as any);
                                 }}

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { useCameraPermissions } from 'expo-camera'; // Keep valid permission hook or replace if totally removing expo-camera
 import { router, useLocalSearchParams } from 'expo-router';
@@ -8,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PoseDetectorCamera } from '../../components/PoseDetectorCamera';
 import { Button } from '../../components/ui/Button';
 import { aiScoringService } from '../../services/AIScoringService';
+import { Collector } from '../../services/analytics/DataCollector';
 import { libraryStore } from '../../store/library';
 
 export default function WorkoutSession() {
@@ -34,22 +36,38 @@ export default function WorkoutSession() {
     const [isPlaying, setIsPlaying] = useState(false);
 
     // AI Scoring Hook (Mock integration)
+    // AI Scoring State
+    const [lastScore, setLastScore] = useState<number | null>(null);
+    const [feedback, setFeedback] = useState<string[]>([]);
+    const [latestKeypoints, setLatestKeypoints] = useState<any[]>([]);
+
     const scoreCurrentMove = async () => {
         if (!sequence[currentMoveIndex]) return;
 
-
         try {
+            const userStr = await AsyncStorage.getItem('user');
+            const userId = userStr ? JSON.parse(userStr).id : 'anonymous';
+
             const response = await aiScoringService.scoreMove({
                 moveId: sequence[currentMoveIndex].id,
-                sessionId: mode === 'session' ? (id as string) : undefined,
-                timestamp: Date.now(),
                 data: {
-                    frame: "mock_base64_frame_data"
+                    keypoints: latestKeypoints.length > 0 ? latestKeypoints : [
+                        { x: 0.5, y: 0.5, score: 0.9 } // Fallback mock
+                    ],
+                    userId: userId
                 }
             });
 
             if (response.success) {
+                setLastScore(response.score);
+                setFeedback(response.feedback);
 
+                // Track data for analytics
+                Collector.track('score', {
+                    moveId: sequence[currentMoveIndex].id,
+                    score: response.score,
+                    feedback: response.feedback
+                });
             }
         } catch (error) {
             console.error("AI Scoring failed", error);
@@ -104,7 +122,11 @@ export default function WorkoutSession() {
             {isFocused && (
                 <View style={{ position: 'absolute', width: '100%', height: '100%' }}>
                     <PoseDetectorCamera
-                        onInferenceResult={(res) => console.log("Inference:", res)}
+                        onInferenceResult={(res) => {
+                            if (res && res.keypoints) {
+                                setLatestKeypoints(res.keypoints);
+                            }
+                        }}
                         modelUrl="https://github.com/onnx/models/raw/main/vision/body_analysis/ultraface/models/version-RFB-320.onnx" // Mock URL
                         facing={facing}
                     />
@@ -178,9 +200,17 @@ export default function WorkoutSession() {
                 <View className="w-full px-6 pb-4">
                     <View className="bg-black/80 rounded-3xl p-5 flex-row justify-between items-center mb-6 backdrop-blur-md border border-gray-800">
                         <StatItem label="次数" value="0" />
-                        <StatItem label="标准度" value="--%" color="#CCFF00" />
+                        <StatItem label="标准度" value={lastScore ? `${lastScore}%` : "--%"} color="#CCFF00" />
                         <StatItem label="耗时" value="00:00" />
                     </View>
+
+                    {feedback.length > 0 && (
+                        <View className="bg-[#CCFF00] rounded-2xl p-4 mb-6">
+                            <Text className="text-black font-bold text-base">
+                                {feedback[0]}
+                            </Text>
+                        </View>
+                    )}
 
                     <View className="flex-row justify-around items-center">
                         <ControlButton icon="camera-reverse-outline" onPress={handleReverseCamera} />
@@ -188,12 +218,13 @@ export default function WorkoutSession() {
                         {/* Play/Pause Button */}
                         <TouchableOpacity
                             onPress={handlePlayPause}
+                            testID="play-pause-button"
                             className="w-20 h-20 bg-[#CCFF00] rounded-full items-center justify-center shadow-lg shadow-[#CCFF00]/40"
                         >
                             <Ionicons name={isPlaying ? "pause" : "play"} size={36} color="black" />
                         </TouchableOpacity>
 
-                        <ControlButton icon="settings-outline" onPress={handleSettingsPress} />
+                        <ControlButton testID="settings-button" icon="settings-outline" onPress={handleSettingsPress} />
                     </View>
                 </View>
             </View>
@@ -227,8 +258,8 @@ const StatItem = ({ label, value, color = 'white' }: any) => (
     </View>
 );
 
-const ControlButton = ({ icon, onPress }: any) => (
-    <TouchableOpacity onPress={onPress} className="w-14 h-14 bg-gray-800/80 rounded-full items-center justify-center border border-gray-700">
+const ControlButton = ({ icon, onPress, testID }: any) => (
+    <TouchableOpacity testID={testID} onPress={onPress} className="w-14 h-14 bg-gray-800/80 rounded-full items-center justify-center border border-gray-700">
         <Ionicons name={icon} size={24} color="white" />
     </TouchableOpacity>
 );

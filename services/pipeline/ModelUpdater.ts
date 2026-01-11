@@ -1,17 +1,22 @@
 import * as FileSystem from 'expo-file-system';
+import client from '../api/client';
 
-// Mock API function for checkVersion since api/models might not exist yet
 async function checkVersion(platform: string, currentVersion: string) {
-    // In real app, fetch from /api/core/models/latest
-    return {
-        hasUpdate: false,
-        data: {
-            version: '1.0.0',
-            downloadUrl: '',
-            md5: ''
+    try {
+        const response = await client.get('/api/core/models/latest', {
+            params: { platform, currentVersion }
+        });
+        const data = response.data;
+        if (data.success) {
+            return data.data; // { hasUpdate, data: { version, downloadUrl, md5 } }
         }
-    };
+        return { hasUpdate: false };
+    } catch (e) {
+        console.error('Check version error:', e);
+        return { hasUpdate: false };
+    }
 }
+
 // Placeholder for reload
 async function reloadInferenceSession(uri: string) {
     console.log('Reloading session with model at:', uri);
@@ -21,9 +26,10 @@ const currentLocalVersion = "1.0.0";
 
 export async function checkAndUpdateModel() {
     // 1. 检查云端版本
-    const { hasUpdate, data } = await checkVersion('ios', currentLocalVersion);
-    if (!hasUpdate) return;
+    const result = await checkVersion('ios', currentLocalVersion);
+    if (!result.hasUpdate) return;
 
+    const data = result.data;
     if (!data.downloadUrl) return;
 
     // 2. 下载新模型到应用沙盒

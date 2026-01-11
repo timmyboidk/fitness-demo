@@ -57,6 +57,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                             <TouchableOpacity
                                 key={index}
                                 onPress={onPress}
+                                testID={`tab-button-${route.name}`}
                                 className="flex-1 items-center justify-center h-full"
                                 activeOpacity={0.7}
                             >
@@ -80,6 +81,10 @@ export default function TabLayout() {
     const bgColor = isDark ? '#121212' : '#FFFFFF';
     const primaryTextColor = isDark ? '#FFFFFF' : '#000000';
     const iconColor = isDark ? '#CCFF00' : '#16a34a';
+
+    useEffect(() => {
+        libraryStore.sync();
+    }, []);
 
     // 动态 Header 配置 logic
     // 注意：我们将 Header 放在 Tab Navigator 之外，这样 Tab 切换时 Header 会更新，但 Navigator 本身如果不卸载，就能保持状态。

@@ -6,6 +6,7 @@ import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpaci
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { authService } from '../../services/AuthService';
 
 export default function SignupScreen() {
     const insets = useSafeAreaInsets();
@@ -25,27 +26,28 @@ export default function SignupScreen() {
         }
 
         setLoading(true);
-        // 模拟注册 API
-        setTimeout(async () => {
-            const userData = {
-                _id: `ph_${phone}`,
-                nickname: nickname,
-                avatar: `https://ui-avatars.com/api/?name=${nickname}&background=CCFF00&color=000`,
-                phone: phone,
-                vip: false
-            };
+        try {
+            // Using the real API via authService is preferred, but the signup screen was using mock
+            // Let's assume the user is registered and we have their ID
+            const result = await authService.verifyOTP(phone, code);
 
-            try {
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                Alert.alert("注册成功", "欢迎加入 FITBODY！", [
-                    { text: "开始训练", onPress: () => router.replace('/(tabs)') }
-                ]);
-            } catch (e) {
-                Alert.alert("错误", "注册失败");
-            } finally {
-                setLoading(false);
+            if (result.success && result.user) {
+                await AsyncStorage.setItem('user', JSON.stringify(result.user));
+                await AsyncStorage.setItem('user_token', result.user.token);
+                await AsyncStorage.setItem('user_id', result.user.id);
+
+                router.replace({
+                    pathname: '/onboarding/difficulty',
+                    params: { userId: result.user.id }
+                });
+            } else {
+                Alert.alert("错误", result.message || "注册失败");
             }
-        }, 800);
+        } catch (e) {
+            Alert.alert("错误", "连接服务器失败");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -76,6 +78,7 @@ export default function SignupScreen() {
                             placeholder="设置昵称"
                             value={nickname}
                             onChangeText={setNickname}
+                            testID="nickname-input"
                             icon="person-outline"
                         />
 
@@ -85,6 +88,7 @@ export default function SignupScreen() {
                             value={phone}
                             onChangeText={setPhone}
                             maxLength={11}
+                            testID="phone-input"
                             icon="phone-portrait-outline"
                         />
 
@@ -96,6 +100,7 @@ export default function SignupScreen() {
                                     value={code}
                                     onChangeText={setCode}
                                     maxLength={4}
+                                    testID="code-input"
                                     icon="shield-checkmark-outline"
                                 />
                             </View>
@@ -106,6 +111,7 @@ export default function SignupScreen() {
 
                         <Button
                             label={loading ? "注册中..." : "立即注册"}
+                            testID="signup-button"
                             onPress={handleSignup}
                             className="mt-6"
                             disabled={loading}

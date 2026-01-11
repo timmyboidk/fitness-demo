@@ -1,0 +1,13 @@
+appId: com.anonymous.fitness-demo
+---
+- launchApp
+- tapOn: "跑步" # Assuming "跑步" is in the moves-list
+- assertVisible: "AI 实时监控中"
+- tapOn: "play-pause-button"
+- assertVisible: "pause"
+- tapOn: "settings-button"
+- assertVisible: "训练设置"
+- tapOn: "switch-开启语音指导"
+- tapOn: "close-circle"
+- tapOn: "close"
+- assertVisible: "moves-list"

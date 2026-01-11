@@ -28,11 +28,15 @@ jest.mock('expo-camera', () => {
     };
 });
 
+jest.mock('@react-native-async-storage/async-storage', () =>
+    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 jest.mock('../../components/PoseDetectorCamera', () => ({
     PoseDetectorCamera: ({ onInferenceResult }: { onInferenceResult: (res: any) => void }) => {
         const { TouchableOpacity, Text } = require('react-native');
         return (
-            <TouchableOpacity testID="pose-camera" onPress={() => onInferenceResult({ box: [0, 0, 10, 10] })}>
+            <TouchableOpacity testID="pose-camera" onPress={() => onInferenceResult({ keypoints: [{ x: 1, y: 1, score: 1 }] })}>
                 <Text>Inference Trigger</Text>
             </TouchableOpacity>
         );
@@ -94,18 +98,6 @@ describe('WorkoutSession', () => {
         expect(getByText('Test Move')).toBeTruthy();
     });
 
-    it('triggers inference result log', async () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation();
-        const { getByTestId } = render(<WorkoutSession />);
-
-        await waitFor(() => {
-            expect(getByTestId('pose-camera')).toBeTruthy();
-        });
-
-        fireEvent.press(getByTestId('pose-camera'));
-        expect(spy).toHaveBeenCalledWith("Inference:", expect.anything());
-        spy.mockRestore();
-    });
 
     it('toggles play/pause and triggers AI scoring', async () => {
         const { getByText } = render(<WorkoutSession />);

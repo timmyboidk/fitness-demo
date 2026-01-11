@@ -119,6 +119,7 @@ export default function LoginScreen() {
                             value={phone}
                             onChangeText={setPhone}
                             maxLength={11}
+                            testID="phone-input"
                             icon="call-outline"
                         />
 
@@ -130,10 +131,12 @@ export default function LoginScreen() {
                                     value={code}
                                     onChangeText={setCode}
                                     maxLength={4}
+                                    testID="code-input"
                                     icon="key-outline"
                                 />
                             </View>
                             <TouchableOpacity
+                                testID="send-code-button"
                                 onPress={handleSendCode}
                                 disabled={isTimerRunning}
                                 className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 ${isTimerRunning ? 'bg-gray-200 dark:bg-gray-800' : 'bg-gray-100 dark:bg-[#1E1E1E] active:bg-gray-200 dark:active:bg-gray-800'}`}
@@ -146,6 +149,7 @@ export default function LoginScreen() {
 
                         <Button
                             label={loading ? "登录中..." : "登 录"}
+                            testID="login-button"
                             onPress={() => handleLogin('phone')}
                             className="mt-4"
                             disabled={loading}

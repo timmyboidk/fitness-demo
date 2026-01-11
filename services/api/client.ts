@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 const client = axios.create({
-    baseURL: 'https://api.fitness.com',
+    baseURL: 'http://10.0.0.169:8080',
     timeout: 10000,
 });
 

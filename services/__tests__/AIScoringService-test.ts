@@ -1,21 +1,46 @@
 import { aiScoringService } from '../AIScoringService';
+import client from '../api/client';
 
-// We don't need to mock internals if they are self-contained logic, unless it calls external APIs.
-// The service currently uses setTimeout and Math.random.
-// We should probably mock Math.random to get consistent scores?
-// But it's hard to strict equal check randoms. We can check range.
+jest.mock('../api/client');
+const mockedClient = client as jest.Mocked<typeof client>;
 
 describe('AIScoringService', () => {
-    it('returns a score within range', async () => {
+    it('returns a score from backend', async () => {
+        mockedClient.post.mockResolvedValueOnce({
+            data: {
+                success: true,
+                data: {
+                    success: true,
+                    score: 95,
+                    feedback: ['Great form']
+                }
+            }
+        });
+
         const result = await aiScoringService.scoreMove({
-            moveId: '1',
-            timestamp: 123,
-            data: {}
+            moveId: 'm_squat',
+            data: {
+                keypoints: [],
+                userId: '1'
+            }
         });
 
         expect(result.success).toBe(true);
-        expect(result.score).toBeGreaterThanOrEqual(70);
-        expect(result.score).toBeLessThanOrEqual(100);
-        expect(result.feedback.length).toBeGreaterThan(0);
+        expect(result.score).toBe(95);
+        expect(result.feedback[0]).toBe('Great form');
+    });
+
+    it('handles service errors', async () => {
+        mockedClient.post.mockResolvedValueOnce({
+            data: { success: false }
+        });
+
+        const result = await aiScoringService.scoreMove({
+            moveId: '1',
+            data: { keypoints: [], userId: '1' }
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.feedback[0]).toContain('不可用');
     });
 });

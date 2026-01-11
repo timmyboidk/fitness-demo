@@ -8,6 +8,10 @@ jest.mock('../../services/LibraryService', () => ({
     },
 }));
 
+jest.mock('@react-native-async-storage/async-storage', () =>
+    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 describe('LibraryStore', () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -75,16 +79,16 @@ describe('LibraryStore', () => {
 
         await libraryStore.sync();
         expect(libraryService.fetchLibrary).toHaveBeenCalled();
-        expect(libraryStore.getMoves()).toEqual(newMoves);
-        expect(libraryStore.getSessions()).toEqual(newSessions);
+        expect(libraryStore.getMoves()).toContainEqual(expect.objectContaining({ id: 'new', name: 'New Move' }));
+        expect(libraryStore.getSessions()).toContainEqual(expect.objectContaining({ id: 's_new', name: 'New Session' }));
     });
 
     it('sync handles partial data (only moves)', async () => {
-        const newMoves = [{ id: 'only_moves' }];
+        const newMoves = [{ id: 'only_moves', name: 'OM' }];
         (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ moves: newMoves });
 
         await libraryStore.sync();
-        expect(libraryStore.getMoves()).toEqual(newMoves);
+        expect(libraryStore.getMoves()).toContainEqual(expect.objectContaining({ id: 'only_moves' }));
     });
 
     it('sync handles partial data (only sessions)', async () => {
@@ -92,7 +96,7 @@ describe('LibraryStore', () => {
         (libraryService.fetchLibrary as jest.Mock).mockResolvedValue({ sessions: newSessions });
 
         await libraryStore.sync();
-        expect(libraryStore.getSessions()).toEqual(newSessions);
+        expect(libraryStore.getSessions()).toContainEqual(expect.objectContaining({ id: 'only_sessions' }));
     });
 
     it('sync handles no data', async () => {

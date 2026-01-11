@@ -1,5 +1,6 @@
 import NetInfo from "@react-native-community/netinfo";
 import { v4 as uuidv4 } from 'uuid';
+import client from '../api/client';
 
 // Define global type if not exists
 declare global {
@@ -7,10 +8,8 @@ declare global {
 }
 
 interface LogItem {
-  sessionId: string;
-  type: 'action_score' | 'app_event';
-  payload: any;
-  timestamp: number;
+  type: 'action_score' | 'app_event' | 'score' | 'heart_rate';
+  [key: string]: any;
 }
 
 class DataCollector {
@@ -18,11 +17,10 @@ class DataCollector {
   private readonly BATCH_SIZE = 20;
 
   // 1. 采集入口
-  public track(type: 'action_score' | 'app_event', data: any) {
+  public track(type: LogItem['type'], data: any) {
     const item: LogItem = {
-      sessionId: global.currentSessionId || uuidv4(),
       type,
-      payload: this.sanitize(data), // 隐私脱敏
+      ...this.sanitize(data), // 隐私脱敏
       timestamp: Date.now()
     };
     this.buffer.push(item);
@@ -49,34 +47,35 @@ class DataCollector {
 
   // 3. 策略上传
   public async flush() {
+    if (this.buffer.length === 0) return;
+
     const state = await NetInfo.fetch();
     const isWifi = state.type === 'wifi';
 
     // 4G 环境下过滤掉大体积的骨骼数据
-    const payload = this.buffer.filter(item => {
+    const items = this.buffer.filter(item => {
       if (isWifi) return true;
       // If not wifi, remove keypoints from payload if they exist
-      if (item.payload.keypoints) {
-        // modifying copy in filter is bad practice usually, but here we just filtering
-        // actually we should probably clone if we are stripping, but for now just filter out big blobs
+      if (item.keypoints) {
         return false;
       }
       return true;
     });
 
-    if (payload.length === 0) return;
+    if (items.length === 0) return;
+
+    const sessionId = global.currentSessionId || uuidv4();
 
     try {
-      await fetch('https://api.fitness.com/api/data/collect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: payload })
+      await client.post('/api/data/collect', {
+        sessionId,
+        items
       });
       // Clear buffer on success (naive)
       this.buffer = [];
     } catch (e) {
       // 失败保留在 Buffer (实际生产应持久化到 SQLite)
-      console.warn('Upload failed, retrying next batch');
+      console.warn('Upload failed, retrying next batch', e);
     }
   }
 }

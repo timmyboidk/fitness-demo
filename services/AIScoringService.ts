@@ -1,54 +1,43 @@
+import client from './api/client';
+
 export interface ScoreRequest {
     moveId: string;
-    sessionId?: string;
-    timestamp: number;
     data: {
-        keypoints?: any[]; // Replace 'any' with specific Pose type if available
-        frame?: string; // Base64 string if needed
+        keypoints: { x: number; y: number; score: number }[];
+        userId: string;
     };
-}
-
-export interface FeedbackItem {
-    type: 'correction' | 'praise';
-    message: string;
-    severity?: 'low' | 'medium' | 'high';
 }
 
 export interface ScoreResponse {
     success: boolean;
     score: number;
-    feedback: FeedbackItem[];
-    metrics?: Record<string, string>;
+    feedback: string[];
 }
 
 class AIScoringService {
-    private baseUrl = 'https://api.fitbody.com/api/ai'; // Mock URL
-
     async scoreMove(request: ScoreRequest): Promise<ScoreResponse> {
+        try {
+            const response = await client.post('/api/ai/score', request);
+            const data = response.data;
 
+            if (data.success) {
+                // The spec says data.data contains the score info
+                return data.data;
+            }
 
-        // Mock API Call Delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        // Mock Response Logic
-        // In a real app, this would be a fetch() call
-        const mockScore = Math.floor(Math.random() * (100 - 70) + 70); // Random score 70-100
-
-        return {
-            success: true,
-            score: mockScore,
-            feedback: [
-                {
-                    type: 'correction',
-                    message: 'Keep your core tight',
-                    severity: 'medium'
-                },
-                {
-                    type: 'praise',
-                    message: 'Great tempo!'
-                }
-            ]
-        };
+            return {
+                success: false,
+                score: 0,
+                feedback: ['评分服务暂时不可用']
+            };
+        } catch (e) {
+            console.error('AIScoring error:', e);
+            return {
+                success: false,
+                score: 0,
+                feedback: ['网络异常，请稍后重试']
+            };
+        }
     }
 }
 

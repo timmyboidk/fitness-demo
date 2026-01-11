@@ -1,15 +1,16 @@
 import NetInfo from "@react-native-community/netinfo";
 import { Collector } from '../DataCollector';
 
+import client from "../../api/client";
+
+// Mock client
+jest.mock('../../api/client');
+const mockedClient = client as jest.Mocked<typeof client>;
+
 // Mock NetInfo
 jest.mock('@react-native-community/netinfo', () => ({
     fetch: jest.fn()
 }));
-
-// Mock fetch
-global.fetch = jest.fn(() => Promise.resolve({
-    json: () => Promise.resolve({})
-})) as jest.Mock;
 
 describe('DataCollector Service', () => {
     beforeEach(() => {
@@ -37,7 +38,7 @@ describe('DataCollector Service', () => {
         // Since track() calls flush() without awaiting, we need to wait for the promise chain
         await new Promise(resolve => setTimeout(resolve, 100));
 
-        expect(global.fetch).toHaveBeenCalled();
+        expect(mockedClient.post).toHaveBeenCalled();
         const buffer = (Collector as any).buffer;
         expect(buffer.length).toBe(0);
     });
@@ -51,12 +52,12 @@ describe('DataCollector Service', () => {
         // Force flush
         await (Collector as any).flush();
 
-        const callArgs = (global.fetch as jest.Mock).mock.calls[0][1];
-        const body = JSON.parse(callArgs.body);
+        const callArgs = mockedClient.post.mock.calls[0][1] as any;
+        const items = callArgs.items;
 
         // Should only contain the app_event, dropping the action_score
-        expect(body.items.length).toBe(1);
-        expect(body.items[0].type).toBe('app_event');
+        expect(items.length).toBe(1);
+        expect(items[0].type).toBe('app_event');
     });
 
     it('should sanitize data (add noise)', () => {
