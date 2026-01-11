@@ -14,18 +14,18 @@ graph TD
     classDef service fill:#bbf,stroke:#333,stroke-width:2px;
     classDef infrastructure fill:#fbb,stroke:#333,stroke-width:2px;
 
-    subgraph UI_Layer [表现层 (UI/App)]
+    subgraph UI_Layer ["表现层 (UI/App)"]
         direction TB
         AppEntry["应用入口 (App.tsx)"]:::app --> AuthScreen["认证页面"]:::app
         AppEntry --> MainTabs["主导航"]:::app
         MainTabs --> WorkoutScreen["训练页面"]:::app
     end
 
-    subgraph Component_Layer [组件层 (Components)]
+    subgraph Component_Layer ["组件层 (Components)"]
         WorkoutScreen --> PoseCamera["姿态检测相机<br/>(PoseDetectorCamera)"]:::component
     end
 
-    subgraph Service_Layer [服务层 (Services)]
+    subgraph Service_Layer ["服务层 (Services)"]
         PoseCamera --> AIScoring["AI评分服务<br/>(AIScoringService)"]:::service
         PoseCamera --> DataCollector["数据采集服务<br/>(DataCollector)"]:::service
         
@@ -37,7 +37,7 @@ graph TD
         ModelUpdater["模型更新服务<br/>(ModelUpdater)"]:::service
     end
 
-    subgraph Infra_Layer [基础设施与后端 (Infra & Backend)]
+    subgraph Infra_Layer ["基础设施与后端 (Infra & Backend)"]
         AuthService["认证服务"]:::service --> APIClient["API客户端"]:::infrastructure
         AIScoring --> APIClient
         Buffer --> APIClient
