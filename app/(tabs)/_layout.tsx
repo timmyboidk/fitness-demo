@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, usePathname, withLayoutContext } from 'expo-router';
+import { useEffect } from 'react';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { libraryStore } from '../../store/library';
 
 // 1. 创建支持滑动的 Tab 导航器
 const { Navigator } = createMaterialTopTabNavigator();
@@ -97,6 +99,7 @@ export default function TabLayout() {
 
     if (pathname === '/' || pathname === '/index') {
         headerTitle = '训练动作';
+        // eslint-disable-next-line react/display-name
         HeaderRight = () => (
             <TouchableOpacity onPress={() => router.push('/add-move')} className="mr-4">
                 <Ionicons name="add-circle" size={32} color={iconColor} />
@@ -104,6 +107,7 @@ export default function TabLayout() {
         );
     } else if (pathname === '/sessions') {
         headerTitle = '课程计划';
+        // eslint-disable-next-line react/display-name
         HeaderRight = () => (
             <TouchableOpacity onPress={() => router.push('/add-session')} className="mr-4">
                 <Ionicons name="add-circle" size={32} color={iconColor} />
