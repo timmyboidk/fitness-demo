@@ -1,3 +1,10 @@
+/**
+ * @file auth-login-test.tsx
+ * @description 登录页面集成测试。
+ * 测试登录流程、OTP 验证、错误处理以及微信登录集成。
+ * 验证页面渲染、用户交互和路由跳转逻辑。
+ */
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
@@ -6,7 +13,7 @@ import { Alert } from 'react-native';
 import LoginScreen from '../(auth)/login';
 import { authService } from '../../services/AuthService';
 
-// Mock AuthService
+// Mock AuthService (认证服务)
 jest.mock('../../services/AuthService', () => ({
     authService: {
         requestOTP: jest.fn(),
@@ -15,20 +22,20 @@ jest.mock('../../services/AuthService', () => ({
     },
 }));
 
-// Mock AsyncStorage
+// Mock AsyncStorage (异步存储)
 jest.mock('@react-native-async-storage/async-storage', () => ({
     setItem: jest.fn(),
 }));
 
-// Mock Expo Router
+// Mock Expo Router (路由)
 jest.mock('expo-router', () => ({
     router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
 }));
 
-// Mock Alert
+// Mock Alert (弹窗)
 jest.spyOn(Alert, 'alert');
 
-// Mock Vector Icons
+// Mock Vector Icons (图标)
 jest.mock('@expo/vector-icons', () => ({
     Ionicons: ({ name }: { name: string }) => {
         const { Text } = require('react-native');
@@ -36,7 +43,7 @@ jest.mock('@expo/vector-icons', () => ({
     },
 }));
 
-// Mock SafeArea
+// Mock SafeArea (安全区域)
 jest.mock('react-native-safe-area-context', () => ({
     useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));

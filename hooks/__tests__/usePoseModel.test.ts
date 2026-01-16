@@ -1,9 +1,16 @@
+/**
+ * @file usePoseModel.test.ts
+ * @description usePoseModel Hook 单元测试。
+ * 验证模型加载、会话创建以及错误处理流程。
+ * 测试默认参数和异常场景。
+ */
+
 import { renderHook, waitFor } from '@testing-library/react-native';
 import { Logger } from '../../services/Logger';
 import { modelService } from '../../services/ModelService';
 import { usePoseModel } from '../usePoseModel';
 
-// Mock services
+// Mock services (服务层)
 jest.mock('../../services/ModelService', () => ({
     modelService: {
         loadModel: jest.fn(),

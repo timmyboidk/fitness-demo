@@ -1,7 +1,14 @@
-// Fallback for using MaterialIcons on Android and web.
+/**
+ * @file icon-symbol.tsx
+ * @description 跨平台图标组件。
+ * 在 iOS 上使用原生 SF Symbols，在 Android 和 Web 上回退到 Material Icons。
+ * 确保跨平台外观一致性并优化资源使用。
+ */
+
+// Android 和 Web 端的 MaterialIcons 回退方案
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
+import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
@@ -9,9 +16,9 @@ type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof Materia
 type IconSymbolName = keyof typeof MAPPING;
 
 /**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
+ * SF Symbols 到 Material Icons 的映射表。
+ * - Material Icons 参考: https://icons.expo.fyi
+ * - SF Symbols 参考: https://developer.apple.com/sf-symbols/
  */
 const MAPPING = {
   'house.fill': 'home',
@@ -21,9 +28,9 @@ const MAPPING = {
 } as IconMapping;
 
 /**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
+ * 图标组件
+ * 根据平台自动切换图标源 (SF Symbols vs Material Icons)。
+ * 需要手动维护名称映射以确保一致性。
  */
 export function IconSymbol({
   name,

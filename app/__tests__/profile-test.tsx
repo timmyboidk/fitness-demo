@@ -1,10 +1,17 @@
+/**
+ * @file profile-test.tsx
+ * @description 个人中心集成测试。
+ * 验证已登录/未登录状态下的 UI 展示。
+ * 测试统计数据渲染、菜单跳转以及 AsyncStorage 异常处理。
+ */
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
 import ProfileScreen from '../(tabs)/profile';
 
-// Mock AsyncStorage
+// Mock AsyncStorage (异步存储)
 jest.mock('@react-native-async-storage/async-storage', () => ({
     getItem: jest.fn(),
 }));

@@ -1,3 +1,10 @@
+/**
+ * @file Button.tsx
+ * @description 通用按钮组件。
+ * 支持多种预设样式 (Primary, Secondary, Outline, Ghost) 和尺寸。
+ * 自动适配暗黑模式，并支持自定义图标和文本样式。
+ */
+
 import { clsx, type ClassValue } from 'clsx';
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
@@ -6,6 +13,14 @@ function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+/**
+ * 按钮属性接口
+ * @property variant 按钮变体样式 'primary' | 'secondary' | 'outline' | 'ghost'
+ * @property size 按钮尺寸 'default' | 'sm' | 'lg'
+ * @property label 按钮文本
+ * @property icon (可选) 左侧图标组件
+ * @property textStyle (可选) 自定义文本样式类名
+ */
 interface ButtonProps extends TouchableOpacityProps {
     variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
     size?: 'default' | 'sm' | 'lg';
@@ -14,6 +29,9 @@ interface ButtonProps extends TouchableOpacityProps {
     textStyle?: string;
 }
 
+/**
+ * 按钮组件
+ */
 export function Button({ className, variant = 'primary', size = 'default', label, icon, textStyle, ...props }: ButtonProps) {
     const baseStyles = "flex-row items-center justify-center rounded-full active:opacity-80";
 

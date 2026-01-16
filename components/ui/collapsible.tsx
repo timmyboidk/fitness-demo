@@ -1,3 +1,10 @@
+/**
+ * @file collapsible.tsx
+ * @description 可折叠容器组件。
+ * 用于收纳长内容，支持点击标题展开/收起。
+ * 集成旋转动画和暗黑模式适配。
+ */
+
 import { PropsWithChildren, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
@@ -7,6 +14,11 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+/**
+ * 可折叠组件
+ * @param title 标题文本
+ * @param children 折叠内容
+ */
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';

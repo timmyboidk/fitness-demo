@@ -1,13 +1,17 @@
+/**
+ * @file use-color-scheme-test.ts
+ * @description useColorScheme Hook 单元测试。
+ * 验证 Hook 是否返回已被定义的颜色方案 (light/dark/undefined)。
+ */
+
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { renderHook } from '@testing-library/react-native';
 
-// Standard useColorScheme from react-native is often mocked by jest-expo or preset.
-// But we want to test our wrapper.
-// Our wrapper likely exports: export { useColorScheme } from 'react-native'; 
-// If it is just a re-export, testing it is testing react-native.
-// But let's check content.
-// Wait, I can't check content in write_to_file.
-// Assuming it is a simple hook.
+// React Native 的标准 useColorScheme 通常由 jest-expo 或预设进行 mock。
+// 但我们希望测试我们的包装器。
+// 我们的包装器可能只是导出：export { useColorScheme } from 'react-native';
+// 如果只是重新导出，测试它实际上是在测试 react-native。
+// 但让我们检查一下内容。
 
 describe('useColorScheme', () => {
     it('returns color scheme', () => {

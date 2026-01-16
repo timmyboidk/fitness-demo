@@ -1,14 +1,20 @@
+/**
+ * @file index-test.tsx
+ * @description 首页动作列表集成测试。
+ * 验证动作列表渲染、Mock 数据展示以及可见性切换功能。
+ * 包含 Store 状态订阅更新的测试。
+ */
+
 import { libraryStore } from '@/store/library';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 import MovesScreen from '../(tabs)/index';
 
-// We want to use Real MoveItem to test interaction from parent to child, 
-// but we mocked it in previous step. 
-// If generic mocks (jest-setup) are used, we are good.
-// But in the previous specific test file `index-test.tsx` I manually mocked MoveItem. I should remove that manual mock.
+// 我们希望使用真实的 MoveItem 来测试父子组件交互，但在之前的步骤中可能mock了它。
+// 如果使用通用 mock (jest-setup)，则没问题。
+// 但在此测试文件中，我们需要确保 MoveItem 的行为符合预期。
 
-// Mock store to control data
+// Mock store 控制数据
 jest.mock('@/store/library', () => ({
     libraryStore: {
         getMoves: jest.fn(),

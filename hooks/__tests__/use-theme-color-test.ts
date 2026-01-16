@@ -1,14 +1,21 @@
+/**
+ * @file use-theme-color-test.ts
+ * @description useThemeColor Hook 单元测试。
+ * 验证在不同主题模式下的颜色返回值。
+ * 测试 Props 覆盖和默认值逻辑。
+ */
+
 import { Colors } from '@/constants/theme';
 import { renderHook } from '@testing-library/react-native';
 import { useThemeColor } from '../use-theme-color';
 
-// Mock the hook that useThemeColor relies on. 
-// We mock the specific import that useThemeColor uses: import { useColorScheme } from '@/hooks/use-color-scheme';
+// Mock useThemeColor 依赖的 hook。
+// 我们 mock 具体使用的 import: import { useColorScheme } from '@/hooks/use-color-scheme';
 jest.mock('@/hooks/use-color-scheme', () => ({
     useColorScheme: jest.fn(),
 }));
 
-// Retrieve the mock to control it
+// 获取 mock 对象以进行控制
 const { useColorScheme } = require('@/hooks/use-color-scheme');
 
 describe('useThemeColor', () => {

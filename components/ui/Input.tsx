@@ -1,3 +1,10 @@
+/**
+ * @file Input.tsx
+ * @description 通用输入框组件。
+ * 封装 React Native TextInput，集成标签、图标和错误提示。
+ * 支持暗黑模式自动适配和 Tailwind 样式覆盖。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import { clsx } from 'clsx';
 import { Text, TextInput, TextInputProps, useColorScheme, View } from 'react-native';
@@ -7,12 +14,21 @@ function cn(...inputs: any[]) {
     return twMerge(clsx(inputs));
 }
 
+/**
+ * 输入框属性接口
+ * @property label (可选) 上方标签文本
+ * @property error (可选) 下方错误提示文本
+ * @property icon (可选) 左侧图标名称 (Ionicons)
+ */
 interface InputProps extends TextInputProps {
     label?: string;
     error?: string;
     icon?: keyof typeof Ionicons.glyphMap;
 }
 
+/**
+ * 输入框组件
+ */
 export function Input({ label, error, icon, className, ...props }: InputProps) {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
