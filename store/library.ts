@@ -1,5 +1,20 @@
+/**
+ * @file library.ts
+ * @description 动作库状态管理 Store。
+ * 维护应用全局的动作(Moves)和训练课程(Sessions)数据。
+ * 支持数据同步、可见性切换和状态订阅通知。
+ */
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/**
+ * 动作数据模型
+ * @property id 唯一ID
+ * @property name 动作名称
+ * @property level 难度等级
+ * @property icon 图标名称 (SF Symbol)
+ * @property isVisible 是否在列表中显示
+ */
 export interface Move {
     id: string;
     name: string;
@@ -8,6 +23,16 @@ export interface Move {
     isVisible: boolean;
 }
 
+/**
+ * 训练课程数据模型
+ * @property id 唯一ID
+ * @property name 课程名称
+ * @property time 预计耗时描述
+ * @property count 包含动作数量描述
+ * @property color 主题色 (Hex)
+ * @property isVisible 是否显示
+ * @property moveIds 包含的动作ID列表
+ */
 export interface Session {
     id: string;
     name: string;
@@ -18,11 +43,11 @@ export interface Session {
     moveIds: string[];
 }
 
-// Helper to capitalize first letter
+// 辅助函数: 首字母大写
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// Auto-generated moves from assets/icons
-// All icon names are SF Symbols names.
+// 预置动作数据 (基于 assets/icons)
+// 所有图标名称均对应 SF Symbols
 export const INITIAL_MOVES: Move[] = [
     { id: 'm_arms_open', name: '双臂张开', level: '初级', icon: 'figure.arms.open', isVisible: false },
     { id: 'm_boxing', name: '拳击常态', level: '中级', icon: 'figure.boxing', isVisible: false },
@@ -91,11 +116,20 @@ export const INITIAL_SESSIONS: Session[] = [
 
 import { libraryService } from '../services/LibraryService';
 
+/**
+ * 全局动作库 Store
+ * 单例模式，管理内存中的动作和课程数据
+ */
 class LibraryStore {
     moves: Move[] = [...INITIAL_MOVES];
     sessions: Session[] = [...INITIAL_SESSIONS];
     listeners: (() => void)[] = [];
 
+    /**
+     * 同步数据
+     * 从后端API拉取最新的动作和课程列表，并与本地状态合并。
+     * 自动处理用户偏好的难度等级。
+     */
     async sync() {
         try {
             const userStr = await AsyncStorage.getItem('user');
@@ -108,7 +142,7 @@ class LibraryStore {
             const data = await libraryService.fetchLibrary(difficultyLevel);
             if (data) {
                 if (data.moves) {
-                    // Update moves, preserving isVisible if it matched by id
+                    // 更新动作列表，保留本地的 isVisible 状态 (防止用户自定义的显示设置被覆盖)
                     this.moves = data.moves.map(newMove => {
                         const existing = this.moves.find(m => m.id === newMove.id);
                         return {
@@ -139,20 +173,34 @@ class LibraryStore {
         }
     }
 
+    /**
+     * 获取所有动作列表
+     */
     getMoves() {
         return this.moves;
     }
 
+    /**
+     * 获取所有课程列表
+     */
     getSessions() {
         return this.sessions;
     }
 
+    /**
+     * 获取指定课程包含的所有动作详情
+     * @param sessionId - 课程ID
+     */
     getSessionMoves(sessionId: string): Move[] {
         const session = this.sessions.find(s => s.id === sessionId);
         if (!session) return [];
         return session.moveIds.map(id => this.moves.find(m => m.id === id)).filter(Boolean) as Move[];
     }
 
+    /**
+     * 切换动作的可见性 (添加/移除)
+     * @param id - 动作ID
+     */
     toggleMoveVisibility(id: string) {
         const move = this.moves.find(m => m.id === id);
         if (move) {
@@ -161,6 +209,10 @@ class LibraryStore {
         }
     }
 
+    /**
+     * 切换课程的可见性
+     * @param id - 课程ID
+     */
     toggleSessionVisibility(id: string) {
         const session = this.sessions.find(s => s.id === id);
         if (session) {
@@ -169,6 +221,11 @@ class LibraryStore {
         }
     }
 
+    /**
+     * 订阅 Store 变更
+     * @param listener - 回调函数
+     * @returns {Function} 取消订阅的函数
+     */
     subscribe(listener: () => void) {
         this.listeners.push(listener);
         return () => {
@@ -176,6 +233,10 @@ class LibraryStore {
         };
     }
 
+    /**
+     * 通知所有订阅者
+     * @private
+     */
     notify() {
         this.listeners.forEach(l => l());
     }

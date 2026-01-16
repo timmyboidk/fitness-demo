@@ -1,3 +1,10 @@
+/**
+ * @file help.tsx
+ * @description 帮助中心页面。
+ * 提供联系客服、意见反馈入口，以及查看用户协议和隐私政策的功能。
+ * 底部展示应用版本信息。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, router } from 'expo-router';
 import { ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
@@ -23,7 +30,7 @@ export default function HelpScreen() {
             </View>
 
             <ScrollView className="p-4">
-                {/* 联系客服 */}
+                {/* 联系客服区域 */}
                 <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
                     <TouchableOpacity onPress={() => console.log("Hook: Help - Contact Service")} className="flex-row items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
                         <View className="flex-row items-center">
@@ -41,7 +48,7 @@ export default function HelpScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {/* 协议 */}
+                {/* 协议与政策 */}
                 <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
                     <TouchableOpacity onPress={() => console.log("Hook: Help - User Agreement")} className="flex-row items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
                         <Text className="text-black dark:text-white text-base">用户协议</Text>

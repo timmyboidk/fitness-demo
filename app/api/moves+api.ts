@@ -1,3 +1,9 @@
+/**
+ * @file moves+api.ts
+ * @description 动作查询 API。
+ * 单独的动作查询接口，支持分页、排序和自动 Seeding。
+ */
+
 import { ExpoRequest } from 'expo-router/server';
 import connectToDatabase from '../../lib/mongoose';
 import { Move } from '../../models/Move';

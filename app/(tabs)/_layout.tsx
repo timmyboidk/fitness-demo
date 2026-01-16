@@ -1,3 +1,10 @@
+/**
+ * @file _layout.tsx
+ * @description 主 Tab 导航布局。
+ * 使用 Material Top Tabs 实现可滑动的底部导航栏效果。
+ * 自定义了 TabBar 和全局 Header 逻辑，集成暗黑模式适配。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { router, usePathname, withLayoutContext } from 'expo-router';
@@ -6,19 +13,23 @@ import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { libraryStore } from '../../store/library';
 
-// 1. 创建支持滑动的 Tab 导航器
+// 1. 创建支持滑动的 Tab 导航器实例
 const { Navigator } = createMaterialTopTabNavigator();
+// 暴露给 expo-router 使用
 export const MaterialTopTabs = withLayoutContext(Navigator);
 
-// 2. 自定义底部 Tab Bar 指示器
+/**
+ * 自定义底部 Tab Bar 组件
+ * 替代默认的 Material Top Tab Bar，放置在屏幕底部
+ */
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
-    // Dynamic Colors
+    // 动态配色方案
     const bgColor = isDark ? '#121212' : '#FFFFFF';
     const borderColor = isDark ? '#333' : '#E5E5E5';
-    const activeColor = isDark ? '#CCFF00' : '#16a34a'; // Match theme.ts tint if possible, or keep neon for dark
+    const activeColor = isDark ? '#CCFF00' : '#16a34a'; // 高亮色: 暗色模式下为荧光绿，亮色模式下为深绿
     const inactiveColor = isDark ? '#666' : '#999';
     const textColor = isDark ? '#888' : '#666';
 
@@ -28,13 +39,14 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                 <View className="flex-row h-[60px] border-t items-center" style={{ backgroundColor: bgColor, borderColor: borderColor }}>
                     {state.routes.map((route: any, index: number) => {
                         const { options } = descriptors[route.key];
-                        // 优先使用 tabBarLabel
+                        // 优先使用 tabBarLabel，其次 title，最后 name
                         const label = options.tabBarLabel !== undefined
                             ? options.tabBarLabel
                             : options.title !== undefined
                                 ? options.title
                                 : route.name;
 
+                        // 判断当前 Tab 是否激活
                         const isFocused = state.index === index;
 
                         const onPress = () => {
@@ -49,7 +61,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                             }
                         };
 
-                        // 图标逻辑
+                        // 图标选择逻辑: 根据 Tab 名称和激活状态切换 icon
                         let iconName: any = 'help';
                         if (route.name === 'index') iconName = isFocused ? 'barbell' : 'barbell-outline';
                         else if (route.name === 'sessions') iconName = isFocused ? 'timer' : 'timer-outline';
@@ -76,6 +88,9 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     );
 };
 
+/**
+ * Tab 布局入口组件
+ */
 export default function TabLayout() {
     const pathname = usePathname();
     const colorScheme = useColorScheme();
@@ -85,13 +100,13 @@ export default function TabLayout() {
     const iconColor = isDark ? '#CCFF00' : '#16a34a';
 
     useEffect(() => {
+        // App 启动/Tab 加载时同步最新的库数据
         libraryStore.sync();
     }, []);
 
-    // 动态 Header 配置 logic
-    // 注意：我们将 Header 放在 Tab Navigator 之外，这样 Tab 切换时 Header 会更新，但 Navigator 本身如果不卸载，就能保持状态。
-    // 之前的问题可能是 CustomTabBar 每次都是新函数导致 TabBar 重新挂载，进而导致 Tab view 异常。
-    // 现在 CustomTabBar 是外部静态组件，应该没问题。
+    // 动态 Header 配置逻辑
+    // 根据当前路由路径 (pathname) 动态决定 Header 的标题和右侧按钮
+    // 这种方式比在每个Screen里单独配Header更灵活，尤其是在自定义TabLayout的情况下
 
     let headerTitle = '';
     let showHeader = true;
@@ -115,12 +130,11 @@ export default function TabLayout() {
         );
     } else if (pathname === '/profile') {
         headerTitle = '个人中心';
-        // showHeader defaults to true, so we don't need to set it to false anymore
     }
 
     return (
         <View className="flex-1" style={{ backgroundColor: bgColor }}>
-            {/* Header */}
+            {/* 全局自定义 Header */}
             {showHeader && (
                 <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor, zIndex: 10 }}>
                     <View className="h-[50px] flex-row items-center justify-between px-4" style={{ backgroundColor: bgColor }}>
@@ -130,13 +144,14 @@ export default function TabLayout() {
                 </SafeAreaView>
             )}
 
+            {/* Tab 导航容器 */}
             <MaterialTopTabs
                 tabBarPosition="bottom"
                 tabBar={(props) => <CustomTabBar {...props} />}
                 screenOptions={{
-                    swipeEnabled: true,
+                    swipeEnabled: true, // 允许左右滑动切换 Tab
                     animationEnabled: true,
-                    tabBarStyle: { display: 'none' }, // 这里的 style 其实被 CustomTabBar 取代了，但保留配置无害
+                    tabBarStyle: { display: 'none' }, // 隐藏默认 TabBar (使用自定义的)
                 }}
             >
                 <MaterialTopTabs.Screen name="index" options={{ tabBarLabel: '动作' }} />

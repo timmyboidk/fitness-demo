@@ -1,3 +1,9 @@
+/**
+ * @file add-session.tsx
+ * @description 添加课程页面。
+ * 列出 Global Store 中所有尚未“可见”的课程，供用户添加到个人计划中。
+ */
+
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Text, useColorScheme, View } from 'react-native';
@@ -6,11 +12,15 @@ import { SessionItem } from '../components/SessionItem';
 import { libraryStore, Session } from '../store/library';
 
 export default function AddSessionScreen() {
-    // Only show items that are NOT visible
+    // 初始化：仅获取当前不可见的课程
     const [sessions, setSessions] = useState<Session[]>(libraryStore.getSessions().filter(s => !s.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
+    /**
+     * 处理添加课程
+     * @param id - 课程 ID
+     */
     const handleAdd = (id: string) => {
         libraryStore.toggleSessionVisibility(id);
         router.back();
@@ -38,7 +48,7 @@ export default function AddSessionScreen() {
                         renderItem={({ item }) => (
                             <SessionItem
                                 item={item}
-                                onPress={() => { }}
+                                onPress={() => { }} // 列表模式下暂时禁用点击详情
                                 showAddButton={true}
                                 onAdd={() => handleAdd(item.id)}
                             />

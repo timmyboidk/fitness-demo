@@ -1,3 +1,10 @@
+/**
+ * @file signup.tsx
+ * @description 用户注册页面。
+ * 引导新用户输入昵称、手机号和验证码以创建账户。
+ * 注册成功后自动持久化用户信息并跳转至难度评估页。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -8,16 +15,25 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { authService } from '../../services/AuthService';
 
+/**
+ * 注册屏幕组件
+ */
 export default function SignupScreen() {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+
+    // 表单状态
     const [phone, setPhone] = useState('');
     const [code, setCode] = useState('');
     const [nickname, setNickname] = useState('');
     const [loading, setLoading] = useState(false);
 
+    /**
+     * 处理注册逻辑
+     */
     const handleSignup = async () => {
+        // 1. 基础校验
         if (phone.length !== 11 || code.length !== 4) {
             return Alert.alert("提示", "请输入有效的手机号和验证码");
         }
@@ -27,15 +43,17 @@ export default function SignupScreen() {
 
         setLoading(true);
         try {
-            // Using the real API via authService is preferred, but the signup screen was using mock
-            // Let's assume the user is registered and we have their ID
+            // 2. 调用验证接口 (此处复用 verifyOTP，实际注册应有单独接口)
+            // 假设验证通过即视为注册成功并返回新用户数据
             const result = await authService.verifyOTP(phone, code);
 
             if (result.success && result.user) {
+                // 3. 持久化存储用户凭证
                 await AsyncStorage.setItem('user', JSON.stringify(result.user));
                 await AsyncStorage.setItem('user_token', result.user.token);
                 await AsyncStorage.setItem('user_id', result.user.id);
 
+                // 4. 跳转至入职流程 (引导页)
                 router.replace({
                     pathname: '/onboarding/difficulty',
                     params: { userId: result.user.id }
@@ -72,7 +90,7 @@ export default function SignupScreen() {
                         <Text className="text-gray-500 dark:text-gray-400">完善资料，开启你的 AI 健身之旅</Text>
                     </View>
 
-                    {/* 表单 */}
+                    {/* 表单区域 */}
                     <View className="space-y-4">
                         <Input
                             placeholder="设置昵称"

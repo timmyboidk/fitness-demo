@@ -1,3 +1,10 @@
+/**
+ * @file add-move.tsx
+ * @description 添加动作页面。
+ * 列出 Global Store 中所有尚未“可见”的动作，供用户选择添加到个人库。
+ * 类似于动作商店或资源中心。
+ */
+
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Text, useColorScheme, View } from 'react-native';
@@ -6,13 +13,19 @@ import { MoveItem } from '../components/MoveItem';
 import { libraryStore, Move } from '../store/library';
 
 export default function AddMoveScreen() {
-    // Only show items that are NOT visible
+    // 状态初始化：仅获取当前不可见的动作 (isVisible: false)
     const [moves, setMoves] = useState<Move[]>(libraryStore.getMoves().filter(m => !m.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
+    /**
+     * 处理添加动作
+     * @param id - 动作 ID
+     */
     const handleAdd = (id: string) => {
+        // 更新 Store 状态，将动作设为可见
         libraryStore.toggleMoveVisibility(id);
+        // 返回上一页
         router.back();
     };
 
@@ -24,7 +37,7 @@ export default function AddMoveScreen() {
                     headerStyle: { backgroundColor: isDark ? '#000000' : '#ffffff' },
                     headerTintColor: isDark ? '#fff' : '#000',
                     headerBackTitle: "返回",
-                    headerRight: () => null // Ensure no + button here
+                    headerRight: () => null // 不显示额外的按钮
                 }} />
 
                 {moves.length === 0 ? (
@@ -43,6 +56,7 @@ export default function AddMoveScreen() {
                                 <MoveItem
                                     item={item}
                                     showAddButton={true}
+                                    // 点击加号时触发
                                     onAdd={() => handleAdd(item.id)}
                                 />
                             )}

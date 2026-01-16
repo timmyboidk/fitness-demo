@@ -1,3 +1,10 @@
+/**
+ * @file WorkoutSession.tsx
+ * @description 训练会话主页面。
+ * 负责处理摄像头实时预览、AI姿态检测、动作评分以及训练流程控制。
+ * 支持单个动作练习模式和完整课程训练模式。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
@@ -12,7 +19,16 @@ import { aiScoringService } from '../../services/AIScoringService';
 import { Collector } from '../../services/analytics/DataCollector';
 import { libraryStore } from '../../store/library';
 
+/**
+ * 训练会话组件
+ * 核心功能：
+ * 1. 管理摄像头权限和状态
+ * 2. 协调AI评分服务
+ * 3. 维护当前训练进度(动作序列)
+ * 4. 展示实时反馈UI
+ */
 export default function WorkoutSession() {
+    // 获取路由参数: id(动作或课程ID), mode(模式: 'session' | 'single')
     const { id, mode } = useLocalSearchParams();
     const [permission, requestPermission] = useCameraPermissions();
     const [facing, setFacing] = useState<'front' | 'back'>('front');
@@ -35,12 +51,15 @@ export default function WorkoutSession() {
     // Playback State
     const [isPlaying, setIsPlaying] = useState(false);
 
-    // AI Scoring Hook (Mock integration)
-    // AI Scoring State
+    // AI评分状态管理
     const [lastScore, setLastScore] = useState<number | null>(null);
     const [feedback, setFeedback] = useState<string[]>([]);
     const [latestKeypoints, setLatestKeypoints] = useState<any[]>([]);
 
+    /**
+     * 对当前动作进行评分
+     * 收集当前帧的关键点数据，发送给后端AI服务进行评估
+     */
     const scoreCurrentMove = async () => {
         if (!sequence[currentMoveIndex]) return;
 
@@ -85,11 +104,15 @@ export default function WorkoutSession() {
     }, [id, mode]);
 
     // Hooks for buttons
+    /**
+     * 处理播放/暂停按钮点击
+     * 暂停时停止评分，播放时触发评分逻辑
+     */
     const handlePlayPause = () => {
         const nextState = !isPlaying;
         setIsPlaying(nextState);
         if (nextState) {
-            // Start scoring loop or trigger single score
+            // 开始评分循环或触发单次评分
             scoreCurrentMove();
         }
     };
@@ -121,6 +144,7 @@ export default function WorkoutSession() {
         <View className="flex-1 bg-black">
             {isFocused && (
                 <View style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                    {/* 姿态检测相机组件: 负责实时捕捉并计算骨架关键点 */}
                     <PoseDetectorCamera
                         onInferenceResult={(res) => {
                             if (res && res.keypoints) {

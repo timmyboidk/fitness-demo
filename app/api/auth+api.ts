@@ -1,10 +1,20 @@
+/**
+ * @file auth+api.ts
+ * @description 身份认证与用户管理 API。
+ * 处理用户登录 (手机号/微信)、注册以及自动生成演示数据 (Seeding)。
+ * 这是一个 Expo Router API Route，运行在类似 Edge 的环境中。
+ */
+
 import { ExpoRequest } from 'expo-router/server';
 import connectToDatabase from '../../lib/mongoose';
 import { Move } from '../../models/Move';
 import { Session } from '../../models/Session';
 import { User } from '../../models/User';
 
-// 模拟的公共库种子数据 (如果数据库为空)
+/**
+ * 模拟的公共库种子数据 (如果数据库为空)
+ * 自动填充一些基础的训练动作和课程
+ */
 async function seedLibrary() {
     const moveCount = await Move.countDocuments();
     if (moveCount === 0) {
@@ -26,6 +36,10 @@ async function seedLibrary() {
     }
 }
 
+/**
+ * POST /api/auth
+ * 处理登录和注册请求
+ */
 export async function POST(request: ExpoRequest) {
     await connectToDatabase();
     await seedLibrary(); // 确保库里有东西
@@ -33,6 +47,7 @@ export async function POST(request: ExpoRequest) {
     try {
         const { type, payload } = await request.json();
 
+        // --- 手机号登录模式 ---
         if (type === 'login_phone') {
             // 真实场景：校验短信验证码
             // Demo场景：直接查找或创建用户
@@ -49,9 +64,9 @@ export async function POST(request: ExpoRequest) {
             return Response.json({ success: true, user });
         }
 
+        // --- 微信登录模式 ---
         if (type === 'login_wechat') {
             // 真实场景：使用 payload.code 换取 access_token 和 openid，再换取 userInfo
-            // 参见上传的 PDF 文档流程
             // Mock场景：直接模拟一个微信用户
             const mockOpenId = "mock_wx_openid_12345";
             let user = await User.findOne({ wechatOpenId: mockOpenId }).populate('myMoves').populate('mySessions');
@@ -67,8 +82,6 @@ export async function POST(request: ExpoRequest) {
             }
             return Response.json({ success: true, user });
         }
-
-
 
         return Response.json({ error: 'Unknown type' }, { status: 400 });
 

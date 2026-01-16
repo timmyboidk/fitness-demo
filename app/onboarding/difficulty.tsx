@@ -1,3 +1,10 @@
+/**
+ * @file difficulty.tsx
+ * @description 难度选择/入职流程页面。
+ * 在用户首次使用或注册时，引导选择适合的训练难度。
+ * 包含难度选项的展示（图标、描述）和后端偏好设置同步。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
@@ -6,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { authService } from '../../services/AuthService';
 
+// 难度等级配置数据
 const LEVELS = [
     {
         id: 'novice',
@@ -30,13 +38,23 @@ const LEVELS = [
     }
 ];
 
+/**
+ * 难度选择屏幕组件
+ */
 export default function DifficultyScreen() {
+    // 获取路由参数中的用户ID（如果有）
     const { userId } = useLocalSearchParams<{ userId: string }>();
     const [selectedLevel, setSelectedLevel] = useState('novice');
     const [loading, setLoading] = useState(false);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
+    /**
+     * 处理完成/保存逻辑
+     * 1. 获取当前用户ID (路由参数或本地存储)
+     * 2. 调用API保存难度设置
+     * 3. 更新本地用户信息并跳转首页
+     */
     const handleFinish = async () => {
         let finalUserId = userId;
 
@@ -60,7 +78,7 @@ export default function DifficultyScreen() {
         try {
             const res = await authService.onboarding(finalUserId, selectedLevel);
             if (res.success) {
-                // Update local user data
+                // 更新本地用户数据的 difficultyLevel 字段
                 const AsyncStorage = require('@react-native-async-storage/async-storage').default;
                 const userStr = await AsyncStorage.getItem('user');
                 if (userStr) {
@@ -91,6 +109,7 @@ export default function DifficultyScreen() {
                     <Text className="text-gray-500 dark:text-gray-400 text-lg">AI 将根据你的选择推荐最合适的课程</Text>
                 </View>
 
+                {/* 难度选项列表 */}
                 <View className="space-y-4">
                     {LEVELS.map((level) => (
                         <TouchableOpacity
@@ -114,6 +133,7 @@ export default function DifficultyScreen() {
                                 <Text className="text-gray-500 dark:text-gray-400 text-sm">{level.desc}</Text>
                             </View>
 
+                            {/* 选中状态打钩 */}
                             {selectedLevel === level.id && (
                                 <Ionicons name="checkmark-circle" size={24} color="#CCFF00" />
                             )}

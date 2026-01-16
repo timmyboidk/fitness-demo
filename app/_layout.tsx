@@ -1,3 +1,10 @@
+/**
+ * @file _layout.tsx
+ * @description 应用根布局 (Root Layout)。
+ * 定义全局导航结构 (Stack)、状态栏样式和全局背景色。
+ * 包含 Tabs 主路由、认证组和全屏模态页面的配置。
+ */
+
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, useColorScheme } from 'react-native';
@@ -14,12 +21,13 @@ export default function RootLayout() {
                 headerShown: false,
                 contentStyle: { backgroundColor: isDark ? '#000000' : '#FFFFFF' }
             }}>
-                {/* 登录页组 */}
-                {/* 登录页组 - (auth) is a group without layout, so we don't list it as a screen */}
+                {/* 登录/注册页组 (无需 Layout 包裹) */}
+                {/* (auth) 目录下的页面将作为平级 Stack Screen 呈现 */}
 
-                {/* 主程序 Tabs */}
+                {/* 主程序 Tabs 导航 */}
                 <Stack.Screen name="(tabs)" />
-                {/* 核心 AI 训练页 (全屏模态) */}
+
+                {/* 核心 AI 训练页 (全屏模态展示，沉浸式体验) */}
                 <Stack.Screen name="workout/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
         </View>

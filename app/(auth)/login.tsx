@@ -1,3 +1,10 @@
+/**
+ * @file login.tsx
+ * @description 登录页面。
+ * 支持手机号+验证码登录以及微信快捷登录。
+ * 包含倒计时逻辑、表单验证和键盘避让处理。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -8,6 +15,9 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { authService } from '../../services/AuthService';
 
+/**
+ * 登录屏幕组件
+ */
 export default function LoginScreen() {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
@@ -16,10 +26,11 @@ export default function LoginScreen() {
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // OTP Timer
+    // 验证码倒计时状态
     const [timer, setTimer] = useState(0);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
 
+    // 倒计时副作用处理
     useEffect(() => {
         let interval: any;
         if (isTimerRunning && timer > 0) {
@@ -32,6 +43,10 @@ export default function LoginScreen() {
         return () => clearInterval(interval);
     }, [isTimerRunning, timer]);
 
+    /**
+     * 发送验证码逻辑
+     * 校验手机号格式 -> 请求后端 API -> 开始倒计时
+     */
     const handleSendCode = async () => {
         if (!/^1[3-9]\d{9}$/.test(phone)) {
             return Alert.alert("错误", "请输入正确的11位手机号码");
@@ -56,6 +71,10 @@ export default function LoginScreen() {
         }
     };
 
+    /**
+     * 处理登录提交
+     * @param type 登录方式: 'phone' (手机号) 或 'wechat' (微信)
+     */
     const handleLogin = async (type: 'phone' | 'wechat') => {
         setLoading(true);
 
@@ -63,7 +82,7 @@ export default function LoginScreen() {
             let result;
 
             if (type === 'wechat') {
-                // Simulate WeChat SDK Login Code
+                // 模拟微信 SDK 登录返回的 Code
                 const mockCode = "wx_code_" + Math.random().toString(36).substring(7);
                 result = await authService.loginWithWeChat(mockCode);
             } else {
@@ -75,6 +94,7 @@ export default function LoginScreen() {
             }
 
             if (result.success && result.user) {
+                // 持久化用户信息并跳转
                 await AsyncStorage.setItem('user', JSON.stringify(result.user));
                 Alert.alert(
                     "登录成功",

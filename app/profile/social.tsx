@@ -1,3 +1,9 @@
+/**
+ * @file social.tsx
+ * @description 社交账号绑定页面。
+ * 展示并管理第三方账号（微信、Apple、Instagram）的绑定状态。
+ */
+
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, router } from 'expo-router';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
@@ -30,6 +36,9 @@ export default function SocialScreen() {
     );
 }
 
+/**
+ * 社交账号列表项组件
+ */
 function SocialItem({ icon, name, status, color, onPress }: any) {
     return (
         <TouchableOpacity onPress={onPress} className="flex-row items-center justify-between bg-gray-50 dark:bg-[#1C1C1E] p-5 rounded-2xl mb-4">
