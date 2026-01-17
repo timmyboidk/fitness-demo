@@ -58,4 +58,22 @@ describe('AIScoringService', () => {
         expect(result.success).toBe(false);
         expect(result.feedback[0]).toContain('不可用');
     });
+    /**
+     * 测试场景: 网络异常抛出
+     * 预期: 服务应捕获异常并返回带有网络异常信息的失败响应
+     */
+    it('handles network exceptions', async () => {
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+        mockedClient.post.mockRejectedValueOnce(new Error('Network Error'));
+
+        const result = await aiScoringService.scoreMove({
+            moveId: '1',
+            data: { keypoints: [], userId: '1' }
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.feedback[0]).toContain('网络异常');
+
+        consoleSpy.mockRestore();
+    });
 });

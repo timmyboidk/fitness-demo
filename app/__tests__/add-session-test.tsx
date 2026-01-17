@@ -1,12 +1,15 @@
 import { libraryStore } from '@/store/library';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
+import { Alert } from 'react-native';
 import AddSessionScreen from '../add-session';
 
-jest.mock('@react-native-async-storage/async-storage', () =>
-    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
-);
+jest.mock('@react-native-async-storage/async-storage', () => ({
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+}));
 
 // 捕获 render props
 const mockScreenRender = jest.fn();
@@ -51,6 +54,7 @@ jest.mock('@/components/SessionItem', () => ({
 describe('AddSessionScreen', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.spyOn(Alert, 'alert');
     });
 
     it('renders empty state when no hidden sessions', () => {
@@ -85,5 +89,48 @@ describe('AddSessionScreen', () => {
         const headerRight = lastCall.options.headerRight;
         expect(typeof headerRight).toBe('function');
         expect(headerRight()).toBeNull();
+    });
+
+    it('allows VIP user to add unlimited sessions', async () => {
+        const vipUser = { isVip: true };
+        (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(vipUser));
+        (libraryStore.getSessions as jest.Mock).mockReturnValue([
+            { id: 's3', name: 'Session 3', isVisible: false }
+        ]);
+
+        const { getAllByTestId } = render(<AddSessionScreen />);
+        const addButtons = getAllByTestId('session-item-add');
+
+        fireEvent.press(addButtons[0]);
+
+        await waitFor(() => {
+            expect(libraryStore.toggleSessionVisibility).toHaveBeenCalled();
+            expect(router.back).toHaveBeenCalled();
+        });
+    });
+
+    it('prevents free user from adding more than 3 sessions', async () => {
+        const freeUser = { isVip: false };
+        (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(freeUser));
+
+        // Mock store to return 3 visible sessions
+        (libraryStore.getSessions as jest.Mock).mockReturnValue([
+            ...Array(3).fill({ id: 'visible', isVisible: true }),
+            { id: 's1', title: 'New Session', isVisible: false, moves: [] }
+        ]);
+
+        const { getAllByTestId } = render(<AddSessionScreen />);
+        const addButtons = getAllByTestId('session-item-add');
+
+        fireEvent.press(addButtons[0]);
+
+        await waitFor(() => {
+            expect(Alert.alert).toHaveBeenCalledWith(
+                "达到限制",
+                expect.stringContaining("免费版每月限 3 个课程"),
+                expect.any(Array)
+            );
+            expect(libraryStore.toggleSessionVisibility).not.toHaveBeenCalled();
+        });
     });
 });

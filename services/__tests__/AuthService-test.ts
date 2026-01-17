@@ -75,4 +75,64 @@ describe('AuthService', () => {
         await authService.logout();
         expect(mockMultiRemove).toHaveBeenCalledWith(['user_token', 'user_id']);
     });
+
+    it('loginWithWeChat handles success', async () => {
+        mockedClient.post.mockResolvedValueOnce({
+            data: { success: true, data: { id: 'wx_user', nickname: 'WeChat' } },
+        });
+
+        const result = await authService.loginWithWeChat('wx_code');
+        expect(mockedClient.post).toHaveBeenCalledWith('/api/auth', expect.objectContaining({
+            type: 'login_wechat',
+            code: 'wx_code'
+        }));
+        expect(result.success).toBe(true);
+        expect(result.user?.nickname).toBe('WeChat');
+    });
+
+    it('loginWithWeChat handles failure', async () => {
+        mockedClient.post.mockResolvedValueOnce({
+            data: { success: false, message: 'Invalid WeChat code' },
+        });
+
+        const result = await authService.loginWithWeChat('bad_code');
+        expect(result.success).toBe(false);
+        expect(result.message).toBe('Invalid WeChat code');
+    });
+
+    it('onboarding handles error', async () => {
+        mockedClient.post.mockRejectedValueOnce({
+            response: { data: { message: 'Server error' } }
+        });
+
+        const result = await authService.onboarding('1', 'hard');
+        expect(result.success).toBe(false);
+        expect(result.error).toBe('Server error');
+    });
+
+    it('upgradeToVip handles success', async () => {
+        const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+        const result = await authService.upgradeToVip('1', 'monthly');
+        expect(result.success).toBe(true);
+        consoleSpy.mockRestore();
+    });
+
+    it('upgradeToVip handles error', async () => {
+        // upgradeToVip logic uses a setTimeout which shouldn't fail unless we mock something to throw internal error
+        // forcing an error here might require modifying the service to check a condition or mocking something else if possible
+        // But the service logic catches 'any' error. We can try to mock setTimeout? No.
+        // Actually, the service logic is: await new Promise... return {success: true}.
+        // It's hard to make it fail without modifying code or using a very specific mock that affects the promise.
+        // However, we can mock `console.log` to throw?
+        const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => { throw new Error('Mock Error') });
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+
+        const result = await authService.upgradeToVip('1', 'yearly');
+
+        expect(result.success).toBe(false);
+        expect(result.error).toBe('支付验证失败');
+
+        consoleSpy.mockRestore();
+        consoleErrorSpy.mockRestore();
+    });
 });
