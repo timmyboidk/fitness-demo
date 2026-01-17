@@ -16,6 +16,24 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
     getItem: jest.fn(),
 }));
 
+// Mock Expo Router
+jest.mock('expo-router', () => ({
+    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissAll: jest.fn() },
+    useFocusEffect: jest.fn((cb) => cb()),
+}));
+
+// Mock Vector Icons
+jest.mock('@expo/vector-icons', () => ({
+    Ionicons: ({ name }: { name: string }) => {
+        const { Text } = require('react-native');
+        return <Text>{name}</Text>;
+    },
+    MaterialCommunityIcons: ({ name }: { name: string }) => {
+        const { Text } = require('react-native');
+        return <Text>{name}</Text>;
+    },
+}));
+
 describe('ProfileScreen', () => {
     beforeEach(() => {
         jest.clearAllMocks();
@@ -79,12 +97,13 @@ describe('ProfileScreen', () => {
         expect(router.push).not.toHaveBeenCalledWith('/(auth)/login');
     });
 
-    it('navigates to menu items', async () => {
+    it('navigates to settings via header', async () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
-        const { getByText } = render(<ProfileScreen />);
+        const { getAllByText } = render(<ProfileScreen />);
         await waitFor(() => { });
 
-        fireEvent.press(getByText('设置'));
+        // 点击设置图标 (Header 中有两个，任意一个都应触发)
+        fireEvent.press(getAllByText('settings-outline')[0]);
         expect(router.push).toHaveBeenCalledWith('/profile/settings');
     });
 

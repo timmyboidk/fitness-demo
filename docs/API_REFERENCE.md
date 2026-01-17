@@ -1,41 +1,41 @@
-# API Reference
+# API 参考文档 (API Reference)
 
-This documentation describes the API endpoints used by the Fitness Demo Application. Since this is a frontend-first demo, these endpoints are currently mocked in `services/api/client.ts`.
+该文档描述了 Fitness Demo 应用程序使用的 API 端点。由于这是一个前端优先的演示项目，这些端点目前在 `services/api/client.ts` 中进行模拟 (Mock)。
 
-## Base URL
-Default: `http://10.0.0.169:8080` (Mocked in client)
+## 基础 URL (Base URL)
+默认值：`http://10.0.0.169:8080` (在客户端中模拟)
 
 ---
 
-## Authentication (`AuthService.ts`)
+## 身份认证 (Authentication) - `AuthService.ts`
 
-### Login
-Authenticate a user and retrieve a JWT token.
-- **Endpoint**: `POST /api/auth`
-- **Request Body**:
+### 登录 (Login)
+验证用户身份并检索 JWT 令牌。
+- **端点**: `POST /api/auth`
+- **请求体**:
   ```json
   {
     "email": "user@example.com",
     "password": "password123"
   }
   ```
-- **Response**:
+- **响应**:
   ```json
   {
     "success": true,
     "data": {
       "id": "user_123",
-      "nickname": "Demo User",
+      "nickname": "演示用户",
       "token": "jwt_token...",
       "isVip": false
     }
   }
   ```
 
-### Onboarding
-Submit initial user preferences.
-- **Endpoint**: `POST /api/auth/onboarding`
-- **Request Body**:
+### 新手引导 (Onboarding)
+提交初始用户偏好设置。
+- **端点**: `POST /api/auth/onboarding`
+- **请求体**:
   ```json
   {
     "userId": "user_123",
@@ -44,10 +44,10 @@ Submit initial user preferences.
   }
   ```
 
-### Upgrade to VIP
-Process a subscription upgrade.
-- **Endpoint**: `POST /api/auth` (Note: In strict REST this might be `/api/subscriptions`, but code uses `upgradeToVip` logic)
-- **Request Body**:
+### 升级 VIP (Upgrade to VIP)
+处理订阅升级。
+- **端点**: `POST /api/auth` (注意：在严格的 REST 中这可能是 `/api/subscriptions`，但代码使用 `upgradeToVip` 逻辑)
+- **请求体**:
   ```json
   {
     "action": "upgrade",
@@ -57,12 +57,12 @@ Process a subscription upgrade.
 
 ---
 
-## Library (`LibraryService.ts`)
+## 训练库 (Library) - `LibraryService.ts`
 
-### Get Library
-Fetch all available moves and sessions.
-- **Endpoint**: `GET /api/library`
-- **Response**:
+### 获取训练库 (Get Library)
+获取所有可用的动作和训练课程。
+- **端点**: `GET /api/library`
+- **响应**:
   ```json
   {
     "success": true,
@@ -75,35 +75,35 @@ Fetch all available moves and sessions.
 
 ---
 
-## AI Scoring (`AIScoringService.ts`)
+## AI 评分 (AI Scoring) - `AIScoringService.ts`
 
-### Submit Video Analysis
-Send motion data for AI scoring.
-- **Endpoint**: `POST /api/ai/score`
-- **Request Body**:
+### 提交视频分析 (Submit Video Analysis)
+发送动作数据进行 AI 评分。
+- **端点**: `POST /api/ai/score`
+- **请求体**:
   ```json
   {
     "moveId": "m1",
     "keypoints": [ ... ]
   }
   ```
-- **Response**:
+- **响应**:
   ```json
   {
     "success": true,
     "score": 92,
-    "feedback": ["Good form"]
+    "feedback": ["动作标准"]
   }
   ```
 
 ---
 
-## Analytics (`DataCollector.ts`)
+## 数据分析 (Analytics) - `DataCollector.ts`
 
-### Collect Data
-Send usage telemetry.
-- **Endpoint**: `POST /api/data/collect`
-- **Request Body**:
+### 收集数据 (Collect Data)
+发送使用情况遥测数据。
+- **端点**: `POST /api/data/collect`
+- **请求体**:
   ```json
   {
     "event": "workout_complete",

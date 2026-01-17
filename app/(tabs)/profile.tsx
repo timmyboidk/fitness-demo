@@ -15,8 +15,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 // 固定的菜单项配置，包含图标、标签和路由目标
 const MENU_ITEMS = [
     { icon: 'fitness-outline', label: '健身基础', route: '/onboarding/difficulty' },
-    { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
-    { icon: 'card-outline', label: '会员中心', route: '/profile/subscription' },
+    // { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
+    // { icon: 'card-outline', label: '会员中心', route: '/profile/subscription' },
     { icon: 'trophy-outline', label: '排行榜', route: '/profile/leaderboard' },
     { icon: 'share-social-outline', label: '社交账号', route: '/profile/social' },
     { icon: 'help-circle-outline', label: '帮助中心', route: '/profile/help' },
