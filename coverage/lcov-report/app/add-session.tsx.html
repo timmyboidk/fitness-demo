@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/21</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.73% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/19</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -131,20 +131,7 @@
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
 <a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,30 +150,17 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -231,12 +205,12 @@
  * 列出 Global Store 中所有尚未“可见”的课程，供用户添加到个人计划中。
  */
 &nbsp;
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { Alert, FlatList, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SessionItem } from '../components/SessionItem';
+import { useFeatureLimit } from '../hooks/useFeatureLimit';
 import { libraryStore, Session } from '../store/library';
 &nbsp;
 export default function AddSessionScreen() {
@@ -244,30 +218,17 @@ export default function AddSessionScreen() {
     const [sessions, setSessions] = useState&lt;Session[]&gt;(libraryStore.getSessions().filter(s =&gt; !s.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const { checkLimit } = useFeatureLimit();
 &nbsp;
     /**
      * 处理添加课程
      * @param id - 课程 ID
      */
     const handleAdd = async (id: string) =&gt; {
-        const userStr = await AsyncStorage.getItem('user');
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            const mySessionsCount = libraryStore.getSessions().filter(s =&gt; s.isVisible).length;
+        const mySessionsCount = libraryStore.getSessions().filter(s =&gt; s.isVisible).length;
+        const allowed = await checkLimit('session', mySessionsCount);
 &nbsp;
-            // 免费用户限制: 最多 3 个课程
-            if (!user.isVip &amp;&amp; mySessionsCount &gt;= 3) {
-                Alert.alert(
-                    "达到限制",
-                    "免费版每月限 3 个课程。升级到 VIP 解锁无限训练计划。",
-                    [
-                        { text: "取消", style: "cancel" },
-                        { text: "去升级", onPress: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/profile/subscription' as any) </span>}
-                    ]
-                );
-                return;
-            }
-        }
+        if (!allowed) return;
 &nbsp;
         libraryStore.toggleSessionVisibility(id);
         router.back();
@@ -313,7 +274,7 @@ export default function AddSessionScreen() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-17T04:23:49.515Z
+                at 2026-01-17T04:47:59.465Z
             </div>
         <script src="../prettify.js"></script>
         <script>

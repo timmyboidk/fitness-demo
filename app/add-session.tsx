@@ -4,12 +4,12 @@
  * 列出 Global Store 中所有尚未“可见”的课程，供用户添加到个人计划中。
  */
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { Alert, FlatList, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SessionItem } from '../components/SessionItem';
+import { useFeatureLimit } from '../hooks/useFeatureLimit';
 import { libraryStore, Session } from '../store/library';
 
 export default function AddSessionScreen() {
@@ -17,30 +17,17 @@ export default function AddSessionScreen() {
     const [sessions, setSessions] = useState<Session[]>(libraryStore.getSessions().filter(s => !s.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const { checkLimit } = useFeatureLimit();
 
     /**
      * 处理添加课程
      * @param id - 课程 ID
      */
     const handleAdd = async (id: string) => {
-        const userStr = await AsyncStorage.getItem('user');
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            const mySessionsCount = libraryStore.getSessions().filter(s => s.isVisible).length;
+        const mySessionsCount = libraryStore.getSessions().filter(s => s.isVisible).length;
+        const allowed = await checkLimit('session', mySessionsCount);
 
-            // 免费用户限制: 最多 3 个课程
-            if (!user.isVip && mySessionsCount >= 3) {
-                Alert.alert(
-                    "达到限制",
-                    "免费版每月限 3 个课程。升级到 VIP 解锁无限训练计划。",
-                    [
-                        { text: "取消", style: "cancel" },
-                        { text: "去升级", onPress: () => router.push('/profile/subscription' as any) }
-                    ]
-                );
-                return;
-            }
-        }
+        if (!allowed) return;
 
         libraryStore.toggleSessionVisibility(id);
         router.back();

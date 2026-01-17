@@ -1,52 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1768623829552" clover="3.2.0">
-  <project timestamp="1768623829552" name="All files">
-    <metrics statements="536" coveredstatements="501" conditionals="368" coveredconditionals="296" methods="169" coveredmethods="145" elements="1073" coveredelements="942" complexity="0" loc="536" ncloc="536" packages="13" files="30" classes="30"/>
+<coverage generated="1768625279489" clover="3.2.0">
+  <project timestamp="1768625279489" name="All files">
+    <metrics statements="549" coveredstatements="516" conditionals="366" coveredconditionals="296" methods="172" coveredmethods="150" elements="1087" coveredelements="962" complexity="0" loc="549" ncloc="549" packages="13" files="33" classes="33"/>
     <package name="app">
-      <metrics statements="38" coveredstatements="36" conditionals="24" coveredconditionals="20" methods="19" coveredmethods="17"/>
+      <metrics statements="30" coveredstatements="30" conditionals="16" coveredconditionals="12" methods="17" coveredmethods="17"/>
       <file name="add-move.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/app/add-move.tsx">
-        <metrics statements="19" coveredstatements="18" conditionals="12" coveredconditionals="10" methods="9" coveredmethods="8"/>
+        <metrics statements="15" coveredstatements="15" conditionals="8" coveredconditionals="6" methods="8" coveredmethods="8"/>
         <line num="18" count="14" type="stmt"/>
         <line num="19" count="5" type="stmt"/>
         <line num="20" count="5" type="stmt"/>
-        <line num="28" count="5" type="stmt"/>
-        <line num="29" count="3" type="stmt"/>
-        <line num="30" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="32" count="12" type="stmt"/>
-        <line num="35" count="2" type="cond" truecount="4" falsecount="0"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="49" count="2" type="stmt"/>
-        <line num="51" count="2" type="stmt"/>
-        <line num="54" count="5" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="74" count="6" type="stmt"/>
-        <line num="78" count="3" type="stmt"/>
-        <line num="82" count="3" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="13" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="33" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="61" count="6" type="stmt"/>
+        <line num="65" count="3" type="stmt"/>
+        <line num="69" count="3" type="stmt"/>
       </file>
       <file name="add-session.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/app/add-session.tsx">
-        <metrics statements="19" coveredstatements="18" conditionals="12" coveredconditionals="10" methods="10" coveredmethods="9"/>
+        <metrics statements="15" coveredstatements="15" conditionals="8" coveredconditionals="6" methods="9" coveredmethods="9"/>
         <line num="17" count="7" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
         <line num="19" count="5" type="stmt"/>
-        <line num="25" count="5" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="27" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="29" count="5" type="stmt"/>
-        <line num="32" count="2" type="cond" truecount="4" falsecount="0"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="46" count="2" type="stmt"/>
-        <line num="49" count="5" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="67" count="6" type="stmt"/>
-        <line num="69" count="3" type="stmt"/>
-        <line num="73" count="3" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="30" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="54" count="6" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
       </file>
     </package>
     <package name="app.(auth)">
@@ -138,80 +130,74 @@
       </file>
     </package>
     <package name="app.(tabs)">
-      <metrics statements="65" coveredstatements="58" conditionals="50" coveredconditionals="35" methods="33" coveredmethods="26"/>
+      <metrics statements="59" coveredstatements="54" conditionals="40" coveredconditionals="30" methods="33" coveredmethods="26"/>
       <file name="index.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/app/(tabs)/index.tsx">
-        <metrics statements="19" coveredstatements="17" conditionals="6" coveredconditionals="3" methods="11" coveredmethods="9"/>
-        <line num="21" count="13" type="stmt"/>
+        <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="11" coveredmethods="9"/>
         <line num="22" count="13" type="stmt"/>
         <line num="23" count="13" type="stmt"/>
-        <line num="24" count="13" type="cond" truecount="1" falsecount="1"/>
+        <line num="24" count="13" type="stmt"/>
         <line num="25" count="13" type="cond" truecount="1" falsecount="1"/>
-        <line num="26" count="13" type="cond" truecount="1" falsecount="1"/>
-        <line num="29" count="13" type="stmt"/>
-        <line num="31" count="13" type="stmt"/>
-        <line num="33" count="45" type="stmt"/>
-        <line num="36" count="5" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="41" count="5" type="stmt"/>
-        <line num="46" count="13" type="stmt"/>
-        <line num="52" count="13" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="70" count="18" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="87" count="10" type="stmt"/>
-        <line num="91" count="2" type="stmt"/>
+        <line num="28" count="13" type="stmt"/>
+        <line num="30" count="13" type="stmt"/>
+        <line num="32" count="45" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="44" count="13" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="55" count="13" type="stmt"/>
+        <line num="67" count="18" type="stmt"/>
+        <line num="78" count="13" type="stmt"/>
+        <line num="84" count="10" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
       </file>
       <file name="profile.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/app/(tabs)/profile.tsx">
-        <metrics statements="27" coveredstatements="24" conditionals="38" coveredconditionals="29" methods="11" coveredmethods="8"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="30" count="17" type="stmt"/>
-        <line num="31" count="17" type="stmt"/>
-        <line num="32" count="17" type="stmt"/>
-        <line num="33" count="17" type="cond" truecount="1" falsecount="1"/>
-        <line num="34" count="17" type="cond" truecount="1" falsecount="1"/>
-        <line num="36" count="17" type="stmt"/>
-        <line num="38" count="17" type="stmt"/>
-        <line num="42" count="17" type="stmt"/>
-        <line num="43" count="17" type="stmt"/>
-        <line num="44" count="17" type="stmt"/>
-        <line num="45" count="16" type="cond" truecount="2" falsecount="0"/>
-        <line num="46" count="12" type="stmt"/>
+        <metrics statements="25" coveredstatements="22" conditionals="36" coveredconditionals="28" methods="11" coveredmethods="8"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="31" count="19" type="stmt"/>
+        <line num="32" count="19" type="stmt"/>
+        <line num="33" count="19" type="stmt"/>
+        <line num="34" count="19" type="cond" truecount="1" falsecount="1"/>
+        <line num="36" count="19" type="stmt"/>
+        <line num="38" count="19" type="stmt"/>
+        <line num="42" count="19" type="stmt"/>
+        <line num="43" count="19" type="stmt"/>
+        <line num="44" count="19" type="stmt"/>
+        <line num="45" count="18" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="14" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
-        <line num="52" count="17" type="stmt"/>
-        <line num="57" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="58" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="59" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="61" count="17" type="stmt"/>
-        <line num="67" count="17" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="103" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="142" count="1" type="stmt"/>
-        <line num="167" count="0" type="stmt"/>
-        <line num="189" count="51" type="stmt"/>
+        <line num="52" count="19" type="stmt"/>
+        <line num="57" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="58" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="59" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="62" count="19" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="73" count="19" type="stmt"/>
+        <line num="102" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="166" count="0" type="stmt"/>
+        <line num="188" count="57" type="stmt"/>
       </file>
       <file name="sessions.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/app/(tabs)/sessions.tsx">
-        <metrics statements="19" coveredstatements="17" conditionals="6" coveredconditionals="3" methods="11" coveredmethods="9"/>
-        <line num="21" count="7" type="stmt"/>
+        <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="11" coveredmethods="9"/>
         <line num="22" count="7" type="stmt"/>
         <line num="23" count="7" type="stmt"/>
-        <line num="24" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="24" count="7" type="stmt"/>
         <line num="25" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="26" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="28" count="7" type="stmt"/>
-        <line num="30" count="7" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="40" count="3" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="29" count="7" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
         <line num="43" count="7" type="stmt"/>
-        <line num="49" count="7" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="65" count="6" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="80" count="3" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="54" count="7" type="stmt"/>
+        <line num="64" count="6" type="stmt"/>
+        <line num="71" count="7" type="stmt"/>
+        <line num="77" count="3" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
       </file>
     </package>
     <package name="app.profile">
@@ -316,7 +302,14 @@
       </file>
     </package>
     <package name="components">
-      <metrics statements="19" coveredstatements="19" conditionals="33" coveredconditionals="29" methods="7" coveredmethods="7"/>
+      <metrics statements="29" coveredstatements="29" conditionals="39" coveredconditionals="32" methods="9" coveredmethods="9"/>
+      <file name="LargeTitle.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/components/LargeTitle.tsx">
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="11" count="39" type="stmt"/>
+        <line num="12" count="39" type="stmt"/>
+        <line num="13" count="39" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="39" type="stmt"/>
+      </file>
       <file name="MoveItem.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/components/MoveItem.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="10" coveredconditionals="10" methods="2" coveredmethods="2"/>
         <line num="35" count="16" type="cond" truecount="2" falsecount="0"/>
@@ -339,6 +332,15 @@
         <line num="37" count="7" type="stmt"/>
         <line num="38" count="7" type="cond" truecount="1" falsecount="1"/>
         <line num="40" count="7" type="stmt"/>
+      </file>
+      <file name="StickyHeader.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/components/StickyHeader.tsx">
+        <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="12" count="39" type="stmt"/>
+        <line num="13" count="39" type="stmt"/>
+        <line num="14" count="39" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="39" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="39" type="stmt"/>
+        <line num="23" count="39" type="stmt"/>
       </file>
       <file name="themed-text.tsx" path="/Users/timyu/Desktop/fitness/fitness-demo/components/themed-text.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="11" coveredconditionals="8" methods="1" coveredmethods="1"/>
@@ -396,7 +398,7 @@
       </file>
     </package>
     <package name="hooks">
-      <metrics statements="15" coveredstatements="15" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
+      <metrics statements="32" coveredstatements="30" conditionals="16" coveredconditionals="16" methods="7" coveredmethods="7"/>
       <file name="use-color-scheme.ts" path="/Users/timyu/Desktop/fitness/fitness-demo/hooks/use-color-scheme.ts">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
@@ -407,6 +409,26 @@
         <line num="26" count="6" type="cond" truecount="2" falsecount="0"/>
         <line num="27" count="1" type="stmt"/>
         <line num="29" count="5" type="stmt"/>
+      </file>
+      <file name="useFeatureLimit.ts" path="/Users/timyu/Desktop/fitness/fitness-demo/hooks/useFeatureLimit.ts">
+        <metrics statements="17" coveredstatements="15" conditionals="10" coveredconditionals="10" methods="3" coveredmethods="3"/>
+        <line num="20" count="16" type="stmt"/>
+        <line num="21" count="12" type="stmt"/>
+        <line num="22" count="12" type="stmt"/>
+        <line num="23" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="27" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="31" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="46" count="5" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="59" count="16" type="stmt"/>
       </file>
       <file name="usePoseModel.ts" path="/Users/timyu/Desktop/fitness/fitness-demo/hooks/usePoseModel.ts">
         <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>

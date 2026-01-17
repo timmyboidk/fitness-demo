@@ -5,12 +5,12 @@
  * 类似于动作商店或资源中心。
  */
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { Alert, FlatList, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../components/MoveItem';
+import { useFeatureLimit } from '../hooks/useFeatureLimit';
 import { libraryStore, Move } from '../store/library';
 
 export default function AddMoveScreen() {
@@ -18,6 +18,7 @@ export default function AddMoveScreen() {
     const [moves, setMoves] = useState<Move[]>(libraryStore.getMoves().filter(m => !m.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const { checkLimit } = useFeatureLimit();
 
     /**
      * 处理添加动作
@@ -26,24 +27,10 @@ export default function AddMoveScreen() {
 
     // 限制逻辑
     const handleAdd = async (id: string) => {
-        const userStr = await AsyncStorage.getItem('user');
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            const myMovesCount = libraryStore.getMoves().filter(m => m.isVisible).length;
+        const myMovesCount = libraryStore.getMoves().filter(m => m.isVisible).length;
+        const allowed = await checkLimit('move', myMovesCount);
 
-            // 免费用户限制: 最多 10 个动作
-            if (!user.isVip && myMovesCount >= 10) {
-                Alert.alert(
-                    "达到限制",
-                    "免费版最多只能添加 10 个动作。升级到 VIP 解锁无限动作库。",
-                    [
-                        { text: "取消", style: "cancel" },
-                        { text: "去升级", onPress: () => router.push('/profile/subscription' as any) }
-                    ]
-                );
-                return;
-            }
-        }
+        if (!allowed) return;
 
         // 更新 Store 状态，将动作设为可见
         libraryStore.toggleMoveVisibility(id);

@@ -8,9 +8,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Animated, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { LargeTitle } from '../../components/LargeTitle';
 import { SessionItem } from '../../components/SessionItem';
+import { StickyHeader } from '../../components/StickyHeader';
 import { libraryStore, Session } from '../../store/library';
 
 /**
@@ -21,9 +22,7 @@ export default function SessionsScreen() {
     const [sessions, setSessions] = useState<Session[]>([]);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const textColor = isDark ? '#FFFFFF' : '#000000';
     const iconColor = isDark ? '#CCFF00' : '#16a34a';
-    const bgColor = isDark ? '#000000' : '#FFFFFF';
 
     const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -40,25 +39,25 @@ export default function SessionsScreen() {
         return unsubscribe;
     }, []);
 
-    const headerOpacity = scrollY.interpolate({
-        inputRange: [0, 50],
-        outputRange: [0, 1],
-        extrapolate: 'clamp',
-    });
+    const RightAddButton = (
+        <TouchableOpacity onPress={() => router.push('/add-session')}>
+            <Ionicons name="add-circle" size={28} color={iconColor} />
+        </TouchableOpacity>
+    );
+
+    const LargeRightAddButton = (
+        <TouchableOpacity onPress={() => router.push('/add-session')} className="mb-1">
+            <Ionicons name="add-circle" size={36} color={iconColor} />
+        </TouchableOpacity>
+    );
 
     return (
         <View className="flex-1 bg-white dark:bg-black">
-            {/* Sticky Header */}
-            <View className="absolute top-0 left-0 right-0 z-10">
-                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
-                    <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
-                        <Text className="text-lg font-bold" style={{ color: textColor }}>课程计划</Text>
-                        <TouchableOpacity onPress={() => router.push('/add-session')}>
-                            <Ionicons name="add-circle" size={28} color={iconColor} />
-                        </TouchableOpacity>
-                    </Animated.View>
-                </SafeAreaView>
-            </View>
+            <StickyHeader
+                scrollY={scrollY}
+                title="课程计划"
+                rightElement={RightAddButton}
+            />
 
             <Animated.FlatList
                 data={sessions}
@@ -69,12 +68,10 @@ export default function SessionsScreen() {
                     { useNativeDriver: true }
                 )}
                 ListHeaderComponent={() => (
-                    <View className="mb-6 mt-8 flex-row justify-between items-end">
-                        <Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}>课程计划</Text>
-                        <TouchableOpacity onPress={() => router.push('/add-session')} className="mb-1">
-                            <Ionicons name="add-circle" size={36} color={iconColor} />
-                        </TouchableOpacity>
-                    </View>
+                    <LargeTitle
+                        title="课程计划"
+                        rightElement={LargeRightAddButton}
+                    />
                 )}
                 renderItem={({ item }) => (
                     <SessionItem

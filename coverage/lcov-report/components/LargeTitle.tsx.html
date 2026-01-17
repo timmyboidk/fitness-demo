@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for hooks/usePoseModel.ts</title>
+    <title>Code coverage report for components/LargeTitle.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">hooks</a> usePoseModel.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> LargeTitle.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -84,53 +84,47 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { InferenceSession } from 'onnxruntime-react-native';
-import { useEffect, useState } from 'react';
-import { Logger } from '../services/Logger';
-import { modelService } from '../services/ModelService';
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { Text, View, useColorScheme } from 'react-native';
 &nbsp;
-export function usePoseModel(modelUrl?: string) {
-    const [session, setSession] = useState&lt;InferenceSession | null&gt;(null);
+interface LargeTitleProps {
+    title: string;
+    rightElement?: React.ReactNode;
+    style?: any;
+}
 &nbsp;
-    useEffect(() =&gt; {
-        (async () =&gt; {
-            try {
-                const modelPath = await modelService.loadModel(modelUrl || "https://example.com/model.onnx");
-                const sess = await modelService.createSession(modelPath);
-                setSession(sess);
-                Logger.info('usePoseModel', "Model loaded successfully");
-            } catch (e) {
-                Logger.error('usePoseModel', "Failed to load model", { error: e });
-            }
-        })();
-    }, [modelUrl]);
+export function LargeTitle({ title, rightElement, style }: LargeTitleProps) {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const textColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#FFFFFF' </span>: '#000000';
 &nbsp;
-    return session;
+    return (
+        &lt;View className="mb-6 mt-8 flex-row justify-between items-end" style={style}&gt;
+            &lt;Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}&gt;{title}&lt;/Text&gt;
+            {rightElement}
+        &lt;/View&gt;
+    );
 }
 &nbsp;</pre></td></tr></table></pre>
 

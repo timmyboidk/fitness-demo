@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.47% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/21</span>
+                <span class='fraction'>18/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.47% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/19</span>
+                <span class='fraction'>16/17</span>
             </div>
         
             
@@ -149,10 +149,7 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,8 +169,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -194,20 +190,20 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,9 +219,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,9 +245,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Animated, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { LargeTitle } from '../../components/LargeTitle';
 import { SessionItem } from '../../components/SessionItem';
+import { StickyHeader } from '../../components/StickyHeader';
 import { libraryStore, Session } from '../../store/library';
 &nbsp;
 /**
@@ -264,9 +259,7 @@ export default function SessionsScreen() {
     const [sessions, setSessions] = useState&lt;Session[]&gt;([]);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const textColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#FFFFFF' </span>: '#000000';
     const iconColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#CCFF00' </span>: '#16a34a';
-    const bgColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#000000' </span>: '#FFFFFF';
 &nbsp;
     const scrollY = useRef(new Animated.Value(0)).current;
 &nbsp;
@@ -283,25 +276,25 @@ export default function SessionsScreen() {
         return unsubscribe;
     }, []);
 &nbsp;
-    const headerOpacity = scrollY.interpolate({
-        inputRange: [0, 50],
-        outputRange: [0, 1],
-        extrapolate: 'clamp',
-    });
+    const RightAddButton = (
+        &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/add-session')}</span>&gt;
+            &lt;Ionicons name="add-circle" size={28} color={iconColor} /&gt;
+        &lt;/TouchableOpacity&gt;
+    );
+&nbsp;
+    const LargeRightAddButton = (
+        &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/add-session')}</span> className="mb-1"&gt;
+            &lt;Ionicons name="add-circle" size={36} color={iconColor} /&gt;
+        &lt;/TouchableOpacity&gt;
+    );
 &nbsp;
     return (
         &lt;View className="flex-1 bg-white dark:bg-black"&gt;
-            {/* Sticky Header */}
-            &lt;View className="absolute top-0 left-0 right-0 z-10"&gt;
-                &lt;SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}&gt;
-                    &lt;Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900"&gt;
-                        &lt;Text className="text-lg font-bold" style={{ color: textColor }}&gt;课程计划&lt;/Text&gt;
-                        &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/add-session')}</span>&gt;
-                            &lt;Ionicons name="add-circle" size={28} color={iconColor} /&gt;
-                        &lt;/TouchableOpacity&gt;
-                    &lt;/Animated.View&gt;
-                &lt;/SafeAreaView&gt;
-            &lt;/View&gt;
+            &lt;StickyHeader
+                scrollY={scrollY}
+                title="课程计划"
+                rightElement={RightAddButton}
+            /&gt;
 &nbsp;
             &lt;Animated.FlatList
                 data={sessions}
@@ -312,12 +305,10 @@ export default function SessionsScreen() {
                     { useNativeDriver: true }
                 )}
                 ListHeaderComponent={() =&gt; (
-                    &lt;View className="mb-6 mt-8 flex-row justify-between items-end"&gt;
-                        &lt;Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}&gt;课程计划&lt;/Text&gt;
-                        &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/add-session')}</span> className="mb-1"&gt;
-                            &lt;Ionicons name="add-circle" size={36} color={iconColor} /&gt;
-                        &lt;/TouchableOpacity&gt;
-                    &lt;/View&gt;
+                    &lt;LargeTitle
+                        title="课程计划"
+                        rightElement={LargeRightAddButton}
+                    /&gt;
                 )}
                 renderItem={({ item }) =&gt; (
                     &lt;SessionItem
@@ -337,7 +328,7 @@ export default function SessionsScreen() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-17T04:23:49.515Z
+                at 2026-01-17T04:47:59.465Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

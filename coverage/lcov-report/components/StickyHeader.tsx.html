@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for hooks/usePoseModel.ts</title>
+    <title>Code coverage report for components/StickyHeader.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">hooks</a> usePoseModel.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> StickyHeader.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -86,51 +86,81 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { InferenceSession } from 'onnxruntime-react-native';
-import { useEffect, useState } from 'react';
-import { Logger } from '../services/Logger';
-import { modelService } from '../services/ModelService';
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { Animated, Text, View, useColorScheme } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 &nbsp;
-export function usePoseModel(modelUrl?: string) {
-    const [session, setSession] = useState&lt;InferenceSession | null&gt;(null);
+interface StickyHeaderProps {
+    scrollY: Animated.Value;
+    title: string;
+    rightElement?: React.ReactNode;
+}
 &nbsp;
-    useEffect(() =&gt; {
-        (async () =&gt; {
-            try {
-                const modelPath = await modelService.loadModel(modelUrl || "https://example.com/model.onnx");
-                const sess = await modelService.createSession(modelPath);
-                setSession(sess);
-                Logger.info('usePoseModel', "Model loaded successfully");
-            } catch (e) {
-                Logger.error('usePoseModel', "Failed to load model", { error: e });
-            }
-        })();
-    }, [modelUrl]);
+export function StickyHeader({ scrollY, title, rightElement }: StickyHeaderProps) {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const textColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#FFFFFF' </span>: '#000000';
+    const bgColor = isDark ? <span class="branch-0 cbranch-no" title="branch not covered" >'#000000' </span>: '#FFFFFF';
 &nbsp;
-    return session;
+    const headerOpacity = scrollY.interpolate({
+        inputRange: [0, 50],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    });
+&nbsp;
+    return (
+        &lt;View className="absolute top-0 left-0 right-0 z-10"&gt;
+            &lt;SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}&gt;
+                &lt;Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900"&gt;
+                    &lt;Text className="text-lg font-bold" style={{ color: textColor }}&gt;{title}&lt;/Text&gt;
+                    {rightElement}
+                &lt;/Animated.View&gt;
+            &lt;/SafeAreaView&gt;
+        &lt;/View&gt;
+    );
 }
 &nbsp;</pre></td></tr></table></pre>
 

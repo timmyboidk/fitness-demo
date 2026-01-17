@@ -10,7 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { Animated, Image, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { LargeTitle } from '../../components/LargeTitle';
+import { StickyHeader } from '../../components/StickyHeader';
 
 // 固定的菜单项配置，包含图标、标签和路由目标
 const MENU_ITEMS = [
@@ -31,7 +32,6 @@ export default function ProfileScreen() {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     const textColor = isDark ? '#FFFFFF' : '#000000';
-    const bgColor = isDark ? '#000000' : '#FFFFFF';
 
     const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -58,25 +58,25 @@ export default function ProfileScreen() {
     const nickname = user?.nickname || '未登录用户';
     const userId = user?._id ? `ID: ${user._id.slice(-6).toUpperCase()}` : '点击登录';
 
-    const headerOpacity = scrollY.interpolate({
-        inputRange: [0, 50],
-        outputRange: [0, 1],
-        extrapolate: 'clamp',
-    });
+    const RightSettingsButton = (
+        <TouchableOpacity onPress={() => router.push('/profile/settings')}>
+            <Ionicons name="settings-outline" size={24} color={textColor} />
+        </TouchableOpacity>
+    );
+
+    const LargeRightSettingsButton = (
+        <TouchableOpacity onPress={() => router.push('/profile/settings')} className="mb-1">
+            <Ionicons name="settings-outline" size={30} color={textColor} />
+        </TouchableOpacity>
+    );
 
     return (
         <View className="flex-1 bg-white dark:bg-black">
-            {/* Sticky Header */}
-            <View className="absolute top-0 left-0 right-0 z-10">
-                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
-                    <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
-                        <Text className="text-lg font-bold" style={{ color: textColor }}>个人中心</Text>
-                        <TouchableOpacity onPress={() => router.push('/profile/settings')}>
-                            <Ionicons name="settings-outline" size={24} color={textColor} />
-                        </TouchableOpacity>
-                    </Animated.View>
-                </SafeAreaView>
-            </View>
+            <StickyHeader
+                scrollY={scrollY}
+                title="个人中心"
+                rightElement={RightSettingsButton}
+            />
 
             <Animated.ScrollView
                 contentContainerStyle={{ paddingTop: 60, paddingBottom: 100 }}
@@ -87,13 +87,12 @@ export default function ProfileScreen() {
                     { useNativeDriver: true }
                 )}
             >
-                {/* Large Title */}
-                <View className="px-6 mb-6 mt-8 flex-row justify-between items-end">
-                    <Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}>个人中心</Text>
-                    <TouchableOpacity onPress={() => router.push('/profile/settings')} className="mb-1">
-                        <Ionicons name="settings-outline" size={30} color={textColor} />
-                    </TouchableOpacity>
-                </View>
+                {/* Large Title with extra padding to match profile design */}
+                <LargeTitle
+                    title="个人中心"
+                    rightElement={LargeRightSettingsButton}
+                    style={{ paddingHorizontal: 24 }} // px-6 = 24px
+                />
 
                 {/* 用户信息卡片区：展示头像、昵称和会员状态 */}
                 <TouchableOpacity

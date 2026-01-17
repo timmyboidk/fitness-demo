@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/21</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.73% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/19</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -141,20 +141,7 @@
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -174,6 +161,7 @@
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,24 +170,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -252,12 +226,12 @@
  * 类似于动作商店或资源中心。
  */
 &nbsp;
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { Alert, FlatList, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../components/MoveItem';
+import { useFeatureLimit } from '../hooks/useFeatureLimit';
 import { libraryStore, Move } from '../store/library';
 &nbsp;
 export default function AddMoveScreen() {
@@ -265,6 +239,7 @@ export default function AddMoveScreen() {
     const [moves, setMoves] = useState&lt;Move[]&gt;(libraryStore.getMoves().filter(m =&gt; !m.isVisible));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const { checkLimit } = useFeatureLimit();
 &nbsp;
     /**
      * 处理添加动作
@@ -273,24 +248,10 @@ export default function AddMoveScreen() {
 &nbsp;
     // 限制逻辑
     const handleAdd = async (id: string) =&gt; {
-        const userStr = await AsyncStorage.getItem('user');
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            const myMovesCount = libraryStore.getMoves().filter(m =&gt; m.isVisible).length;
+        const myMovesCount = libraryStore.getMoves().filter(m =&gt; m.isVisible).length;
+        const allowed = await checkLimit('move', myMovesCount);
 &nbsp;
-            // 免费用户限制: 最多 10 个动作
-            if (!user.isVip &amp;&amp; myMovesCount &gt;= 10) {
-                Alert.alert(
-                    "达到限制",
-                    "免费版最多只能添加 10 个动作。升级到 VIP 解锁无限动作库。",
-                    [
-                        { text: "取消", style: "cancel" },
-                        { text: "去升级", onPress: <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >router.push('/profile/subscription' as any) </span>}
-                    ]
-                );
-                return;
-            }
-        }
+        if (!allowed) return;
 &nbsp;
         // 更新 Store 状态，将动作设为可见
         libraryStore.toggleMoveVisibility(id);
@@ -343,7 +304,7 @@ export default function AddMoveScreen() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-17T04:23:49.515Z
+                at 2026-01-17T04:47:59.465Z
             </div>
         <script src="../prettify.js"></script>
         <script>
