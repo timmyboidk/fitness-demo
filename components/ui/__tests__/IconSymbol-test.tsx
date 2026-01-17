@@ -8,12 +8,12 @@ describe('IconSymbol', () => {
             <IconSymbol name="house.fill" color="red" size={30} />
         );
 
-        // precise mapping depends on implementation (iOS vs default)
-        // If it's iOS (using SymbolView mock):
-        // If it's default (using MaterialIcons mock):
+        // 精确映射取决于具体实现（iOS vs 默认回退）
+        // 如果是 iOS (使用 SymbolView mock):
+        // 如果是默认 (使用 MaterialIcons mock):
 
-        // To make it robust, we check if *something* rendered.
-        // Based on our mocks:
+        // 为了稳健性，我们检查 *是否* 有内容渲染。
+        // 基于我们的 mocks:
         // iOS/Symbols -> testID="symbol-house.fill"
         // Default/Material -> testID="icon-home" (mapped from house.fill)
 

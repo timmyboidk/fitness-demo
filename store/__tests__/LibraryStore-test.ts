@@ -1,7 +1,7 @@
 import { libraryService } from '../../services/LibraryService';
 import { libraryStore } from '../library';
 
-// Mock libraryService
+// Mock libraryService (库服务 Mock)
 jest.mock('../../services/LibraryService', () => ({
     libraryService: {
         fetchLibrary: jest.fn(),
@@ -29,7 +29,7 @@ describe('LibraryStore', () => {
         libraryStore.toggleMoveVisibility(move.id);
         expect(move.isVisible).toBe(!initial);
 
-        // Toggle back
+        // 再次切换回来
         libraryStore.toggleMoveVisibility(move.id);
         expect(move.isVisible).toBe(initial);
     });
@@ -46,7 +46,7 @@ describe('LibraryStore', () => {
     });
 
     it('returns correct moves for a session', () => {
-        const session = libraryStore.getSessions()[0]; // s1: HIIT (ids: m_hiit, m_core_training, etc.)
+        const session = libraryStore.getSessions()[0]; // s1: HIIT (ID: m_hiit, m_core_training 等)
         const moves = libraryStore.getSessionMoves(session.id);
 
         expect(moves.length).toBe(session.moveIds.length);
@@ -69,7 +69,7 @@ describe('LibraryStore', () => {
 
         unsubscribe();
         libraryStore.toggleMoveVisibility(move.id);
-        expect(listener).toHaveBeenCalledTimes(1); // No extra call
+        expect(listener).toHaveBeenCalledTimes(1); // 不应有额外调用
     });
 
     it('sync calls service and updates data', async () => {
@@ -102,7 +102,7 @@ describe('LibraryStore', () => {
     it('sync handles no data', async () => {
         (libraryService.fetchLibrary as jest.Mock).mockResolvedValue(null);
         await libraryStore.sync();
-        // Should not crash
+        // 不应崩溃
     });
 
     it('toggles move visibility safely for invalid ID', () => {

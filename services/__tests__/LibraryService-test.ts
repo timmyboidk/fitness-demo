@@ -2,7 +2,7 @@ import { libraryService } from '../LibraryService';
 import client from '../api/client';
 
 jest.mock('../api/client');
-const mockedClient = client as jest.Mocked<typeof client>;
+const mockedClient = client as jest.Mocked<typeof client>; // Mock 客户端
 
 describe('LibraryService', () => {
     beforeEach(() => {

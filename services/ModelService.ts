@@ -7,7 +7,7 @@ const MODEL_FILE_NAME = 'pose_detection.onnx';
 
 export const modelService = {
     /**
-     * Initializes the model directory.
+     * 初始化模型目录。
      */
     async init(): Promise<void> {
         const dirInfo = await FileSystem.getInfoAsync(MODEL_DIR);
@@ -17,9 +17,9 @@ export const modelService = {
     },
 
     /**
-     * Downloads the model from a remote URL or uses a bundled asset if available.
-     * For this demo, we assume the model might be bundled or downloaded.
-     * @param url Remote URL to download the ONNX model from.
+     * 从远程 URL 下载模型或使用已捆绑的资源。
+     * 在此演示中，我们假设模型可能被捆绑或需要下载。
+     * @param url 远程 ONNX 模型下载地址。
      */
     async loadModel(url?: string): Promise<string> {
         await this.init();
@@ -38,21 +38,21 @@ export const modelService = {
             Logger.info('ModelService', "Model downloaded to:", { uri });
             return uri;
         } else {
-            // Fallback or error if no URL provided and no local file
-            // In a real app, you might bundle a default model
+            // 如果未提供 URL 且没有本地文件，则回退或报错
+            // 在实际应用中，您可能会捆绑一个默认模型
             throw new Error("No model URL provided and no cached model found.");
         }
     },
 
     /**
-     * Creates an ONNX Inference Session.
-     * @param modelPath Local file URI of the model.
+     * 创建 ONNX 推理会话 (Inference Session)。
+     * @param modelPath 模型文件的本地 URI。
      */
     async createSession(modelPath: string): Promise<InferenceSession> {
         Logger.info('ModelService', "Creating Inference Session with model:", { modelPath });
         try {
-            // 'file://' prefix might need stripping depending on platform and library version
-            // onnxruntime-react-native typically handles file paths well
+            // 'file://' 前缀可能需要根据平台和库版本进行剥离
+            // onnxruntime-react-native 通常能很好地处理文件路径
             const session = await InferenceSession.create(modelPath);
             return session;
         } catch (e) {

@@ -17,7 +17,7 @@ async function checkVersion(platform: string, currentVersion: string) {
     }
 }
 
-// Placeholder for reload
+// 检查更新的函数，目前通过 console.log 模拟
 async function reloadInferenceSession(uri: string) {
     console.log('Reloading session with model at:', uri);
 }

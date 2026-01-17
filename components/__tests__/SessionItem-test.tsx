@@ -9,7 +9,7 @@ const mockItem = {
     color: '#FF0000',
     time: '30m',
     count: '5',
-    moves: [], // Assuming moves array exists in Session type
+    moves: [], // 假设 moves 数组存在于 Session 类型中
     date: '2023-01-01',
 };
 
@@ -20,7 +20,7 @@ describe('SessionItem', () => {
         expect(getByText('Morning Cardio')).toBeTruthy();
         expect(getByText('30m')).toBeTruthy();
         expect(getByText('5')).toBeTruthy();
-        // Play button shows by default if no add/remove buttons
+        // 如果没有添加/删除按钮，默认显示播放按钮
         expect(getByTestId('symbol-play.fill')).toBeTruthy();
     });
 

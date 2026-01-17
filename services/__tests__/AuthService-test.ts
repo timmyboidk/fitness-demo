@@ -1,11 +1,11 @@
 import { authService } from '../AuthService';
 import client from '../api/client';
 
-// Mock client
+// Mock client (客户端 Mock)
 jest.mock('../api/client');
 const mockedClient = client as jest.Mocked<typeof client>;
 
-// Mock AsyncStorage
+// Mock AsyncStorage (异步存储 Mock)
 const mockMultiRemove = jest.fn();
 jest.mock('@react-native-async-storage/async-storage', () => ({
     __esModule: true,
@@ -20,6 +20,7 @@ describe('AuthService', () => {
     });
 
     it('verifyOTP posts to API and returns user on success', async () => {
+        // verifyOTP 成功时向 API 发送请求并返回用户
         mockedClient.post.mockResolvedValueOnce({
             data: { success: true, data: { id: '1', nickname: 'Test' } },
         });
@@ -35,6 +36,7 @@ describe('AuthService', () => {
     });
 
     it('verifyOTP handles failures', async () => {
+        // verifyOTP 处理失败情况
         mockedClient.post.mockResolvedValueOnce({
             data: { success: false, message: 'Invalid code' },
         });
@@ -45,6 +47,7 @@ describe('AuthService', () => {
     });
 
     it('verifyOTP handles network errors', async () => {
+        // verifyOTP 处理网络错误
         mockedClient.post.mockRejectedValueOnce({
             response: { data: { message: 'Network error' } }
         });
@@ -54,6 +57,7 @@ describe('AuthService', () => {
     });
 
     it('onboarding posts to API', async () => {
+        // onboarding 向 API 发送请求
         mockedClient.post.mockResolvedValueOnce({
             data: { success: true, data: { scoringTolerance: 5 } },
         });
@@ -67,6 +71,7 @@ describe('AuthService', () => {
     });
 
     it('logout clears async storage', async () => {
+        // logout 清除异步存储
         await authService.logout();
         expect(mockMultiRemove).toHaveBeenCalledWith(['user_token', 'user_id']);
     });

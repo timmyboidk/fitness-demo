@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
 import React, { useRef } from 'react';
 
-// Placeholder for SharedValue type
+// SharedValue 类型占位符
 interface SharedValue<T> {
     value: T;
 }
@@ -11,12 +11,12 @@ interface Props {
 }
 
 export function HumanAvatar({ poseSharedValue }: Props) {
-    // Ensure the asset is bundled or handled correctly in real implementation
-    // For now using a require that might throw if file missing, wrapping in try/catch or assume assets exist
-    // Using a dummy path for compilation safety in this skeletal file
+    // 确保资源已被捆绑或正确处理
+    // 目前使用 require，如果文件缺失可能会抛出错误，建议在实际实现中包裹 try/catch 或确保资源存在
+    // 这里使用虚拟路径以保证骨架文件编译安全
     // const { nodes, materials } = useGLTF(require('../../assets/models/smpl_basic.glb'));
 
-    // Mock nodes/materials for skeletal compliance
+    // Mock 节点和材质以符合骨架要求
     const nodes: any = { root: {}, Mesh: { geometry: {}, skeleton: {} } };
     const materials: any = { Skin: {} };
 

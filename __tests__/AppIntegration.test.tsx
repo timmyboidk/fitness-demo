@@ -14,13 +14,13 @@ jest.mock('expo-secure-store', () => ({
 
 describe('App Integration Flows', () => {
     it('Flow 1: Onboarding sets difficulty and navigates home', async () => {
-        // Placeholder Component for test
+        // 测试占位组件
         const OnboardingScreen = () => (
             <></>
         );
-        // Real implementation depends on the actual Onboarding component existing
-        // Since I haven't written the UI components (User didn't ask me to implement UI, only services in the prompt tasks list, except HumanAvatar)
-        // I will write this test as a template for when the UI exists
+        // 实际实现取决于实际的 Onboarding 组件是否存在
+        // 既然我没有编写 UI 组件 (用户并未要求我实现 UI，除了 HumanAvatar)
+        // 我将编写此测试作为 UI 存在时的模板
         expect(true).toBeTruthy();
     });
 });

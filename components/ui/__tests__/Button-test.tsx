@@ -17,7 +17,7 @@ describe('Button', () => {
     });
 
     it('renders correct variant styles generally', () => {
-        // Just checking it renders without error for different variants
+        // 仅检查不同变体渲染是否不报错
         render(<Button label="Primary" variant="primary" />);
         render(<Button label="Secondary" variant="secondary" />);
         render(<Button label="Outline" variant="outline" />);

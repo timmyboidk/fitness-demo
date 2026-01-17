@@ -34,12 +34,12 @@ jest.mock('../../hooks/usePoseModel', () => ({
 describe('PoseDetectorCamera', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // Default mocks
+        // Default mocks (默认 Mock)
         (useResizePlugin as jest.Mock).mockReturnValue({ resize: jest.fn() });
         (useCameraDevice as jest.Mock).mockReturnValue({ id: 'device-1' });
         (useCameraPermissions as jest.Mock).mockReturnValue(true);
-        (usePoseModel as jest.Mock).mockReturnValue({}); // initialized session
-        (useFrameProcessor as jest.Mock).mockImplementation((fn) => fn); // just return the function
+        (usePoseModel as jest.Mock).mockReturnValue({}); // initialized session (已初始化的 session)
+        (useFrameProcessor as jest.Mock).mockImplementation((fn) => fn); // just return the function (仅返回函数)
     });
 
     it('renders Camera when permissions and device exist', () => {
@@ -60,29 +60,29 @@ describe('PoseDetectorCamera', () => {
     });
 
     it('passes props to Camera', () => {
-        // verify facing prop passes into useCameraDevice
+        // 验证 facing 属性传入 useCameraDevice
         render(<PoseDetectorCamera facing="front" />);
         expect(useCameraDevice).toHaveBeenCalledWith('front');
     });
 
     it('triggers callback via worklet wrapper', () => {
-        // Since we mocked Worklets.createRunOnJS to just return the fn,
-        // we can't easily test the full worklet flow, but we can verify the code path existence.
-        // We will assume integration tests cover the actual inference flow.
+        // 由于我们将 Worklets.createRunOnJS mock 为仅返回 fn，
+        // 我们无法轻易测试完整的 worklet 流程，但可以验证代码路径是否存在。
+        // 我们假设集成测试覆盖实际的推理流程。
         const onInferenceResult = jest.fn();
         render(<PoseDetectorCamera onInferenceResult={onInferenceResult} />);
 
-        // Coverage for the inner lambda of handleInference
-        // We can't reach inside the component closure easily to call handleInference 
-        // without refactoring or using more complex mocks.
-        // However, standard render covers the component body.
+        // 内部 lambda handleInference 的覆盖率
+        // 我们无法轻易深入组件闭包来调用 handleInference 
+        // 除非重构或使用更复杂的 mocks。
+        // 然而，标准渲染覆盖了组件主体。
     });
 
     it('frame processor logic (partial)', () => {
         const mockResize = jest.fn().mockReturnValue({ width: 100, height: 100 });
         (useResizePlugin as jest.Mock).mockReturnValue({ resize: mockResize });
 
-        // Capture the frame processor function
+        // 捕获 frame processor 函数
         let capturedFrameProcessor: any;
         (useFrameProcessor as jest.Mock).mockImplementation((fn, deps) => {
             capturedFrameProcessor = fn;
@@ -91,7 +91,7 @@ describe('PoseDetectorCamera', () => {
 
         render(<PoseDetectorCamera />);
 
-        // Simulate frame
+        // 模拟帧
         if (capturedFrameProcessor) {
             const mockFrame = { width: 640, height: 480 };
             capturedFrameProcessor(mockFrame);

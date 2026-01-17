@@ -5,14 +5,21 @@ export enum LogLevel {
     ERROR = 3,
 }
 
+/**
+ * 日志传输函数类型定义
+ * @param level 日志级别
+ * @param category 日志分类
+ * @param message 日志消息
+ * @param meta (可选) 元数据
+ */
 type LogTransport = (level: LogLevel, category: string, message: string, meta?: any) => void;
 
 class LoggerService {
     private transports: LogTransport[] = [];
-    private minLevel: LogLevel = LogLevel.DEBUG; // Default to DEBUG for now
+    private minLevel: LogLevel = LogLevel.DEBUG; // 默认为 DEBUG 级别
 
     constructor() {
-        // Default Console Transport
+        // 默认控制台传输器
         this.addTransport((level, category, message, meta) => {
             if (level < this.minLevel) return;
 
@@ -39,10 +46,18 @@ class LoggerService {
         });
     }
 
+    /**
+     * 添加日志传输器
+     * @param transport 传输函数
+     */
     addTransport(transport: LogTransport) {
         this.transports.push(transport);
     }
 
+    /**
+     * 设置最小日志级别
+     * @param level 日志级别
+     */
     setMinLevel(level: LogLevel) {
         this.minLevel = level;
     }

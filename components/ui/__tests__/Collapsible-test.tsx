@@ -3,7 +3,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Collapsible } from '../collapsible';
 
-// Mock ThemedText and ThemedView to be simple placeholders to avoid complexity
+// Mock ThemedText 和 ThemedView 为简单的占位符以避免复杂性
 jest.mock('@/components/themed-text', () => ({
     ThemedText: ({ children }: any) => {
         const { Text } = require('react-native');
@@ -25,15 +25,15 @@ describe('Collapsible', () => {
             </Collapsible>
         );
 
-        // Initially content is hidden
+        // 初始状态内容应隐藏
         expect(getByText('More Info')).toBeTruthy();
         expect(queryByText('Hidden Detail')).toBeNull();
 
-        // Press to open
+        // 点击展开
         fireEvent.press(getByText('More Info'));
         expect(getByText('Hidden Detail')).toBeTruthy();
 
-        // Press to close
+        // 点击收起
         fireEvent.press(getByText('More Info'));
         expect(queryByText('Hidden Detail')).toBeNull();
     });

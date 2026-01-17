@@ -9,7 +9,7 @@ jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
     default: jest.fn(),
 }));
 
-// Mock data
+// Mock data (模拟数据)
 const mockItem = {
     id: '1',
     name: 'Push Up',
@@ -22,7 +22,7 @@ const mockItem = {
 describe('MoveItem', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // default to light mode
+        // 默认为浅色模式
         (useColorScheme as jest.Mock).mockReturnValue('light');
     });
 
@@ -36,8 +36,8 @@ describe('MoveItem', () => {
         (useColorScheme as jest.Mock).mockReturnValue('dark');
         const { getByText } = render(<MoveItem item={mockItem} />);
         expect(getByText('Push Up')).toBeTruthy();
-        // We can't easily check colors without snapshot matching styles or inspecting props deeply.
-        // But running this code path covers the "isDark" branches.
+        // 我们无法轻易检查颜色，除非匹配快照样式或深入检查 props。
+        // 但运行此代码路径覆盖了 "isDark" 分支。
     });
 
     it('navigates on press', () => {

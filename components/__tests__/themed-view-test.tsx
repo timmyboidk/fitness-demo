@@ -2,10 +2,10 @@ import { render } from '@testing-library/react-native';
 import React from 'react';
 import { ThemedView } from '../themed-view';
 
-// We mock the hook to control color output
+// 我们 mock 钩子来控制颜色输出
 jest.mock('@/hooks/use-theme-color', () => ({
     useThemeColor: jest.fn(({ light, dark }) => {
-        // Simple mock logic
+        // 简单的 mock 逻辑
         return light || dark || '#ffffff';
     }),
 }));

@@ -3,7 +3,7 @@ import { InferenceSession } from 'onnxruntime-react-native';
 import { Logger } from '../Logger';
 import { modelService } from '../ModelService';
 
-// Mock dependencies
+// Mock dependencies (模拟依赖)
 jest.mock('expo-file-system/legacy', () => ({
     documentDirectory: 'file:///mock/doc/dir/',
     getInfoAsync: jest.fn(),
@@ -61,8 +61,8 @@ describe('ModelService', () => {
         });
 
         it('should download model if it does not exist and URL is provided', async () => {
-            // First check for dir (init) - not exists
-            // Second check for file - not exists
+            // 第一次检查目录 (init) - 不存在
+            // 第二次检查文件 - 不存在
             (FileSystem.getInfoAsync as jest.Mock)
                 .mockResolvedValueOnce({ exists: true }) // dir
                 .mockResolvedValueOnce({ exists: false }); // file

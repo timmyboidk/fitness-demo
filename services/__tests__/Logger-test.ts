@@ -7,16 +7,15 @@ describe('Logger Service', () => {
     let consoleErrorSpy: jest.SpyInstance;
 
     beforeEach(() => {
-        // Spy on console methods
+        // 监视 console 方法
         consoleDebugSpy = jest.spyOn(console, 'debug').mockImplementation();
         consoleInfoSpy = jest.spyOn(console, 'info').mockImplementation();
         consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
-        // Reset Logger state if possible, but it's a singleton.
-        // We can just add a new transport or verify default behavior.
-        // Since we can't easily clear transports without a clear method, we'll verify via console calls 
-        // which are used by the default transport added in constructor.
+        // 如果可能，重置 Logger 状态。但它是一个单例。
+        // 我们只需添加一个新的传输器或验证默认行为。
+        // 由于没有清除方法，很难清除传输器，我们将通过验证构造函数中添加的默认传输器所调用的 console 方法来进行测试。
     });
 
     afterEach(() => {
@@ -66,7 +65,7 @@ describe('Logger Service', () => {
         expect(consoleInfoSpy).not.toHaveBeenCalledWith(expect.stringContaining('Should be ignored'));
         expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('Should be logged'));
 
-        // Reset min level
+        // 重置最小日志级别
         Logger.setMinLevel(LogLevel.DEBUG);
     });
 });
