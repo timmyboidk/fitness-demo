@@ -21,6 +21,7 @@ export interface User {
     avatar: string;
     token: string;
     phone?: string;
+    isVip: boolean;
 }
 
 /**
@@ -108,6 +109,27 @@ class AuthService {
         } catch (e: any) {
             console.error('Onboarding error:', e);
             return { success: false, error: e.response?.data?.message || '网络错误' };
+        }
+    }
+
+    /**
+     * 升级为 VIP 会员 (Mock)
+     * @param userId - 用户 ID
+     * @param planId - 订阅计划 ID (monthly/yearly/quarterly)
+     */
+    async upgradeToVip(userId: string, planId: string): Promise<{ success: boolean; data?: any; error?: string }> {
+        try {
+            // 模拟 API 延迟
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // 模拟后端处理：更新用户状态
+            // 实际应用中会调用 Stripe/Apple IAP 校验
+            console.log(`User ${userId} upgrading to plan ${planId}`);
+
+            return { success: true };
+        } catch (e: any) {
+            console.error('Upgrade error:', e);
+            return { success: false, error: '支付验证失败' };
         }
     }
 

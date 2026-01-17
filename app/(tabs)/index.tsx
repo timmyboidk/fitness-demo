@@ -5,8 +5,11 @@
  * 集成了全局状态管理，实时响应数据变化。
  */
 
-import { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../../components/MoveItem';
 import { libraryStore, Move } from '../../store/library';
 
@@ -16,6 +19,14 @@ import { libraryStore, Move } from '../../store/library';
 export default function MovesScreen() {
     // 本地状态用于驱动UI更新
     const [moves, setMoves] = useState<Move[]>([]);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const textColor = isDark ? '#FFFFFF' : '#000000';
+    const iconColor = isDark ? '#CCFF00' : '#16a34a'; // 高亮色
+    const bgColor = isDark ? '#000000' : '#FFFFFF';
+
+    // 动画值：滚动偏移量
+    const scrollY = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         // 初始化加载: 获取动作列表并过滤掉隐藏项
@@ -30,14 +41,48 @@ export default function MovesScreen() {
         return unsubscribe;
     }, []);
 
+    // 动态计算 Header 透明度
+    // 当滚动超过 50px 时，顶部 Sticky Header完全显示
+    const headerOpacity = scrollY.interpolate({
+        inputRange: [0, 50],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    });
+
     return (
-        <View className="flex-1 bg-white dark:bg-black px-4 pt-4">
-            <FlatList
+        <View className="flex-1 bg-white dark:bg-black">
+            {/* Sticky Header (Scroll up to show) */}
+            <View className="absolute top-0 left-0 right-0 z-10">
+                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
+                    <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
+                        <Text className="text-lg font-bold" style={{ color: textColor }}>训练动作</Text>
+                        <TouchableOpacity onPress={() => router.push('/add-move')}>
+                            <Ionicons name="add-circle" size={28} color={iconColor} />
+                        </TouchableOpacity>
+                    </Animated.View>
+                </SafeAreaView>
+            </View>
+
+            <Animated.FlatList
                 testID="moves-list"
                 data={moves}
                 numColumns={2}
                 keyExtractor={item => item.id}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
+                contentContainerStyle={{ paddingTop: 60, paddingBottom: 100, paddingHorizontal: 16 }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: true }
+                )}
+                // Large Title Header Component
+                ListHeaderComponent={() => (
+                    <View className="mb-6 mt-8 flex-row justify-between items-end">
+                        <Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}>训练动作</Text>
+                        <TouchableOpacity onPress={() => router.push('/add-move')} className="mb-1">
+                            <Ionicons name="add-circle" size={36} color={iconColor} />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 renderItem={({ item }) => (
                     <MoveItem
                         item={item}

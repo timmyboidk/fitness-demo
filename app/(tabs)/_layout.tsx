@@ -7,7 +7,7 @@
 
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { router, usePathname, withLayoutContext } from 'expo-router';
+import { usePathname, withLayoutContext } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -108,42 +108,8 @@ export default function TabLayout() {
     // 根据当前路由路径 (pathname) 动态决定 Header 的标题和右侧按钮
     // 这种方式比在每个Screen里单独配Header更灵活，尤其是在自定义TabLayout的情况下
 
-    let headerTitle = '';
-    let showHeader = true;
-    let HeaderRight = null;
-
-    if (pathname === '/' || pathname === '/index') {
-        headerTitle = '训练动作';
-        // eslint-disable-next-line react/display-name
-        HeaderRight = () => (
-            <TouchableOpacity onPress={() => router.push('/add-move')} className="mr-4">
-                <Ionicons name="add-circle" size={32} color={iconColor} />
-            </TouchableOpacity>
-        );
-    } else if (pathname === '/sessions') {
-        headerTitle = '课程计划';
-        // eslint-disable-next-line react/display-name
-        HeaderRight = () => (
-            <TouchableOpacity onPress={() => router.push('/add-session')} className="mr-4">
-                <Ionicons name="add-circle" size={32} color={iconColor} />
-            </TouchableOpacity>
-        );
-    } else if (pathname === '/profile') {
-        headerTitle = '个人中心';
-    }
-
     return (
         <View className="flex-1" style={{ backgroundColor: bgColor }}>
-            {/* 全局自定义 Header */}
-            {showHeader && (
-                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor, zIndex: 10 }}>
-                    <View className="h-[50px] flex-row items-center justify-between px-4" style={{ backgroundColor: bgColor }}>
-                        <Text className="text-2xl font-black italic tracking-wider" style={{ color: primaryTextColor }}>{headerTitle}</Text>
-                        {HeaderRight && <HeaderRight />}
-                    </View>
-                </SafeAreaView>
-            )}
-
             {/* Tab 导航容器 */}
             <MaterialTopTabs
                 tabBarPosition="bottom"

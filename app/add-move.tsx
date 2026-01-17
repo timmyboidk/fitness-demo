@@ -5,9 +5,10 @@
  * 类似于动作商店或资源中心。
  */
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Text, useColorScheme, View } from 'react-native';
+import { Alert, FlatList, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MoveItem } from '../components/MoveItem';
 import { libraryStore, Move } from '../store/library';
@@ -22,7 +23,28 @@ export default function AddMoveScreen() {
      * 处理添加动作
      * @param id - 动作 ID
      */
-    const handleAdd = (id: string) => {
+
+    // 限制逻辑
+    const handleAdd = async (id: string) => {
+        const userStr = await AsyncStorage.getItem('user');
+        if (userStr) {
+            const user = JSON.parse(userStr);
+            const myMovesCount = libraryStore.getMoves().filter(m => m.isVisible).length;
+
+            // 免费用户限制: 最多 10 个动作
+            if (!user.isVip && myMovesCount >= 10) {
+                Alert.alert(
+                    "达到限制",
+                    "免费版最多只能添加 10 个动作。升级到 VIP 解锁无限动作库。",
+                    [
+                        { text: "取消", style: "cancel" },
+                        { text: "去升级", onPress: () => router.push('/profile/subscription' as any) }
+                    ]
+                );
+                return;
+            }
+        }
+
         // 更新 Store 状态，将动作设为可见
         libraryStore.toggleMoveVisibility(id);
         // 返回上一页

@@ -6,7 +6,7 @@ import { aiScoringService } from '../../services/AIScoringService';
 import { libraryStore } from '../../store/library';
 import WorkoutSession from '../workout/[id]';
 
-// Mock Modules
+// Mock Modules (模拟模块)
 jest.mock('@react-navigation/native', () => ({
     useIsFocused: () => true,
     useNavigation: () => ({ navigate: jest.fn() }),
@@ -133,10 +133,11 @@ describe('WorkoutSession', () => {
         const { getByText, getByTestId } = render(<WorkoutSession />);
 
         fireEvent.press(getByText('settings-outline'));
-        // Modal is now real React Native modal.
-        // RNTL might not find children if Modal uses Portal but in RN core it usually stays in tree.
-        // Assuming it's visible. If not, this test might fail if it can't find '训练设置'.
-        // If it fails, we will skip it or mock Modal again properly without TS issue.
+        fireEvent.press(getByText('settings-outline'));
+        // Modal 现在是真实的 React Native modal。
+        // 如果 Modal 使用 createPortal，RNTL 可能找不到子元素，但在 RN 核心中通常保留在树中。
+        // 假设它是可见的。如果找不到 '训练设置'，此测试可能会失败。
+        // 如果失败，我们将跳过它或正确 mock Modal 而没有 TS 问题。
     });
 
     it('toggles camera facing', () => {

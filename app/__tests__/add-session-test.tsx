@@ -1,17 +1,21 @@
 import { libraryStore } from '@/store/library';
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
 import AddSessionScreen from '../add-session';
 
-// Capture render props
+jest.mock('@react-native-async-storage/async-storage', () =>
+    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
+// 捕获 render props
 const mockScreenRender = jest.fn();
 
-// Mock dependencies
+// Mock 依赖项
 jest.mock('expo-router', () => {
     return {
         Stack: {
-            Screen: (props) => {
+            Screen: (props: any) => {
                 mockScreenRender(props);
                 return null;
             }
@@ -27,9 +31,9 @@ jest.mock('@/store/library', () => ({
     },
 }));
 
-// Mocks to capture interactions
+// Mock 用于捕获交互
 jest.mock('@/components/SessionItem', () => ({
-    SessionItem: (props) => {
+    SessionItem: (props: any) => {
         const { TouchableOpacity, Text } = require('react-native');
         return (
             <>
@@ -57,7 +61,7 @@ describe('AddSessionScreen', () => {
         expect(getByText('所有课程已添加')).toBeTruthy();
     });
 
-    it('renders list and handles add interaction', () => {
+    it('renders list and handles add interaction', async () => {
         (libraryStore.getSessions as jest.Mock).mockReturnValue([
             { id: 's2', name: 'Session 2', isVisible: false }
         ]);
@@ -66,8 +70,10 @@ describe('AddSessionScreen', () => {
         fireEvent.press(getByTestId('session-item-body'));
         fireEvent.press(getByTestId('session-item-add'));
 
-        expect(libraryStore.toggleSessionVisibility).toHaveBeenCalledWith('s2');
-        expect(router.back).toHaveBeenCalled();
+        await waitFor(() => {
+            expect(libraryStore.toggleSessionVisibility).toHaveBeenCalledWith('s2');
+            expect(router.back).toHaveBeenCalled();
+        });
     });
 
     it('renders header with right option null', () => {

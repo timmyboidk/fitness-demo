@@ -5,16 +5,18 @@
  * 支持用户登录状态检查和数据自动加载。
  */
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useRef, useState } from 'react';
+import { Animated, Image, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // 固定的菜单项配置，包含图标、标签和路由目标
 const MENU_ITEMS = [
     { icon: 'fitness-outline', label: '健身基础', route: '/onboarding/difficulty' },
     { icon: 'settings-outline', label: '设置', route: '/profile/settings' },
+    { icon: 'card-outline', label: '会员中心', route: '/profile/subscription' },
     { icon: 'trophy-outline', label: '排行榜', route: '/profile/leaderboard' },
     { icon: 'share-social-outline', label: '社交账号', route: '/profile/social' },
     { icon: 'help-circle-outline', label: '帮助中心', route: '/profile/help' },
@@ -28,37 +30,74 @@ export default function ProfileScreen() {
     const [user, setUser] = useState<any>(null);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const textColor = isDark ? '#FFFFFF' : '#000000';
+    const bgColor = isDark ? '#000000' : '#FFFFFF';
 
-    useEffect(() => {
-        // 页面组件挂载时，异步读取本地存储的用户数据
-        const loadUser = async () => {
-            try {
-                const userStr = await AsyncStorage.getItem('user');
-                if (userStr) {
-                    setUser(JSON.parse(userStr));
+    const scrollY = useRef(new Animated.Value(0)).current;
+
+    useFocusEffect(
+        useCallback(() => {
+            // 页面获得焦点时，异步读取本地存储的用户数据
+            // 这确保了从订阅页返回时，VIP状态能即时更新
+            const loadUser = async () => {
+                try {
+                    const userStr = await AsyncStorage.getItem('user');
+                    if (userStr) {
+                        setUser(JSON.parse(userStr));
+                    }
+                } catch (e) {
+                    console.error("Failed to load user", e);
                 }
-            } catch (e) {
-                console.error("Failed to load user", e);
-            }
-        };
-        loadUser();
-    }, []);
+            };
+            loadUser();
+        }, [])
+    );
 
     // 默认展示逻辑：如果用户未登录或无数据，展示默认占位图和文本
     const avatarUrl = user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1780&auto=format&fit=crop';
     const nickname = user?.nickname || '未登录用户';
     const userId = user?._id ? `ID: ${user._id.slice(-6).toUpperCase()}` : '点击登录';
 
+    const headerOpacity = scrollY.interpolate({
+        inputRange: [0, 50],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    });
+
     return (
-        <View className="flex-1 bg-white dark:bg-black pt-4">
-            <ScrollView
-                contentContainerStyle={{ paddingBottom: 100 }}
+        <View className="flex-1 bg-white dark:bg-black">
+            {/* Sticky Header */}
+            <View className="absolute top-0 left-0 right-0 z-10">
+                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
+                    <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
+                        <Text className="text-lg font-bold" style={{ color: textColor }}>个人中心</Text>
+                        <TouchableOpacity onPress={() => router.push('/profile/settings')}>
+                            <Ionicons name="settings-outline" size={24} color={textColor} />
+                        </TouchableOpacity>
+                    </Animated.View>
+                </SafeAreaView>
+            </View>
+
+            <Animated.ScrollView
+                contentContainerStyle={{ paddingTop: 60, paddingBottom: 100 }}
                 contentInsetAdjustmentBehavior="never"
                 showsVerticalScrollIndicator={false}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: true }
+                )}
             >
+                {/* Large Title */}
+                <View className="px-6 mb-6 mt-8 flex-row justify-between items-end">
+                    <Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}>个人中心</Text>
+                    <TouchableOpacity onPress={() => router.push('/profile/settings')} className="mb-1">
+                        <Ionicons name="settings-outline" size={30} color={textColor} />
+                    </TouchableOpacity>
+                </View>
 
                 {/* 用户信息卡片区：展示头像、昵称和会员状态 */}
                 <TouchableOpacity
+                    activeOpacity={user ? 1 : 0.7} // 如果不仅是登录状态，禁用点击透明度效果
                     onPress={() => {
                         // 如果未登录，点击整个区域跳转登录页
                         if (!user) router.push('/(auth)/login');
@@ -66,18 +105,35 @@ export default function ProfileScreen() {
                     className="px-6 mb-8 flex-row items-center"
                 >
                     {/* 头像区域：圆角裁剪 + 边框 */}
-                    <View className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-[#16a34a] dark:border-[#CCFF00] overflow-hidden mr-5 justify-center items-center">
+                    <View className={`w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 overflow-hidden mr-5 justify-center items-center ${user?.isVip ? 'border-[#FFD700]' : 'border-[#16a34a] dark:border-[#CCFF00]'}`}>
                         <Image
                             source={{ uri: avatarUrl }}
                             className="w-full h-full"
                         />
+                        {/* VIP 金色皇冠装饰 */}
+                        {user?.isVip && (
+                            <View className="absolute -top-4 -right-2">
+                                <MaterialCommunityIcons name="crown" size={24} color="#FFD700" />
+                            </View>
+                        )}
                     </View>
                     <View>
                         <Text className="text-black dark:text-white text-2xl font-bold mb-1">{nickname}</Text>
                         <Text className="text-gray-500 dark:text-gray-400">{userId}</Text>
-                        <View className="bg-[#16a34a]/20 dark:bg-[#CCFF00]/20 px-3 py-1 rounded-full self-start mt-2">
-                            <Text className="text-[#16a34a] dark:text-[#CCFF00] text-xs font-bold">PRO 会员</Text>
-                        </View>
+
+                        {user?.isVip ? (
+                            <View className="bg-yellow-400 dark:bg-yellow-500 px-3 py-1 rounded-full self-start mt-2">
+                                <Text className="text-black text-xs font-black">VIP 会员</Text>
+                            </View>
+                        ) : (
+                            <TouchableOpacity
+                                onPress={() => router.push('/profile/subscription' as any)}
+                                className="bg-[#16a34a] dark:bg-[#CCFF00] px-3 py-1 rounded-full self-start mt-2 flex-row items-center"
+                            >
+                                <Text className="text-white dark:text-black text-xs font-bold mr-1">升级 PRO</Text>
+                                <Ionicons name="arrow-forward" size={10} color={isDark ? "black" : "white"} />
+                            </TouchableOpacity>
+                        )}
                     </View>
                 </TouchableOpacity>
 
@@ -121,7 +177,7 @@ export default function ProfileScreen() {
                         ))}
                     </View>
                 </View>
-            </ScrollView>
+            </Animated.ScrollView>
         </View>
     );
 }

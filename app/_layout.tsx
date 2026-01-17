@@ -7,8 +7,11 @@
 
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, useColorScheme } from 'react-native';
+import { LogBox, View, useColorScheme } from 'react-native';
 import 'react-native-reanimated';
+
+// Suppress warnings for demo
+LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();

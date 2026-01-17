@@ -17,6 +17,10 @@ const UserSchema = new Schema({
     avatar: { type: String, default: "" }, // 头像 URL (通常来自微信或 S3)
     difficultyLevel: { type: String, default: "novice" }, // 训练难度偏好 (novice/skilled/expert)
 
+    // --- 会员状态 ---
+    isVip: { type: Boolean, default: false }, // 是否为 VIP 会员
+    vipExpiry: { type: Date, default: null }, // VIP 过期时间
+
     // --- 用户资产 (关联引用) ---
     // 用户的“书架” (仅展示已添加的 moves 和 sessions)
     myMoves: [{ type: Schema.Types.ObjectId, ref: 'Move' }],

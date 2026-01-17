@@ -26,7 +26,7 @@ describe('ProfileScreen', () => {
 
         const { getByText } = render(<ProfileScreen />);
 
-        // Wait for effect
+        // 等待副作用执行
         await waitFor(() => { });
 
         expect(getByText('未登录用户')).toBeTruthy();
@@ -44,13 +44,13 @@ describe('ProfileScreen', () => {
 
         const { getByText } = render(<ProfileScreen />);
 
-        // Wait for effect
+        // 等待副作用执行
         await waitFor(() => expect(getByText('Timmy')).toBeTruthy());
 
-        // Check ID formatting (last 6 chars uppercase)
+        // 检查 ID 格式 (后6位大写)
         expect(getByText('ID: 567890')).toBeTruthy();
 
-        // Check stats
+        // 检查统计数据
         expect(getByText('10')).toBeTruthy(); // totalWorkouts
         expect(getByText('85%')).toBeTruthy(); // accuracy
     });
@@ -93,7 +93,7 @@ describe('ProfileScreen', () => {
         const { getByText } = render(<ProfileScreen />);
         await waitFor(() => { });
 
-        fireEvent.press(getByText('累计训练')); // Stat label inside the card
+        fireEvent.press(getByText('累计训练')); // 卡片内的统计标签
         expect(router.push).toHaveBeenCalledWith('/profile/stats');
     });
 

@@ -1,18 +1,22 @@
 import { libraryStore } from '@/store/library';
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
 import AddMoveScreen from '../add-move';
 
-// Capture render props
+jest.mock('@react-native-async-storage/async-storage', () =>
+    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
+// 捕获 render props
 const mockScreenRender = jest.fn();
 
-// Mock dependencies
+// Mock 依赖项
 jest.mock('expo-router', () => {
     return {
         Stack: {
-            // We use a functional component that calls our spy
-            Screen: (props) => {
+            // 我们使用一个函数式组件调用我们的 spy
+            Screen: (props: any) => {
                 mockScreenRender(props);
                 return null;
             }
@@ -28,9 +32,9 @@ jest.mock('@/store/library', () => ({
     },
 }));
 
-// Mocks to capture interactions
+// Mock 用于捕获交互
 jest.mock('@/components/MoveItem', () => ({
-    MoveItem: (props) => {
+    MoveItem: (props: any) => {
         const { TouchableOpacity, Text } = require('react-native');
         return (
             <>
@@ -58,7 +62,7 @@ describe('AddMoveScreen', () => {
         expect(getByText('所有动作已添加')).toBeTruthy();
     });
 
-    it('renders list and handles add interaction', () => {
+    it('renders list and handles add interaction', async () => {
         (libraryStore.getMoves as jest.Mock).mockReturnValue([
             { id: '2', name: 'Move 2', isVisible: false }
         ]);
@@ -67,15 +71,17 @@ describe('AddMoveScreen', () => {
         fireEvent.press(getByTestId('move-item-body'));
         fireEvent.press(getByTestId('move-item-add'));
 
-        expect(libraryStore.toggleMoveVisibility).toHaveBeenCalledWith('2');
-        expect(router.back).toHaveBeenCalled();
+        await waitFor(() => {
+            expect(libraryStore.toggleMoveVisibility).toHaveBeenCalledWith('2');
+            expect(router.back).toHaveBeenCalled();
+        });
     });
 
     it('renders header with right option null', () => {
         (libraryStore.getMoves as jest.Mock).mockReturnValue([]);
         render(<AddMoveScreen />);
 
-        // Verify Stack.Screen was passed options where headerRight returns null
+        // 验证 Stack.Screen 被传递了选项，其中 headerRight 返回 null
         expect(mockScreenRender).toHaveBeenCalled();
         const lastCall = mockScreenRender.mock.calls[mockScreenRender.mock.calls.length - 1][0];
         const headerRight = lastCall.options.headerRight;

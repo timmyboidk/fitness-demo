@@ -5,8 +5,11 @@
  * 类似于动作库主页，该页面也集成全局 Store 进行状态管理。
  */
 
-import { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { SessionItem } from '../../components/SessionItem';
 import { libraryStore, Session } from '../../store/library';
 
@@ -16,6 +19,13 @@ import { libraryStore, Session } from '../../store/library';
 export default function SessionsScreen() {
     // 课程列表状态
     const [sessions, setSessions] = useState<Session[]>([]);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    const textColor = isDark ? '#FFFFFF' : '#000000';
+    const iconColor = isDark ? '#CCFF00' : '#16a34a';
+    const bgColor = isDark ? '#000000' : '#FFFFFF';
+
+    const scrollY = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         // 初始化加载: 获取所有可见的课程
@@ -30,11 +40,42 @@ export default function SessionsScreen() {
         return unsubscribe;
     }, []);
 
+    const headerOpacity = scrollY.interpolate({
+        inputRange: [0, 50],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+    });
+
     return (
-        <View className="flex-1 bg-white dark:bg-black px-4 pt-4">
-            <FlatList
+        <View className="flex-1 bg-white dark:bg-black">
+            {/* Sticky Header */}
+            <View className="absolute top-0 left-0 right-0 z-10">
+                <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
+                    <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
+                        <Text className="text-lg font-bold" style={{ color: textColor }}>课程计划</Text>
+                        <TouchableOpacity onPress={() => router.push('/add-session')}>
+                            <Ionicons name="add-circle" size={28} color={iconColor} />
+                        </TouchableOpacity>
+                    </Animated.View>
+                </SafeAreaView>
+            </View>
+
+            <Animated.FlatList
                 data={sessions}
                 keyExtractor={item => item.id}
+                contentContainerStyle={{ paddingTop: 60, paddingBottom: 100, paddingHorizontal: 16 }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: true }
+                )}
+                ListHeaderComponent={() => (
+                    <View className="mb-6 mt-8 flex-row justify-between items-end">
+                        <Text className="text-4xl font-black italic tracking-wider" style={{ color: textColor }}>课程计划</Text>
+                        <TouchableOpacity onPress={() => router.push('/add-session')} className="mb-1">
+                            <Ionicons name="add-circle" size={36} color={iconColor} />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 renderItem={({ item }) => (
                     <SessionItem
                         item={item}
