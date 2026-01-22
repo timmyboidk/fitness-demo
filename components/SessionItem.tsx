@@ -1,23 +1,11 @@
-/**
- * @file SessionItem.tsx
- * @description 训练课程卡片组件。
- * 用于展示训练课程的摘要信息 (名称、耗时、动作数量)。
- * 包含装饰性的颜色条和快捷操作按钮。
- */
-
 import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
+import React, { memo } from 'react';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Session } from '../store/library';
 
 /**
  * 课程列表项属性接口
- * @property item 课程数据对象
- * @property onPress (可选) 点击回调
- * @property showAddButton 是否显示添加按钮
- * @property onAdd 添加回调
- * @property showRemoveButton 是否显示移除按钮
- * @property onRemove 移除回调
  */
 interface SessionItemProps {
     item: Session;
@@ -29,9 +17,9 @@ interface SessionItemProps {
 }
 
 /**
- * 课程卡片组件
+ * 课程卡片组件 (Memoized)
  */
-export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: SessionItemProps) {
+export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: SessionItemProps) => {
     const handlePress = onPress || (() => router.push(`/workout/${item.id}?mode=session`));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
@@ -62,23 +50,23 @@ export function SessionItem({ item, onPress, showAddButton, onAdd, showRemoveBut
             </View>
 
             {/* Action Buttons Area */}
-            {showAddButton && (
+            {showAddButton ? (
                 <TouchableOpacity onPress={onAdd}>
                     <SymbolView name={"plus.circle.fill" as any} size={30} tintColor={highlightColor} />
                 </TouchableOpacity>
-            )}
+            ) : null}
 
-            {showRemoveButton && (
+            {showRemoveButton ? (
                 <TouchableOpacity onPress={onRemove}>
                     <SymbolView name={"minus.circle.fill" as any} size={30} tintColor="#FF3B30" />
                 </TouchableOpacity>
-            )}
+            ) : null}
 
-            {!showAddButton && !showRemoveButton && (
+            {!showAddButton && !showRemoveButton ? (
                 <View className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 items-center justify-center">
                     <SymbolView name={"play.fill" as any} size={24} tintColor={item.color} style={{ marginLeft: 4 }} />
                 </View>
-            )}
+            ) : null}
         </TouchableOpacity>
     );
-}
+});

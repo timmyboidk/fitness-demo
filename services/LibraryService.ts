@@ -6,33 +6,7 @@
 
 import client from './api/client';
 
-/**
- * 代表一个独立的训练动作
- * @property id 唯一标识符
- * @property name 动作名称 (如: 深蹲)
- * @property modelUrl 姿态模型文件的URL地址
- * @property scoringConfig AI评分相关的配置参数
- */
-export interface Move {
-    id: string;
-    name: string;
-    modelUrl: string;
-    scoringConfig: any;
-}
-
-/**
- * 代表一个完整的训练课程
- * @property id 唯一标识符
- * @property name 课程名称
- * @property difficulty 难度等级 (如: Beginner, Advanced)
- * @property duration 预计耗时 (分钟)
- */
-export interface Session {
-    id: string;
-    name: string;
-    difficulty: string;
-    duration: number;
-}
+import { Move, Session } from '../types';
 
 /**
  * 训练库API响应结构

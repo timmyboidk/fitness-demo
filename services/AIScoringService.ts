@@ -6,31 +6,7 @@
 
 import client from './api/client';
 
-/**
- * 动作评分请求数据结构
- * @property moveId 动作ID
- * @property data.keypoints 计算出的骨架关键点数组
- * @property data.userId 用户ID
- */
-export interface ScoreRequest {
-    moveId: string;
-    data: {
-        keypoints: { x: number; y: number; score: number }[];
-        userId: string;
-    };
-}
-
-/**
- * 动作评分响应数据结构
- * @property success 请求是否成功
- * @property score 动作得分 (0-100)
- * @property feedback 针对动作的改进建议列表
- */
-export interface ScoreResponse {
-    success: boolean;
-    score: number;
-    feedback: string[];
-}
+import { ScoreRequest, ScoreResponse } from '../types';
 
 /**
  * AI评分服务类

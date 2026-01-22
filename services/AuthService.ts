@@ -5,24 +5,8 @@
  * 管理用户Token和会话持久化。
  */
 
+import { User } from '../types';
 import client from './api/client';
-
-/**
- * 用户信息接口
- * @property id 用户唯一标识
- * @property nickname 用户昵称
- * @property avatar 用户头像URL
- * @property token 认证令牌 (JWT)
- * @property phone (可选) 绑定手机号
- */
-export interface User {
-    id: string;
-    nickname: string;
-    avatar: string;
-    token: string;
-    phone?: string;
-    isVip: boolean;
-}
 
 /**
  * 认证服务类
@@ -31,64 +15,26 @@ export interface User {
 class AuthService {
     /**
      * 请求发送手机验证码 (OTP)
-     *
-     * @param phoneNumber - 目标手机号
-     * @returns {Promise<{ success: boolean; message: string }>} 请求结果
      */
     async requestOTP(phoneNumber: string): Promise<{ success: boolean; message: string }> {
-        // 当前后端规范中暂时没有独立的OTP请求接口，
-        // 但通常流程需要此步骤。此处模拟发送成功。
-        return { success: true, message: '验证码已发送' };
+        // Placeholder for future implementation
+        return { success: true, message: '' };
     }
 
     /**
      * 验证手机验证码并登录
-     *
-     * @param phoneNumber - 手机号
-     * @param code - 验证码
-     * @returns {Promise<{ success: boolean; user?: User; message?: string }>} 登录结果, 成功则包含用户信息
      */
     async verifyOTP(phoneNumber: string, code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        try {
-            const response = await client.post('/api/auth', {
-                type: 'login_phone',
-                phone: phoneNumber,
-                code: code
-            });
-
-            const data = response.data;
-            if (data.success) {
-                return { success: true, user: data.data };
-            }
-            return { success: false, message: data.message || '登录失败' };
-        } catch (e: any) {
-            console.error('Login error:', e);
-            return { success: false, message: e.response?.data?.message || '网络错误' };
-        }
+        // Placeholder for future implementation
+        return { success: false };
     }
 
     /**
      * 微信授权登录
-     *
-     * @param code - 微信授权临时票据 (code)
-     * @returns {Promise<{ success: boolean; user?: User; message?: string }>} 登录结果
      */
     async loginWithWeChat(code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        try {
-            const response = await client.post('/api/auth', {
-                type: 'login_wechat',
-                code: code
-            });
-
-            const data = response.data;
-            if (data.success) {
-                return { success: true, user: data.data };
-            }
-            return { success: false, message: data.message || '登录失败' };
-        } catch (e: any) {
-            console.error('WeChat login error:', e);
-            return { success: false, message: e.response?.data?.message || '网络错误' };
-        }
+        // Placeholder for future implementation
+        return { success: false };
     }
 
     /**

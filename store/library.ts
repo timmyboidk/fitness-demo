@@ -7,41 +7,8 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-/**
- * 动作数据模型
- * @property id 唯一ID
- * @property name 动作名称
- * @property level 难度等级
- * @property icon 图标名称 (SF Symbol)
- * @property isVisible 是否在列表中显示
- */
-export interface Move {
-    id: string;
-    name: string;
-    level: string;
-    icon: string; // SF Symbol Name
-    isVisible: boolean;
-}
-
-/**
- * 训练课程数据模型
- * @property id 唯一ID
- * @property name 课程名称
- * @property time 预计耗时描述
- * @property count 包含动作数量描述
- * @property color 主题色 (Hex)
- * @property isVisible 是否显示
- * @property moveIds 包含的动作ID列表
- */
-export interface Session {
-    id: string;
-    name: string;
-    time: string;
-    count: string;
-    color: string;
-    isVisible: boolean;
-    moveIds: string[];
-}
+import { Move, Session } from '../types';
+export { Move, Session };
 
 // 辅助函数: 首字母大写
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
