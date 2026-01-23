@@ -19,7 +19,6 @@ export default function AddMoveScreen() {
     const handleAdd = async (id: string) => {
         const myMovesCount = libraryStore.getMoves().filter(m => m.isVisible).length;
         const allowed = await checkLimit('move', myMovesCount);
-
         if (!allowed) return;
 
         libraryStore.toggleMoveVisibility(id);

@@ -5,6 +5,7 @@
  * 管理用户Token和会话持久化。
  */
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '../types';
 import client from './api/client';
 
@@ -85,7 +86,6 @@ class AuthService {
      */
     async logout() {
         const keys = ['user_token', 'user_id'];
-        const AsyncStorage = require('@react-native-async-storage/async-storage').default;
         await AsyncStorage.multiRemove(keys);
         // 如果需要，也可以在此处通知后端使Token失效
     }

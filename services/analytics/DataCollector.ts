@@ -81,6 +81,8 @@ class DataCollector {
     if (this.buffer.length === 0) return;
 
     const state = await NetInfo.fetch();
+    if (!state.isConnected) return;
+
     const isWifi = state.type === 'wifi';
 
     // 流量节省策略: 4G/5G 环境下过滤掉大体积的骨骼关键点数据，仅上传核心指标
