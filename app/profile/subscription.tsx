@@ -2,65 +2,112 @@
  * @file subscription.tsx
  * @description 订阅页面 / 会员中心。
  * 展示 VIP 会员权益、价格方案，以及与免费版的对比。
- * 提供升级支付入口。
+ * 提供升级支付入口 (集成 Apple IAP)。
  */
 
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as InAppPurchases from 'expo-in-app-purchases';
 import { router, Stack } from 'expo-router';
-import { useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { authService } from '../../services/AuthService';
+import { iapService } from '../../services/IAPService';
+
+// Fluorescent Green for Light Mode, optimized for visibility
+const FLUORESCENT_GREEN = '#CCFF00'; // Fluorescent Green
+const DARK_GREEN_BG = '#16a34a';
 
 export default function SubscriptionScreen() {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState<InAppPurchases.IAPItemDetails[]>([]);
 
-    // 价格方案
-    const PLANS = [
-        { id: 'monthly', price: '$5.99', period: '/月', label: '月度会员' },
-        { id: 'quarterly', price: '$17.99', period: '/3个月', label: '季度会员' },
-        { id: 'yearly', price: '$59.99', period: '/年', label: '年度会员 (省20%)', recommended: true },
-    ];
+    useEffect(() => {
+        let isMounted = true;
+
+        const initIAP = async () => {
+            try {
+                // Eliminate Waterfall: Connect and check user in parallel could be risky if connect fails,
+                // but for fetching products we can start early.
+                // Actually, IAP connection is global.
+                // We'll run connection and fetching in parallel with any other initialization if needed.
+                // Since this page depends on IAP products, we prioritize that.
+
+                await iapService.connect();
+                // Parallelize fetching products and any user state if needed (user state is usually global or fast async storage)
+                // For now, we just fetch products.
+                const items = await iapService.getProducts();
+                if (isMounted) {
+                    setProducts(items.sort((a, b) => (a.priceAmountMicros || 0) - (b.priceAmountMicros || 0)));
+                }
+            } catch (e) {
+                console.error("IAP Init failed", e);
+                // Fallback to static plans or show error?
+                // For demo purpose, we might keep static plans if IAP fails or just show empty?
+                // The original code had static plans. We should probably map IAP products to UI.
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        initIAP();
+
+        // Setup listener
+        iapService.setPurchaseListener((purchase) => {
+            // Verification logic would go here ideally on server side using purchase.transactionReceipt
+            Alert.alert("恭喜", "您已成功升级为 VIP 会员！", [
+                { text: "OK", onPress: () => router.back() }
+            ]);
+        });
+
+        return () => {
+            isMounted = false;
+            iapService.disconnect();
+        };
+    }, []);
+
 
     /**
      * 处理订阅升级
      */
-    const handleUpgrade = async (planId: string) => {
+    const handleUpgrade = async (productId: string) => {
         setLoading(true);
         try {
-            // 获取当前用户ID
+            // Early Return pattern
             const userStr = await AsyncStorage.getItem('user');
             if (!userStr) {
                 Alert.alert("提示", "请先登录");
                 router.push('/(auth)/login');
                 return;
             }
-            const user = JSON.parse(userStr);
 
-            // 调用 mock 升级接口
-            const result = await authService.upgradeToVip(user.id, planId);
+            // Initiate purchase
+            await iapService.purchase(productId);
+            // Note: The result is handled in the listener set in useEffect
 
-            if (result.success) {
-                // 本地更新用户状态
-                user.isVip = true;
-                user.vipExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 简单模拟加30天
-                await AsyncStorage.setItem('user', JSON.stringify(user));
-
-                Alert.alert("恭喜", "您已成功升级为 VIP 会员！", [
-                    { text: "OK", onPress: () => router.back() }
-                ]);
-            } else {
-                Alert.alert("支付失败", result.error || "请重试");
+        } catch (e: any) {
+            if (e.message !== 'User canceled the transaction') {
+                Alert.alert("支付失败", "无法完成支付，请重试");
             }
-        } catch (e) {
-            Alert.alert("错误", "发生未知错误");
         } finally {
             setLoading(false);
         }
     };
+
+    // Fallback plans if no IAP products loaded (for Simulator/Dev without IAP config)
+    const displayPlans = products.length > 0 ? products.map(p => ({
+        id: p.productId,
+        price: p.price,
+        period: p.productId.includes('year') ? '/年' : (p.productId.includes('quarter') ? '/3个月' : '/月'),
+        label: p.title.replace(/\s*\(.*\)/, ''), // Simple cleanup
+        recommended: p.productId.includes('year')
+    })) : [
+        { id: 'monthly', price: '$5.99', period: '/月', label: '月度会员' },
+        { id: 'quarterly', price: '$17.99', period: '/3个月', label: '季度会员' },
+        { id: 'yearly', price: '$59.99', period: '/年', label: '年度会员 (省20%)', recommended: true },
+    ];
 
     return (
         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
@@ -68,23 +115,22 @@ export default function SubscriptionScreen() {
 
             {/* 统一的带返回键 Header */}
             <View className="flex-row items-center px-4 py-4">
-                <TouchableOpacity onPress={() => {
-                    router.back();
-                }} className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-[#1C1C1E] rounded-full">
+                <TouchableOpacity onPress={() => router.back()} className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-[#1C1C1E] rounded-full">
                     <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "black"} />
                 </TouchableOpacity>
                 <Text className="text-black dark:text-white text-xl font-bold">会员中心</Text>
             </View>
 
             <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingTop: 10 }}>
-                {/* 顶部 Banner */}
-                <View className="relative h-60 bg-[#16a34a] dark:bg-[#CCFF00] items-center justify-center rounded-[32px] mx-4 mb-8 overflow-hidden">
+                {/* 顶部 Banner - Fluorescent Green applied */}
+                <View className="relative h-60 items-center justify-center rounded-[32px] mx-4 mb-8 overflow-hidden"
+                    style={{ backgroundColor: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>
                     {/* 背景装饰图案 */}
                     <View className="absolute w-80 h-80 bg-white/10 rounded-full -top-10 -right-20" />
                     <View className="absolute w-40 h-40 bg-white/10 rounded-full bottom-10 -left-10" />
 
-                    <Text className="text-white dark:text-black text-4xl font-black mb-2">PRO 会员</Text>
-                    <Text className="text-white/80 dark:text-black/70 text-lg font-medium">解锁无限可能</Text>
+                    <Text className={`text-4xl font-black mb-2 ${isDark ? 'text-black' : 'text-white'}`}>PRO 会员</Text>
+                    <Text className={`text-lg font-medium ${isDark ? 'text-black/70' : 'text-white/80'}`}>解锁无限可能</Text>
                 </View>
 
                 {/* 权益对比表格 */}
@@ -95,29 +141,37 @@ export default function SubscriptionScreen() {
                     <View className="flex-row mb-4 border-b border-gray-100 dark:border-gray-800 pb-2">
                         <View className="flex-1"></View>
                         <View className="w-20 items-center"><Text className="text-gray-400 font-bold">免费版</Text></View>
-                        <View className="w-20 items-center"><Text className="text-[#16a34a] dark:text-[#CCFF00] font-black">PRO</Text></View>
+                        <View className="w-20 items-center">
+                            <Text className={`font-black`} style={{ color: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>PRO</Text>
+                        </View>
                     </View>
 
                     {/* 权益项 */}
-                    <FeatureRow label="动作库数量" free="10个" vip="无限" />
-                    <FeatureRow label="训练课程数" free="3个/月" vip="无限" />
-                    <FeatureRow label="私人教练指导" free="-" vip="支持" highlight />
-                    <FeatureRow label="24h 客服支持" free="-" vip="支持" highlight />
+                    <FeatureRow label="动作库数量" free="10个" vip="无限" isDark={isDark} />
+                    <FeatureRow label="训练课程数" free="3个/月" vip="无限" isDark={isDark} />
+                    <FeatureRow label="私人教练指导" free="-" vip="支持" highlight isDark={isDark} />
+                    <FeatureRow label="24h 客服支持" free="-" vip="支持" highlight isDark={isDark} />
                 </View>
 
                 {/* 价格选择卡片区域 */}
                 <View className="px-4 space-y-4">
-                    {PLANS.map((plan) => (
+                    {displayPlans.map((plan) => (
                         <TouchableOpacity
                             key={plan.id}
                             disabled={loading}
                             onPress={() => handleUpgrade(plan.id)}
-                            className={`flex-row items-center p-5 rounded-3xl border-2 ${plan.recommended ? 'border-[#16a34a] dark:border-[#CCFF00] bg-[#16a34a]/5 dark:bg-[#CCFF00]/10' : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900'}`}
+                            className={`flex-row items-center p-5 rounded-3xl border-2`}
+                            style={{
+                                borderColor: plan.recommended ? (isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG) : (isDark ? '#1F2937' : '#F3F4F6'), // gray-800 : gray-100
+                                backgroundColor: plan.recommended
+                                    ? (isDark ? 'rgba(204, 255, 0, 0.1)' : 'rgba(22, 163, 74, 0.05)')
+                                    : (isDark ? '#111827' : '#FFFFFF'), // gray-900 : white
+                            }}
                         >
                             <View className="flex-1">
                                 {plan.recommended && (
-                                    <View className="bg-[#16a34a] dark:bg-[#CCFF00] self-start px-2 py-0.5 rounded-md mb-2">
-                                        <Text className="text-white dark:text-black text-[10px] font-bold">推荐</Text>
+                                    <View className="self-start px-2 py-0.5 rounded-md mb-2" style={{ backgroundColor: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>
+                                        <Text className={`text-[10px] font-bold ${isDark ? 'text-black' : 'text-white'}`}>推荐</Text>
                                     </View>
                                 )}
                                 <Text className="text-black dark:text-white font-bold text-lg">{plan.label}</Text>
@@ -140,8 +194,8 @@ export default function SubscriptionScreen() {
     );
 }
 
-// 辅助组件：权益行
-function FeatureRow({ label, free, vip, highlight }: { label: string, free: string, vip: string, highlight?: boolean }) {
+// 辅助组件：权益行 - Memoized to reduce re-renders
+const FeatureRow = memo(({ label, free, vip, highlight, isDark }: { label: string, free: string, vip: string, highlight?: boolean, isDark: boolean }) => {
     return (
         <View className="flex-row items-center py-3 border-b border-gray-50 dark:border-gray-900">
             <Text className="flex-1 text-gray-600 dark:text-gray-300 font-medium">{label}</Text>
@@ -160,4 +214,4 @@ function FeatureRow({ label, free, vip, highlight }: { label: string, free: stri
             </View>
         </View>
     )
-}
+});

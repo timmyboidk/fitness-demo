@@ -89,4 +89,16 @@ describe('SignupScreen', () => {
             expect(Alert.alert).toHaveBeenCalledWith("错误", "Signup failed");
         });
     });
+
+    it('handles resending code', () => {
+        const { getByText } = render(<SignupScreen />);
+        fireEvent.press(getByText('发送'));
+        expect(mockSendCode).toHaveBeenCalled();
+    });
+
+    it('navigates to login', () => {
+        const { getByText } = render(<SignupScreen />);
+        fireEvent.press(getByText('去登录'));
+        expect(router.push).toHaveBeenCalledWith('/(auth)/login');
+    });
 });

@@ -179,6 +179,7 @@ export default function WorkoutSession() {
 
                         <TouchableOpacity
                             onPress={() => router.back()}
+                            testID="close-button"
                             className="bg-black/50 w-10 h-10 rounded-full items-center justify-center border border-white/10"
                             hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                         >

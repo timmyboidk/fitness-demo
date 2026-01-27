@@ -37,4 +37,17 @@ describe('AIScoringService', () => {
         expect(result.success).toBe(false);
         expect(result.score).toBe(0);
     });
+
+    it('should handle API success false', async () => {
+        (client.post as jest.Mock).mockResolvedValue({
+            data: { success: false }
+        });
+
+        const result = await aiScoringService.scoreMove({
+            moveId: 'm1',
+            data: { keypoints: [], userId: 'u1' }
+        });
+
+        expect(result.success).toBe(false);
+    });
 });

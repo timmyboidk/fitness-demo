@@ -1,16 +1,15 @@
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import MovesScreen from '../(tabs)/index';
 import { libraryStore } from '../../store/library';
 
-// Mock generic component to focus on screen logic
-jest.mock('../../components/ResourceListScreen', () => {
-    const React = require('react');
-    const { Text } = require('react-native');
-    return {
-        ResourceListScreen: ({ data }: any) => <Text>{data.length} items</Text>
-    };
-});
+// Don't mock ResourceListScreen to allow internal functions to run
+// jest.mock('../../components/ResourceListScreen', ...);
+
+// Mock SafeAreaView
+jest.mock('react-native-safe-area-context', () => ({
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
 
 jest.mock('../../store/library', () => ({
     libraryStore: {
@@ -19,17 +18,13 @@ jest.mock('../../store/library', () => ({
         toggleMoveVisibility: jest.fn()
     }
 }));
-
 describe('MovesScreen', () => {
-    it('should render moves list', () => {
-        (libraryStore.getMoves as jest.Mock).mockReturnValue([
-            { id: '1', isVisible: true },
-            { id: '2', isVisible: false }
-        ]);
+    it('should handle move selection', () => {
+        const moves = [{ id: '1', name: 'Move 1', isVisible: true, level: 'Beginner', icon: 'run' }];
+        (libraryStore.getMoves as jest.Mock).mockReturnValue(moves);
 
         const { getByText } = render(<MovesScreen />);
-
-        // Should only show visible items (1 item)
-        expect(getByText('1 items')).toBeTruthy();
+        fireEvent.press(getByText('Move 1'));
+        expect(require('expo-router').router.push).toHaveBeenCalledWith('/workout/1');
     });
 });

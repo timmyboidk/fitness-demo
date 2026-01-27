@@ -33,6 +33,16 @@ describe('LoginScreen', () => {
         expect(getByPlaceholderText('验证码')).toBeTruthy();
     });
 
+    it('validates phone and code input before login', async () => {
+        const { getByTestId } = render(<LoginScreen />);
+        const loginButton = getByTestId('login-button');
+
+        fireEvent.press(loginButton);
+        await waitFor(() => {
+            expect(Alert.alert).toHaveBeenCalledWith("提示", "请输入手机号和验证码");
+        });
+    });
+
     it('validates phone input before sending code', async () => {
         const { getByTestId } = render(<LoginScreen />);
         const sendButton = getByTestId('send-code-button');
@@ -125,5 +135,53 @@ describe('LoginScreen', () => {
         const buttons = lastHelperCall[2];
         buttons[0].onPress();
         expect(router.replace).toHaveBeenCalledWith('/(tabs)');
+    });
+
+    it('validates phone length specifically', async () => {
+        const { getByTestId } = render(<LoginScreen />);
+        fireEvent.changeText(getByTestId('phone-input'), '123');
+        fireEvent.changeText(getByTestId('code-input'), '1234');
+        fireEvent.press(getByTestId('login-button'));
+        await waitFor(() => {
+            expect(Alert.alert).toHaveBeenCalledWith("提示", "请输入手机号和验证码");
+        });
+    });
+
+    it('validates code length specifically', async () => {
+        const { getByTestId } = render(<LoginScreen />);
+        fireEvent.changeText(getByTestId('phone-input'), '13800138000');
+        fireEvent.changeText(getByTestId('code-input'), '1');
+        fireEvent.press(getByTestId('login-button'));
+        await waitFor(() => {
+            expect(Alert.alert).toHaveBeenCalledWith("提示", "请输入手机号和验证码");
+        });
+    });
+
+    it('handles login success with no user data (edge case)', async () => {
+        (authService.verifyOTP as jest.Mock).mockResolvedValue({
+            success: true,
+            user: null
+        });
+        const { getByTestId } = render(<LoginScreen />);
+        fireEvent.changeText(getByTestId('phone-input'), '13800138000');
+        fireEvent.changeText(getByTestId('code-input'), '1234');
+        fireEvent.press(getByTestId('login-button'));
+        await waitFor(() => {
+            // result.success is true but user is null -> falls through to else?
+            // Actually, in login.tsx: if (result.success && result.user)
+            // So success: true, user: null goes to "登录失败" or default message.
+            expect(Alert.alert).toHaveBeenCalledWith("登录失败", "未知错误");
+        });
+    });
+
+    it('handles unexpected login error', async () => {
+        (authService.verifyOTP as jest.Mock).mockRejectedValue(new Error('Network Crash'));
+        const { getByTestId } = render(<LoginScreen />);
+        fireEvent.changeText(getByTestId('phone-input'), '13800138000');
+        fireEvent.changeText(getByTestId('code-input'), '1234');
+        fireEvent.press(getByTestId('login-button'));
+        await waitFor(() => {
+            expect(Alert.alert).toHaveBeenCalledWith("错误", "连接服务器失败");
+        });
     });
 });

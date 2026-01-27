@@ -10,17 +10,26 @@ describe('AuthService', () => {
         jest.clearAllMocks();
     });
 
-    describe('Placeholders', () => {
-        it('requestOTP return successfully', async () => {
-            const res = await authService.requestOTP('123');
+    describe('verifyOTP', () => {
+        it('should return success for demo credentials', async () => {
+            const res = await authService.verifyOTP('13800138000', '1234');
+            expect(res.success).toBe(true);
+            expect(res.user.nickname).toBe('Demo User');
+        });
+        it('should return failure for wrong credentials', async () => {
+            const res = await authService.verifyOTP('123', '456');
+            expect(res.success).toBe(false);
+            expect(res.message).toBe('验证码错误');
+        });
+    });
+
+    describe('loginWithWeChat', () => {
+        it('should return success for mock success code', async () => {
+            const res = await authService.loginWithWeChat('success');
             expect(res.success).toBe(true);
         });
-        it('verifyOTP return fail', async () => {
-            const res = await authService.verifyOTP('123', 'code');
-            expect(res.success).toBe(false);
-        });
-        it('loginWithWeChat return fail', async () => {
-            const res = await authService.loginWithWeChat('code');
+        it('should return failure for other codes', async () => {
+            const res = await authService.loginWithWeChat('fail');
             expect(res.success).toBe(false);
         });
     });
@@ -52,6 +61,19 @@ describe('AuthService', () => {
         it('should simulate success', async () => {
             const res = await authService.upgradeToVip('uid', 'monthly');
             expect(res.success).toBe(true);
+        });
+
+        it('should handle exception', async () => {
+            // Force an error if possible, but the code is very simple.
+            // We can mock console.log to throw? No.
+            // Actually, we can use a spy on setTimeout if we wanted, but let's just 
+            // accept that the catch block is hard to hit without a real failure.
+            // But we can manually call the catch logic if we use a spy on the method itself.
+            // Or just mock the global promise.
+            jest.spyOn(global, 'setTimeout').mockImplementationOnce(() => { throw new Error('fail'); });
+            const res = await authService.upgradeToVip('uid', 'plan');
+            expect(res.success).toBe(false);
+            expect(res.error).toBe('支付验证失败');
         });
     });
 
