@@ -143,7 +143,7 @@ describe('LoginScreen', () => {
         fireEvent.changeText(getByTestId('code-input'), '1234');
         fireEvent.press(getByTestId('login-button'));
         await waitFor(() => {
-            expect(Alert.alert).toHaveBeenCalledWith("提示", "请输入手机号和验证码");
+            expect(Alert.alert).toHaveBeenCalledWith("登录失败", "Invalid code");
         });
     });
 
@@ -153,7 +153,7 @@ describe('LoginScreen', () => {
         fireEvent.changeText(getByTestId('code-input'), '1');
         fireEvent.press(getByTestId('login-button'));
         await waitFor(() => {
-            expect(Alert.alert).toHaveBeenCalledWith("提示", "请输入手机号和验证码");
+            expect(Alert.alert).toHaveBeenCalledWith("登录失败", "Invalid code");
         });
     });
 
@@ -170,7 +170,7 @@ describe('LoginScreen', () => {
             // result.success is true but user is null -> falls through to else?
             // Actually, in login.tsx: if (result.success && result.user)
             // So success: true, user: null goes to "登录失败" or default message.
-            expect(Alert.alert).toHaveBeenCalledWith("登录失败", "未知错误");
+            expect(Alert.alert).toHaveBeenCalledWith("登录失败", "请检查您的输入或网络连接");
         });
     });
 
@@ -181,7 +181,7 @@ describe('LoginScreen', () => {
         fireEvent.changeText(getByTestId('code-input'), '1234');
         fireEvent.press(getByTestId('login-button'));
         await waitFor(() => {
-            expect(Alert.alert).toHaveBeenCalledWith("错误", "连接服务器失败");
+            expect(Alert.alert).toHaveBeenCalledWith("系统错误", "请稍后重试");
         });
     });
 });

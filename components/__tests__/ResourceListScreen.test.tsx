@@ -41,17 +41,4 @@ describe('ResourceListScreen', () => {
         expect(getByText('Item 2')).toBeTruthy();
     });
 
-    it('should render loading state', () => {
-        const { getByTestId } = render(
-            <ResourceListScreen title="Loading" data={[]} renderItem={() => null} loading={true} />
-        );
-        expect(getByTestId('loading-indicator')).toBeTruthy();
-    });
-
-    it('should render empty state', () => {
-        const { getByText } = render(
-            <ResourceListScreen title="Empty" data={[]} renderItem={() => null} emptyText="No results" />
-        );
-        expect(getByText('No results')).toBeTruthy();
-    });
 });

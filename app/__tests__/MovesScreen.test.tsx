@@ -18,6 +18,14 @@ jest.mock('../../store/library', () => ({
         toggleMoveVisibility: jest.fn()
     }
 }));
+
+jest.mock('../../components/StickyHeader', () => ({
+    __esModule: true,
+    StickyHeader: ({ title }: any) => {
+        const { Text } = require('react-native');
+        return <Text>{title}</Text>;
+    }
+}));
 describe('MovesScreen', () => {
     it('should handle move selection', () => {
         const moves = [{ id: '1', name: 'Move 1', isVisible: true, level: 'Beginner', icon: 'run' }];

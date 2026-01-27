@@ -12,11 +12,17 @@ describe('AuthService', () => {
 
     describe('verifyOTP', () => {
         it('should return success for demo credentials', async () => {
+            (client.post as jest.Mock).mockResolvedValue({
+                data: { success: true, data: { id: 'demo', nickname: 'Demo User', token: 'token' } }
+            });
             const res = await authService.verifyOTP('13800138000', '1234');
             expect(res.success).toBe(true);
             expect(res.user.nickname).toBe('Demo User');
         });
         it('should return failure for wrong credentials', async () => {
+            (client.post as jest.Mock).mockRejectedValue({
+                response: { data: { message: '验证码错误' } }
+            });
             const res = await authService.verifyOTP('123', '456');
             expect(res.success).toBe(false);
             expect(res.message).toBe('验证码错误');
@@ -25,10 +31,16 @@ describe('AuthService', () => {
 
     describe('loginWithWeChat', () => {
         it('should return success for mock success code', async () => {
+            (client.post as jest.Mock).mockResolvedValue({
+                data: { success: true, data: { token: 'wx-token' } }
+            });
             const res = await authService.loginWithWeChat('success');
             expect(res.success).toBe(true);
         });
         it('should return failure for other codes', async () => {
+            (client.post as jest.Mock).mockRejectedValue({
+                response: { data: { message: 'Failed' } }
+            });
             const res = await authService.loginWithWeChat('fail');
             expect(res.success).toBe(false);
         });

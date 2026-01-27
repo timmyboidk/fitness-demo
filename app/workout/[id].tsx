@@ -238,7 +238,7 @@ export default function WorkoutSession() {
                     )}
 
                     <View className="flex-row justify-around items-center">
-                        <ControlButton icon="camera-reverse-outline" onPress={handleReverseCamera} />
+                        <ControlButton testID="camera-reverse-outline" icon="camera-reverse-outline" onPress={handleReverseCamera} />
 
                         {/* Play/Pause Button */}
                         <TouchableOpacity

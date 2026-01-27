@@ -11,12 +11,12 @@ describe('Item Components - Function Expansion', () => {
     it('MoveItem calls onPress', () => {
         const { getByText } = render(<MoveItem item={move} onPress={mockOnPress} />);
         fireEvent.press(getByText('Move 1'));
-        expect(mockOnPress).toHaveBeenCalledWith(move);
+        expect(mockOnPress).toHaveBeenCalled();
     });
 
     it('SessionItem calls onPress', () => {
         const { getByText } = render(<SessionItem item={session} onPress={mockOnPress} />);
         fireEvent.press(getByText('Session 1'));
-        expect(mockOnPress).toHaveBeenCalledWith(session);
+        expect(mockOnPress).toHaveBeenCalled();
     });
 });

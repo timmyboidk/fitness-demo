@@ -19,6 +19,14 @@ jest.mock('../../store/library', () => ({
     }
 }));
 
+jest.mock('../../components/StickyHeader', () => ({
+    __esModule: true,
+    StickyHeader: ({ title }: any) => {
+        const { Text } = require('react-native');
+        return <Text>{title}</Text>;
+    }
+}));
+
 describe('SessionsScreen', () => {
     it('should render sessions list', () => {
         (libraryStore.getSessions as jest.Mock).mockReturnValue([
