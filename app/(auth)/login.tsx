@@ -8,11 +8,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { useOTP } from '../../hooks/useOTP';
 import { authService } from '../../services/AuthService';
 
 /**
@@ -26,49 +27,18 @@ export default function LoginScreen() {
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // 验证码倒计时状态
-    const [timer, setTimer] = useState(0);
-    const [isTimerRunning, setIsTimerRunning] = useState(false);
-
-    // 倒计时副作用处理
-    useEffect(() => {
-        let interval: any;
-        if (isTimerRunning && timer > 0) {
-            interval = setInterval(() => {
-                setTimer((prev) => prev - 1);
-            }, 1000);
-        } else if (timer === 0) {
-            setIsTimerRunning(false);
-        }
-        return () => clearInterval(interval);
-    }, [isTimerRunning, timer]);
+    // 使用自定义 Hook 处理验证码逻辑
+    const { timer, isTimerRunning, sendCode } = useOTP();
 
     /**
      * 发送验证码逻辑
      * 校验手机号格式 -> 请求后端 API -> 开始倒计时
      */
+    /**
+     * 发送验证码逻辑
+     */
     const handleSendCode = async () => {
-        if (!/^1[3-9]\d{9}$/.test(phone)) {
-            return Alert.alert("错误", "请输入正确的11位手机号码");
-        }
-
-        setIsTimerRunning(true);
-        setTimer(60);
-
-        try {
-            const res = await authService.requestOTP(phone);
-            if (res.success) {
-                Alert.alert("提示", "验证码已发送 (默认1234)");
-            } else {
-                Alert.alert("错误", res.message || "由于网络原因发送失败");
-                setIsTimerRunning(false);
-                setTimer(0);
-            }
-        } catch (e) {
-            Alert.alert("错误", "发送失败，请稍后重试");
-            setIsTimerRunning(false);
-            setTimer(0);
-        }
+        await sendCode(phone);
     };
 
     /**

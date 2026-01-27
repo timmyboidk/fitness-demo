@@ -5,11 +5,12 @@
  * 提供退出登录功能，清理本地状态并重置路由。
  */
 
-import { Ionicons } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, Switch, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationHeader } from '../../components/NavigationHeader';
+import { SettingItem } from '../../components/SettingItem';
 
 export default function SettingsScreen() {
     // 设置项状态
@@ -24,14 +25,7 @@ export default function SettingsScreen() {
             <Stack.Screen options={{ headerShown: false }} />
 
             {/* 统一的带返回键 Header */}
-            <View className="flex-row items-center px-4 py-4">
-                <TouchableOpacity onPress={() => {
-                    router.back();
-                }} className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-[#1C1C1E] rounded-full">
-                    <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "black"} />
-                </TouchableOpacity>
-                <Text className="text-black dark:text-white text-xl font-bold">设置</Text>
-            </View>
+            <NavigationHeader title="设置" />
 
             <ScrollView className="p-4">
                 {/* 常规设置组 */}
@@ -81,45 +75,4 @@ export default function SettingsScreen() {
             </ScrollView>
         </SafeAreaView>
     );
-}
-
-/**
- * 设置项子组件
- * 支持 Switch 开关或点击跳转两种模式
- */
-function SettingItem({ icon, label, value, onValueChange, isSwitch, onPress }: any) {
-    const colorScheme = useColorScheme();
-    const isDark = colorScheme === 'dark';
-
-    const Content = (
-        <View className="flex-row items-center justify-between p-4 bg-gray-50 dark:bg-[#1C1C1E]">
-            <View className="flex-row items-center">
-                <Ionicons name={icon} size={22} color={isDark ? "#999" : "#666"} style={{ marginRight: 12 }} />
-                <Text className="text-black dark:text-white text-base font-bold">{label}</Text>
-            </View>
-            {isSwitch ? (
-                <Switch
-                    value={value}
-                    onValueChange={onValueChange}
-                    trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#16a34a" }}
-                    thumbColor={value ? (isDark ? "#000" : "#fff") : "#f4f3f4"}
-                />
-            ) : (
-                <View className="flex-row items-center">
-                    <Text className="text-gray-500 mr-2">{value}</Text>
-                    <Ionicons name="chevron-forward" size={18} color="#666" />
-                </View>
-            )}
-        </View>
-    );
-
-    if (onPress) {
-        return (
-            <TouchableOpacity onPress={onPress}>
-                {Content}
-            </TouchableOpacity>
-        );
-    }
-
-    return Content;
 }

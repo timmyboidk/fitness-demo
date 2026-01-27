@@ -6,9 +6,11 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
-import { Stack, router } from 'expo-router';
-import { ScrollView, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
+import { ScrollView, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { NavigationHeader } from '../../components/NavigationHeader';
 
 export default function StatsScreen() {
     const colorScheme = useColorScheme();
@@ -18,12 +20,10 @@ export default function StatsScreen() {
         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
             <Stack.Screen options={{ headerShown: false }} />
 
-            <View className="flex-row items-center px-4 py-4 border-b border-gray-200 dark:border-[#333]">
-                <TouchableOpacity onPress={() => router.back()} className="mr-4">
-                    <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "black"} />
-                </TouchableOpacity>
-                <Text className="text-black dark:text-white text-xl font-bold">训练数据详情</Text>
-            </View>
+            <NavigationHeader
+                title="训练数据详情"
+                style={{ borderBottomWidth: 1, borderBottomColor: isDark ? '#333' : '#e5e5e5' }}
+            />
 
             <ScrollView className="p-4">
                 {/* 顶部大卡片: 本周运动时长 */}

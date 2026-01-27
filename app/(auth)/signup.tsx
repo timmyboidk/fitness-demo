@@ -13,6 +13,7 @@ import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpaci
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { useOTP } from '../../hooks/useOTP';
 import { authService } from '../../services/AuthService';
 
 /**
@@ -28,6 +29,9 @@ export default function SignupScreen() {
     const [code, setCode] = useState('');
     const [nickname, setNickname] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // 使用自定义 Hook 处理验证码逻辑
+    const { timer, isTimerRunning, sendCode } = useOTP();
 
     /**
      * 处理注册逻辑
@@ -122,8 +126,14 @@ export default function SignupScreen() {
                                     icon="shield-checkmark-outline"
                                 />
                             </View>
-                            <TouchableOpacity className="h-14 w-32 bg-gray-100 dark:bg-[#1E1E1E] rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 active:bg-gray-200 dark:active:bg-gray-800">
-                                <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">发送</Text>
+                            <TouchableOpacity
+                                onPress={() => sendCode(phone)}
+                                disabled={isTimerRunning}
+                                className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 ${isTimerRunning ? 'bg-gray-200 dark:bg-gray-800' : 'bg-gray-100 dark:bg-[#1E1E1E] active:bg-gray-200 dark:active:bg-gray-800'}`}
+                            >
+                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#16a34a] dark:text-[#CCFF00] font-bold"}>
+                                    {isTimerRunning ? `${timer}s` : "发送"}
+                                </Text>
                             </TouchableOpacity>
                         </View>
 
