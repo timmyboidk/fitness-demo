@@ -17,7 +17,7 @@ describe('AuthService', () => {
             });
             const res = await authService.verifyOTP('13800138000', '1234');
             expect(res.success).toBe(true);
-            expect(res.user.nickname).toBe('Demo User');
+            expect(res.user!.nickname).toBe('Demo User');
         });
         it('should return failure for wrong credentials', async () => {
             (client.post as jest.Mock).mockRejectedValue({

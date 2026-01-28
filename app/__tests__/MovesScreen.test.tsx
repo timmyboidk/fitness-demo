@@ -33,6 +33,6 @@ describe('MovesScreen', () => {
 
         const { getByText } = render(<MovesScreen />);
         fireEvent.press(getByText('Move 1'));
-        expect(require('expo-router').router.push).toHaveBeenCalledWith('/workout/1');
+        expect(require('expo-router').router.push).toHaveBeenCalledWith('/workout/1?mode=move');
     });
 });

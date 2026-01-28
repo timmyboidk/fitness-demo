@@ -10,5 +10,7 @@ describe('use-color-scheme', () => {
     it('should re-export useColorScheme from react-native', () => {
         // Verify that the exported function is the same as React Native's
         expect(importedUseColorScheme).toBe(rnUseColorScheme);
+        const result = importedUseColorScheme();
+        expect(result).toBeDefined(); // Standard mock returns 'light' or similar
     });
 });

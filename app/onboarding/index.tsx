@@ -1,8 +1,8 @@
-import { View, Text, FlatList, Dimensions, ImageBackground } from 'react-native';
-import { router } from 'expo-router';
-import { Button } from '../../components/ui/Button';
-import { useState, useRef } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'; // 需要安装
+import { router } from 'expo-router';
+import { useRef, useState } from 'react';
+import { Dimensions, FlatList, ImageBackground, Text, View } from 'react-native';
+import { Button } from '../../components/ui/Button';
 
 const { width, height } = Dimensions.get('window');
 
@@ -51,6 +51,11 @@ export default function OnboardingScreen() {
                 onMomentumScrollEnd={(e) => {
                     setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / width));
                 }}
+                getItemLayout={(data, index) => ({
+                    length: width,
+                    offset: width * index,
+                    index,
+                })}
                 renderItem={({ item }) => (
                     <ImageBackground source={item.image} style={{ width, height }} resizeMode="cover">
                         {/* 底部渐变遮罩，让文字更清晰 */}

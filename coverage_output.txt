@@ -1,0 +1,1969 @@
+
+> fitness-demo@1.0.0 test
+> jest --coverage
+
+(node:88095) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:88100) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+FAIL app/__tests__/SessionsScreen.test.tsx
+  ● SessionsScreen › should render sessions list
+
+    Unable to find an element with text: 1 sessions
+
+    [36m<View>[39m
+      [36m<Text>[39m
+        [0m课程计划[0m
+      [36m</Text>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m课程计划[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View[39m
+                  [33mtestID[39m=[32m"icon-add-circle"[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+                [36m<View>[39m
+                  [36m<Text />[39m
+                  [36m<View>[39m
+                    [36m<View>[39m
+                      [36m<View[39m
+                        [33mtestID[39m=[32m"symbol-clock"[39m
+                      [36m/>[39m
+                      [36m<Text />[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View[39m
+                        [33mtestID[39m=[32m"symbol-square.stack.3d.up"[39m
+                      [36m/>[39m
+                      [36m<Text />[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View[39m
+                  [33mtestID[39m=[32m"symbol-minus.circle.fill"[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</View>[39m
+
+      37 |         const { getByText } = render(<SessionsScreen />);
+      38 |
+    > 39 |         expect(getByText('1 sessions')).toBeTruthy();
+         |                ^
+      40 |     });
+      41 |
+      42 |     it('should handle session selection', () => {
+
+      at Object.getByText (app/__tests__/SessionsScreen.test.tsx:39:16)
+
+FAIL app/__tests__/MovesScreen.test.tsx
+  ● MovesScreen › should handle move selection
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "/workout/1"
+    Received: "/workout/1?mode=move"
+
+    Number of calls: 1
+
+      34 |         const { getByText } = render(<MovesScreen />);
+      35 |         fireEvent.press(getByText('Move 1'));
+    > 36 |         expect(require('expo-router').router.push).toHaveBeenCalledWith('/workout/1');
+         |                                                    ^
+      37 |     });
+      38 | });
+      39 |
+
+      at Object.toHaveBeenCalledWith (app/__tests__/MovesScreen.test.tsx:36:52)
+
+FAIL app/__tests__/Screens.test.tsx
+  ● Minor Screens Rendering › OnboardingStart renders
+
+    Unable to find an element with text: /AI 健身助理/i
+
+    [36m<View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mSTART[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mYOUR[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mJOURNEY[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mTowards A More Active Lifestyle[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mFIND[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mNUTRITION[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mTIPS[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mThat Fit Your Lifestyle[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mA[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mCOMMUNITY[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mFOR[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mYOU[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mChallenge Yourself[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View />[39m
+          [36m<View />[39m
+          [36m<View />[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mNext[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      36 |     it('OnboardingStart renders', () => {
+      37 |         const { getByText } = render(<OnboardingStart />);
+    > 38 |         expect(getByText(/AI 健身助理/i)).toBeTruthy();
+         |                ^
+      39 |     });
+      40 |
+      41 |     it('HelpScreen renders', () => {
+
+      at Object.getByText (app/__tests__/Screens.test.tsx:38:16)
+
+  ● Minor Screens Rendering › HelpScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      19 |     return (
+      20 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 21 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      22 |
+      23 |             {/* 统一的带返回键 Header */}
+      24 |             <NavigationHeader
+
+      at Screen (app/profile/help.tsx:21:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:42:37)
+
+  ● Minor Screens Rendering › LeaderboardScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      22 |     return (
+      23 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 24 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      25 |
+      26 |             {/* 统一的带返回键 Header */}
+      27 |             <View className="flex-row items-center px-4 py-4">
+
+      at Screen (app/profile/leaderboard.tsx:24:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:47:37)
+
+  ● Minor Screens Rendering › SettingsScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      23 |
+      24 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 25 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      26 |
+      27 |             {/* 统一的带返回键 Header */}
+      28 |             <NavigationHeader title="设置" />
+
+      at Screen (app/profile/settings.tsx:25:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:52:37)
+
+  ● Minor Screens Rendering › SocialScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      15 |     return (
+      16 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 17 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      18 |
+      19 |             {/* 统一的带返回键 Header */}
+      20 |             <View className="flex-row items-center px-4 py-4">
+
+      at Screen (app/profile/social.tsx:17:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:57:37)
+
+(node:88097) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:88099) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+PASS app/(tabs)/__tests__/_layout.test.tsx
+PASS app/onboarding/__tests__/difficulty.test.tsx
+  ● Console
+
+    console.error
+      Error: Network error
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/app/onboarding/__tests__/difficulty.test.tsx:120:65)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+       95 |             }
+       96 |         } catch (e) {
+    >  97 |             console.error(e);
+          |                     ^
+       98 |             Alert.alert("网络异常", "请检查网络连接");
+       99 |         } finally {
+      100 |             setLoading(false);
+
+      at error (app/onboarding/difficulty.tsx:97:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+FAIL services/__tests__/AuthService.test.ts
+  ● Console
+
+    console.error
+      Onboarding error: { response: { data: { message: 'Failed' } } }
+
+      55 |             return response.data;
+      56 |         } catch (e: any) {
+    > 57 |             console.error('Onboarding error:', e);
+         |                     ^
+      58 |             return { success: false, error: e.response?.data?.message || '网络错误' };
+      59 |         }
+      60 |     }
+
+      at AuthService.error (services/AuthService.ts:57:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+    console.log
+      User uid upgrading to plan monthly
+
+      at AuthService.log (services/AuthService.ts:74:21)
+
+    console.error
+      Upgrade error: Error: fail
+          at /Users/timyu/Desktop/fitness/fitness-demo/services/__tests__/AuthService.test.ts:85:83
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-mock/build/index.js:397:39
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-mock/build/index.js:404:13
+          at mockConstructor (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-mock/build/index.js:148:19)
+          at setTimeout (/Users/timyu/Desktop/fitness/fitness-demo/services/AuthService.ts:70:42)
+          at new Promise (<anonymous>)
+          at AuthService.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/services/AuthService.ts:70:19)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at AuthService.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at AuthService.apply [as upgradeToVip] (/Users/timyu/Desktop/fitness/fitness-demo/services/AuthService.ts:67:23)
+          at Object.upgradeToVip (/Users/timyu/Desktop/fitness/fitness-demo/services/__tests__/AuthService.test.ts:86:43)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      76 |             return { success: true };
+      77 |         } catch (e: any) {
+    > 78 |             console.error('Upgrade error:', e);
+         |                     ^
+      79 |             return { success: false, error: '支付验证失败' };
+      80 |         }
+      81 |     }
+
+      at AuthService.error (services/AuthService.ts:78:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  ● AuthService › verifyOTP › should return success for demo credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      17 |             });
+      18 |             const res = await authService.verifyOTP('13800138000', '1234');
+    > 19 |             expect(res.success).toBe(true);
+         |                                 ^
+      20 |             expect(res.user.nickname).toBe('Demo User');
+      21 |         });
+      22 |         it('should return failure for wrong credentials', async () => {
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:19:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● AuthService › verifyOTP › should return failure for wrong credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "验证码错误"
+    Received: undefined
+
+      26 |             const res = await authService.verifyOTP('123', '456');
+      27 |             expect(res.success).toBe(false);
+    > 28 |             expect(res.message).toBe('验证码错误');
+         |                                 ^
+      29 |         });
+      30 |     });
+      31 |
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:28:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● AuthService › loginWithWeChat › should return success for mock success code
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      36 |             });
+      37 |             const res = await authService.loginWithWeChat('success');
+    > 38 |             expect(res.success).toBe(true);
+         |                                 ^
+      39 |         });
+      40 |         it('should return failure for other codes', async () => {
+      41 |             (client.post as jest.Mock).mockRejectedValue({
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:38:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS app/profile/__tests__/subscription.test.tsx
+PASS app/__tests__/LoginScreen.test.tsx
+  ● Console
+
+    console.error
+      Error: Network Crash
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/app/__tests__/LoginScreen.test.tsx:178:64)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      77 |         } catch (e) {
+      78 |             Alert.alert("系统错误", "请稍后重试");
+    > 79 |             console.error(e);
+         |                     ^
+      80 |         } finally {
+      81 |             setLoading(false);
+      82 |         }
+
+      at error (/Users/timyu/Desktop/fitness/fitness-demo/app/(auth)../../../../../login.tsx:79:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+PASS components/__tests__/ResourceListScreen.test.tsx
+PASS app/__tests__/SignupScreen.test.tsx
+PASS services/__tests__/LibraryService.test.ts
+  ● Console
+
+    console.error
+      Fetch library error: Error: Network error
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/services/__tests__/LibraryService.test.ts:37:57)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      39 |             return null;
+      40 |         } catch (e) {
+    > 41 |             console.error('Fetch library error:', e);
+         |                     ^
+      42 |             return null;
+      43 |         }
+      44 |     }
+
+      at LibraryService.error (services/LibraryService.ts:41:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+    console.error
+      Add item error: Error: Failed
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/services/__tests__/LibraryService.test.ts:71:58)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      64 |             return response.data;
+      65 |         } catch (e) {
+    > 66 |             console.error('Add item error:', e);
+         |                     ^
+      67 |             return { success: false, error: 'Network Error' };
+      68 |         }
+      69 |     }
+
+      at LibraryService.error (services/LibraryService.ts:66:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+PASS hooks/__tests__/useOTP.test.ts
+PASS hooks/__tests__/usePoseModel.test.ts
+  ● Console
+
+    console.error
+      An update to HookContainer inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      12 |                 const modelPath = await modelService.loadModel(modelUrl || "https://example.com/model.onnx");
+      13 |                 const sess = await modelService.createSession(modelPath);
+    > 14 |                 setSession(sess);
+         |                 ^
+      15 |                 Logger.info('usePoseModel', "Model loaded successfully");
+      16 |             } catch (e) {
+      17 |                 Logger.error('usePoseModel', "Failed to load model", { error: e });
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11801:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11800:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10326:9)
+      at dispatchSetStateInternal (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4148:13)
+      at dispatchSetState (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4107:7)
+      at setSession (hooks/usePoseModel.ts:14:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS components/__tests__/LargeTitle.test.tsx
+PASS services/__tests__/AIScoringService.test.ts
+  ● Console
+
+    console.error
+      AIScoring error: Error: Network error
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/services/__tests__/AIScoringService.test.ts:30:54)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      37 |             };
+      38 |         } catch (e) {
+    > 39 |             console.error('AIScoring error:', e);
+         |                     ^
+      40 |             return {
+      41 |                 success: false,
+      42 |                 score: 0,
+
+      at AIScoringService.error (services/AIScoringService.ts:39:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+PASS components/__tests__/MoveItem.test.tsx
+PASS app/__tests__/AddSessionScreen.test.tsx
+  ● Console
+
+    console.error
+      Each child in a list should have a unique "key" prop.
+      
+      Check the render method of `GenericSelectionScreen`. See https://react.dev/link/warning-keys for more information.
+
+      49 |         ]);
+      50 |
+    > 51 |         const { getByText } = render(<AddSessionScreen />);
+         |                                     ^
+      52 |
+      53 |         expect(getByText('1 items')).toBeTruthy();
+      54 |     });
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14140:21
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at warnForMissingKey (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14139:11)
+      at warnOnInvalidKey (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4728:13)
+      at reconcileChildrenArray (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4807:31)
+      at reconcileChildFibersImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5122:30)
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5227:33
+      at reconcileChildren (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5735:13)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7595:13)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10349:13)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/AddSessionScreen.test.tsx:51:37)
+
+PASS components/__tests__/GenericSelectionScreen.test.tsx
+PASS components/__tests__/SessionItem.test.tsx
+PASS app/(tabs)/__tests__/profile.test.tsx
+PASS components/ui/__tests__/icon-symbol.android.test.tsx
+PASS components/__tests__/themed-text.test.tsx
+PASS hooks/__tests__/use-theme-color.test.ts
+PASS services/__tests__/DataCollector.test.ts
+PASS components/__tests__/NavigationHeader.test.tsx
+PASS components/ui/__tests__/collapsible.test.tsx
+PASS components/__tests__/StickyHeader.test.tsx
+PASS app/(tabs)/__tests__/sessions.test.tsx
+  ● Console
+
+    console.error
+      Each child in a list should have a unique "key" prop.
+      
+      Check the render method of `View`. It was passed a child from ResourceListScreen. See https://react.dev/link/warning-keys for more information.
+
+      65 |         ]);
+      66 |
+    > 67 |         const { getByText } = render(<SessionsScreen />);
+         |                                     ^
+      68 |
+      69 |         // Should only show visible items (1 item)
+      70 |         expect(getByText('1 sessions')).toBeTruthy();
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14140:21
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at warnForMissingKey (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14139:11)
+      at warnOnInvalidKey (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4728:13)
+      at reconcileChildrenArray (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4807:31)
+      at reconcileChildFibersImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5122:30)
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5227:33
+      at reconcileChildren (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5736:13)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7595:13)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10349:13)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/app/(tabs)../../../../../__tests__/sessions.test.tsx:67:37)
+
+PASS app/__tests__/AddMoveScreen.test.tsx
+PASS components/__tests__/themed-view.test.tsx
+PASS components/__tests__/SettingItem.test.tsx
+PASS services/__tests__/IAPService.test.ts
+PASS store/__tests__/LibraryStore.test.ts
+PASS components/ui/__tests__/icon-symbol.ios.test.tsx
+PASS components/ui/__tests__/Input.test.tsx
+PASS hooks/__tests__/useFeatureLimit.test.ts
+PASS app/__tests__/RootLayout.test.tsx
+PASS app/api/__tests__/auth.test.ts
+PASS services/analytics/__tests__/DataCollector.test.ts
+PASS components/__tests__/Items.test.tsx
+PASS components/3d/__tests__/HumanAvatar.test.tsx
+PASS services/__tests__/ModelService.test.ts
+PASS services/pipeline/__tests__/ModelUpdater.test.ts
+PASS services/__tests__/Logger.test.ts
+PASS app/api/__tests__/library.test.ts
+PASS app/api/__tests__/moves.test.ts
+  ● Console
+
+    console.error
+      Database Error: Error: DB Error
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/app/api/__tests__/moves.test.ts:55:62)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      53 |
+      54 |     } catch (error) {
+    > 55 |         console.error("Database Error:", error);
+         |                 ^
+      56 |         // 修复点：使用标准的 Response.json()
+      57 |         return Response.json(
+      58 |             { error: 'Failed to fetch moves', details: (error as Error).message },
+
+      at error (app/api/moves+api.ts:55:17)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+PASS app/profile/__tests__/Simple.test.tsx
+PASS hooks/__tests__/use-color-scheme.test.ts
+FAIL app/workout/__tests__/[id].test.tsx
+  ● Console
+
+    console.error
+      AI Scoring failed Error: Scoring failed
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/app/workout/__tests__/[id].test.tsx:130:69)
+          at Generator.next (<anonymous>)
+          at asyncGeneratorStep (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+          at _next (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+          at /Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+          at Promise.then.completed (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/utils.js:231:10)
+          at _callCircusTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:316:40)
+          at _runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:252:3)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:126:9)
+          at _runTestsForDescribeBlock (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:121:9)
+          at run (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/run.js:71:3)
+          at runAndTransformResultsToJestFormat (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+          at jestAdapter (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+          at runTestInternal (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:367:16)
+          at runTest (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/runTest.js:444:34)
+          at Object.worker (/Users/timyu/Desktop/fitness/fitness-demo/node_modules/jest-runner/build/testWorker.js:106:12)
+
+      90 |             }
+      91 |         } catch (error) {
+    > 92 |             console.error("AI Scoring failed", error);
+         |                     ^
+      93 |         }
+      94 |     };
+      95 |
+
+      at error (app/workout/[id].tsx:92:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  ● WorkoutSession › should handle AI scoring error
+
+    Unable to find an element with text: 评分计算中...
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"pose-camera"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMock Inference[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33mpointerEvents[39m=[32m"box-none"[39m
+      [36m>[39m
+        [36m<View[39m
+          [33mpointerEvents[39m=[32m"box-none"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAI 实时监控中[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"close-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-close"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTest Move[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mBeginner[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0m请将身体对准框线[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m次数[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m0[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m标准度[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m--%[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m耗时[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m00:00[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"camera-reverse-outline"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-camera-reverse-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"play-pause-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-pause"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"settings-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-settings-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      133 |         fireEvent.press(getByTestId('play-pause-button'));
+      134 |
+    > 135 |         await waitFor(() => {
+          |                      ^
+      136 |             expect(getByText('评分计算中...')).toBeTruthy();
+      137 |         });
+      138 |     });
+
+      at Object.<anonymous> (app/workout/__tests__/[id].test.tsx:135:22)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● WorkoutSession › should show details in modal and handle switches
+
+    Unable to find an element with testID: close-modal-button
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"pose-camera"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMock Inference[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33mpointerEvents[39m=[32m"box-none"[39m
+      [36m>[39m
+        [36m<View[39m
+          [33mpointerEvents[39m=[32m"box-none"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAI 实时监控中[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"close-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-close"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTest Move[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mBeginner[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m次数[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m0[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m标准度[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m--%[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m耗时[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m00:00[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"camera-reverse-outline"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-camera-reverse-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"play-pause-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-play"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"settings-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-settings-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      155 |         fireEvent.press(getByTestId('modal-backdrop'));
+      156 |         // Modal onRequestClose
+    > 157 |         fireEvent(getByTestId('close-modal-button'), 'onPress');
+          |                   ^
+      158 |     });
+      159 |
+      160 |     it('should handle camera reverse', () => {
+
+      at Object.getByTestId (app/workout/__tests__/[id].test.tsx:157:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+PASS hooks/__tests__/useCameraPermissions.test.ts
+PASS services/api/__tests__/client.test.ts (5.543 s)
+  ● Console
+
+    console.log
+      [MockAPI] POST /api/auth
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] POST /api/auth
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] POST /api/auth
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] GET /api/library
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] POST /api/ai/score
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] POST /api/data/collect
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] GET /api/core/models/latest
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] POST /api/auth/onboarding
+
+      at log (services/api/client.ts:25:13)
+
+    console.log
+      [MockAPI] GET /api/unknown
+
+      at log (services/api/client.ts:25:13)
+
+-----------------------------|---------|----------|---------|---------|---------------------
+File                         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s   
+-----------------------------|---------|----------|---------|---------|---------------------
+All files                    |   91.02 |    80.28 |   79.75 |   91.65 |                     
+ app                         |   96.87 |       90 |   92.85 |     100 |                     
+  _layout.tsx                |     100 |      100 |     100 |     100 |                     
+  add-move.tsx               |     100 |      100 |     100 |     100 |                     
+  add-session.tsx            |   92.85 |       50 |   85.71 |     100 | 22                  
+ app/(auth)                  |   93.33 |    77.08 |   76.92 |   93.33 |                     
+  login.tsx                  |   93.75 |    79.16 |      75 |   93.75 | 94,168              
+  signup.tsx                 |   92.85 |       75 |      80 |   92.85 | 69,85               
+ app/(tabs)                  |    88.5 |    81.57 |   72.72 |   91.02 |                     
+  _layout.tsx                |     100 |       80 |     100 |     100 | 30-34,98-100        
+  index.tsx                  |   66.66 |      100 |      50 |      70 | 21,33,38            
+  profile.tsx                |   85.18 |    83.33 |   72.72 |      88 | 49,68,141           
+  sessions.tsx               |   83.33 |      100 |      75 |      90 | 21                  
+ app/api                     |   96.22 |    81.81 |     100 |   96.22 |                     
+  auth+api.ts                |   95.45 |       90 |     100 |   95.45 | 75                  
+  library+api.ts             |   95.45 |       70 |     100 |   95.45 | 59                  
+  moves+api.ts               |     100 |      100 |     100 |     100 |                     
+ app/onboarding              |   87.23 |       75 |   81.81 |   87.23 |                     
+  difficulty.tsx             |   94.28 |    83.33 |     100 |   94.28 | 66-69               
+  index.tsx                  |   66.66 |       50 |   66.66 |   66.66 | 36-39,52            
+ app/profile                 |   69.51 |    67.14 |   41.02 |   69.23 |                     
+  help.tsx                   |   33.33 |        0 |   16.66 |   33.33 | 27-57               
+  leaderboard.tsx            |      40 |        0 |      25 |      40 | 29-45               
+  settings.tsx               |   45.45 |      100 |   14.28 |      50 | 38-69               
+  social.tsx                 |   33.33 |        0 |   16.66 |   33.33 | 22-43               
+  stats.tsx                  |      25 |        0 |       0 |      25 | 16-19               
+  subscription.tsx           |   97.72 |    90.38 |    92.3 |   97.56 | 118                 
+ app/workout                 |   91.04 |    76.59 |      80 |   93.54 |                     
+  [id].tsx                   |   91.04 |    76.59 |      80 |   93.54 | 258,260-263,269     
+ components                  |   92.98 |    77.92 |   94.11 |   92.72 |                     
+  GenericSelectionScreen.tsx |     100 |    66.66 |     100 |     100 | 29-30,43            
+  LargeTitle.tsx             |     100 |       50 |     100 |     100 | 13                  
+  MoveItem.tsx               |     100 |       80 |     100 |     100 | 26-27               
+  NavigationHeader.tsx       |   85.71 |       50 |     100 |   85.71 | 19                  
+  PoseDetectorCamera.tsx     |       0 |        0 |       0 |       0 | 28-42               
+  ResourceListScreen.tsx     |     100 |       80 |     100 |     100 | 26                  
+  SessionItem.tsx            |     100 |    91.66 |     100 |     100 | 26                  
+  SettingItem.tsx            |     100 |    78.94 |     100 |     100 | 34,41-42            
+  StickyHeader.tsx           |     100 |       50 |     100 |     100 | 14-15               
+  themed-text.tsx            |     100 |      100 |     100 |     100 |                     
+  themed-view.tsx            |     100 |      100 |     100 |     100 |                     
+ components/3d               |     100 |      100 |     100 |     100 |                     
+  HumanAvatar.tsx            |     100 |      100 |     100 |     100 |                     
+ components/ui               |   90.47 |    77.77 |   88.88 |      90 |                     
+  Button.tsx                 |     100 |       75 |     100 |     100 | 63                  
+  Input.tsx                  |     100 |       75 |     100 |     100 | 35-40               
+  collapsible.tsx            |     100 |     87.5 |     100 |     100 | 24                  
+  icon-symbol.ios.tsx        |     100 |      100 |     100 |     100 |                     
+  icon-symbol.tsx            |       0 |        0 |       0 |       0 | 23-47               
+ hooks                       |   87.67 |    86.66 |   86.66 |   87.32 |                     
+  use-color-scheme.ts        |       0 |        0 |       0 |       0 |                     
+  use-color-scheme.web.ts    |       0 |        0 |       0 |       0 | 8-20                
+  use-theme-color.ts         |     100 |      100 |     100 |     100 |                     
+  useCameraPermissions.ts    |       0 |        0 |       0 |       0 |                     
+  useFeatureLimit.ts         |   88.23 |      100 |     100 |   88.23 | 52-55               
+  useOTP.ts                  |     100 |    83.33 |     100 |     100 | 19,41               
+  usePoseModel.ts            |     100 |      100 |     100 |     100 |                     
+ services                    |   99.28 |    91.11 |   96.96 |   99.25 |                     
+  AIScoringService.ts        |     100 |      100 |     100 |     100 |                     
+  AuthService.ts             |   94.44 |       50 |   85.71 |   94.11 | 22                  
+  IAPService.ts              |     100 |       88 |     100 |     100 | 17,34,48            
+  LibraryService.ts          |     100 |      100 |     100 |     100 |                     
+  Logger.ts                  |     100 |      100 |     100 |     100 |                     
+  ModelService.ts            |     100 |      100 |     100 |     100 |                     
+ services/analytics          |   93.75 |     87.5 |     100 |     100 |                     
+  DataCollector.ts           |   93.75 |     87.5 |     100 |     100 | 84,97               
+ services/api                |   87.17 |       90 |   66.66 |   86.84 |                     
+  client.ts                  |   87.17 |       90 |   66.66 |   86.84 | 106,116-119,130,134 
+ services/pipeline           |     100 |      100 |     100 |     100 |                     
+  ModelUpdater.ts            |     100 |      100 |     100 |     100 |                     
+ store                       |   98.07 |    82.35 |   95.23 |     100 |                     
+  library.ts                 |   98.07 |    82.35 |   95.23 |     100 | 104-111,123,173-185 
+-----------------------------|---------|----------|---------|---------|---------------------
+
+Summary of all failing tests
+FAIL app/__tests__/SessionsScreen.test.tsx
+  ● SessionsScreen › should render sessions list
+
+    Unable to find an element with text: 1 sessions
+
+    [36m<View>[39m
+      [36m<Text>[39m
+        [0m课程计划[0m
+      [36m</Text>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m课程计划[0m
+              [36m</Text>[39m
+              [36m<View[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View[39m
+                  [33mtestID[39m=[32m"icon-add-circle"[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+                [36m<View>[39m
+                  [36m<Text />[39m
+                  [36m<View>[39m
+                    [36m<View>[39m
+                      [36m<View[39m
+                        [33mtestID[39m=[32m"symbol-clock"[39m
+                      [36m/>[39m
+                      [36m<Text />[39m
+                    [36m</View>[39m
+                    [36m<View>[39m
+                      [36m<View[39m
+                        [33mtestID[39m=[32m"symbol-square.stack.3d.up"[39m
+                      [36m/>[39m
+                      [36m<Text />[39m
+                    [36m</View>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View[39m
+                  [33mtestID[39m=[32m"symbol-minus.circle.fill"[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</View>[39m
+
+      37 |         const { getByText } = render(<SessionsScreen />);
+      38 |
+    > 39 |         expect(getByText('1 sessions')).toBeTruthy();
+         |                ^
+      40 |     });
+      41 |
+      42 |     it('should handle session selection', () => {
+
+      at Object.getByText (app/__tests__/SessionsScreen.test.tsx:39:16)
+
+FAIL app/__tests__/MovesScreen.test.tsx
+  ● MovesScreen › should handle move selection
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "/workout/1"
+    Received: "/workout/1?mode=move"
+
+    Number of calls: 1
+
+      34 |         const { getByText } = render(<MovesScreen />);
+      35 |         fireEvent.press(getByText('Move 1'));
+    > 36 |         expect(require('expo-router').router.push).toHaveBeenCalledWith('/workout/1');
+         |                                                    ^
+      37 |     });
+      38 | });
+      39 |
+
+      at Object.toHaveBeenCalledWith (app/__tests__/MovesScreen.test.tsx:36:52)
+
+FAIL app/__tests__/Screens.test.tsx
+  ● Minor Screens Rendering › OnboardingStart renders
+
+    Unable to find an element with text: /AI 健身助理/i
+
+    [36m<View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mSTART[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mYOUR[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mJOURNEY[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mTowards A More Active Lifestyle[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mFIND[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mNUTRITION[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mTIPS[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mThat Fit Your Lifestyle[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Image />[39m
+              [36m<ViewManagerAdapter_ExpoLinearGradient />[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFITBODY[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [36m<Text>[39m
+                    [0mA[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mCOMMUNITY[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mFOR[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mYOU[0m
+                    [0m
+    [0m
+                  [36m</Text>[39m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mChallenge Yourself[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View />[39m
+          [36m<View />[39m
+          [36m<View />[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mNext[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      36 |     it('OnboardingStart renders', () => {
+      37 |         const { getByText } = render(<OnboardingStart />);
+    > 38 |         expect(getByText(/AI 健身助理/i)).toBeTruthy();
+         |                ^
+      39 |     });
+      40 |
+      41 |     it('HelpScreen renders', () => {
+
+      at Object.getByText (app/__tests__/Screens.test.tsx:38:16)
+
+  ● Minor Screens Rendering › HelpScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      19 |     return (
+      20 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 21 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      22 |
+      23 |             {/* 统一的带返回键 Header */}
+      24 |             <NavigationHeader
+
+      at Screen (app/profile/help.tsx:21:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:42:37)
+
+  ● Minor Screens Rendering › LeaderboardScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      22 |     return (
+      23 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 24 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      25 |
+      26 |             {/* 统一的带返回键 Header */}
+      27 |             <View className="flex-row items-center px-4 py-4">
+
+      at Screen (app/profile/leaderboard.tsx:24:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:47:37)
+
+  ● Minor Screens Rendering › SettingsScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      23 |
+      24 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 25 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      26 |
+      27 |             {/* 统一的带返回键 Header */}
+      28 |             <NavigationHeader title="设置" />
+
+      at Screen (app/profile/settings.tsx:25:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:52:37)
+
+  ● Minor Screens Rendering › SocialScreen renders
+
+    TypeError: Cannot read properties of undefined (reading 'Screen')
+
+      15 |     return (
+      16 |         <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top']}>
+    > 17 |             <Stack.Screen options={{ headerShown: false }} />
+         |                    ^
+      18 |
+      19 |             {/* 统一的带返回键 Header */}
+      20 |             <View className="flex-row items-center px-4 py-4">
+
+      at Screen (app/profile/social.tsx:17:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/__tests__/Screens.test.tsx:57:37)
+
+FAIL services/__tests__/AuthService.test.ts
+  ● AuthService › verifyOTP › should return success for demo credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      17 |             });
+      18 |             const res = await authService.verifyOTP('13800138000', '1234');
+    > 19 |             expect(res.success).toBe(true);
+         |                                 ^
+      20 |             expect(res.user.nickname).toBe('Demo User');
+      21 |         });
+      22 |         it('should return failure for wrong credentials', async () => {
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:19:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● AuthService › verifyOTP › should return failure for wrong credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "验证码错误"
+    Received: undefined
+
+      26 |             const res = await authService.verifyOTP('123', '456');
+      27 |             expect(res.success).toBe(false);
+    > 28 |             expect(res.message).toBe('验证码错误');
+         |                                 ^
+      29 |         });
+      30 |     });
+      31 |
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:28:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● AuthService › loginWithWeChat › should return success for mock success code
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      36 |             });
+      37 |             const res = await authService.loginWithWeChat('success');
+    > 38 |             expect(res.success).toBe(true);
+         |                                 ^
+      39 |         });
+      40 |         it('should return failure for other codes', async () => {
+      41 |             (client.post as jest.Mock).mockRejectedValue({
+
+      at Object.toBe (services/__tests__/AuthService.test.ts:38:33)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL app/workout/__tests__/[id].test.tsx
+  ● WorkoutSession › should handle AI scoring error
+
+    Unable to find an element with text: 评分计算中...
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"pose-camera"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMock Inference[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33mpointerEvents[39m=[32m"box-none"[39m
+      [36m>[39m
+        [36m<View[39m
+          [33mpointerEvents[39m=[32m"box-none"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAI 实时监控中[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"close-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-close"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTest Move[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mBeginner[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0m请将身体对准框线[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m次数[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m0[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m标准度[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m--%[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m耗时[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m00:00[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"camera-reverse-outline"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-camera-reverse-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"play-pause-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-pause"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"settings-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-settings-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      133 |         fireEvent.press(getByTestId('play-pause-button'));
+      134 |
+    > 135 |         await waitFor(() => {
+          |                      ^
+      136 |             expect(getByText('评分计算中...')).toBeTruthy();
+      137 |         });
+      138 |     });
+
+      at Object.<anonymous> (app/workout/__tests__/[id].test.tsx:135:22)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● WorkoutSession › should show details in modal and handle switches
+
+    Unable to find an element with testID: close-modal-button
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"pose-camera"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMock Inference[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33mpointerEvents[39m=[32m"box-none"[39m
+      [36m>[39m
+        [36m<View[39m
+          [33mpointerEvents[39m=[32m"box-none"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAI 实时监控中[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"close-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-close"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTest Move[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mBeginner[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m次数[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m0[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m标准度[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m--%[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0m耗时[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m00:00[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"camera-reverse-outline"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-camera-reverse-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"play-pause-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-play"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"settings-button"[39m
+            [36m>[39m
+              [36m<View[39m
+                [33mtestID[39m=[32m"icon-settings-outline"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      155 |         fireEvent.press(getByTestId('modal-backdrop'));
+      156 |         // Modal onRequestClose
+    > 157 |         fireEvent(getByTestId('close-modal-button'), 'onPress');
+          |                   ^
+      158 |     });
+      159 |
+      160 |     it('should handle camera reverse', () => {
+
+      at Object.getByTestId (app/workout/__tests__/[id].test.tsx:157:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+
+Test Suites: 5 failed, 3 skipped, 46 passed, 51 of 54 total
+Tests:       12 failed, 7 skipped, 253 passed, 272 total
+Snapshots:   0 total
+Time:        7.54 s
+Ran all test suites.

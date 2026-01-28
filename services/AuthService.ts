@@ -26,16 +26,34 @@ class AuthService {
      * 验证手机验证码并登录
      */
     async verifyOTP(phoneNumber: string, code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        // Placeholder for future implementation
-        return { success: false };
+        try {
+            const response = await client.post('/api/auth/verify-otp', { phone: phoneNumber, code });
+            const data = response.data; // client.post return type depends on mock but usually response object
+            if (data.success) {
+                await AsyncStorage.setItem('user_token', data.data.token);
+            }
+            return {
+                success: data.success,
+                user: data.data,
+                message: data.message
+            };
+        } catch (e: any) {
+            console.error('Verify OTP error:', e);
+            return { success: false, message: e.response?.data?.message || '验证失败' };
+        }
     }
 
     /**
      * 微信授权登录
      */
     async loginWithWeChat(code: string): Promise<{ success: boolean; user?: User; message?: string }> {
-        // Placeholder for future implementation
-        return { success: false };
+        try {
+            const response = await client.post('/api/auth/wechat', { code });
+            return response.data;
+        } catch (e: any) {
+            console.error('WeChat login error:', e);
+            return { success: false };
+        }
     }
 
     /**

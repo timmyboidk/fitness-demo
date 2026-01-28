@@ -20,6 +20,7 @@ const { Move } = require('../../../models/Move');
 describe('Moves API', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.spyOn(console, 'error').mockImplementation(() => { });
     });
 
     it('should fetch moves and seed if empty', async () => {

@@ -30,13 +30,14 @@ jest.mock('../../components/StickyHeader', () => ({
 describe('SessionsScreen', () => {
     it('should render sessions list', () => {
         (libraryStore.getSessions as jest.Mock).mockReturnValue([
-            { id: '1', isVisible: true },
-            { id: '2', isVisible: false }
+            { id: '1', name: 'Morning Yoga', isVisible: true, time: 20, count: 5, color: '#ff0000' },
+            { id: '2', name: 'Hidden Session', isVisible: false }
         ]);
 
-        const { getByText } = render(<SessionsScreen />);
+        const { getByText, queryByText } = render(<SessionsScreen />);
 
-        expect(getByText('1 sessions')).toBeTruthy();
+        expect(getByText('Morning Yoga')).toBeTruthy();
+        expect(queryByText('Hidden Session')).toBeFalsy();
     });
 
     it('should handle session selection', () => {

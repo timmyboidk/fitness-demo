@@ -11,6 +11,7 @@ import { ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationHeader } from '../../components/NavigationHeader';
 import { SettingItem } from '../../components/SettingItem';
+import { authService } from '../../services/AuthService';
 
 export default function SettingsScreen() {
     // 设置项状态
@@ -62,7 +63,7 @@ export default function SettingsScreen() {
                 <TouchableOpacity
                     onPress={async () => {
                         // 1. 调用 Service 清除状态
-                        await import('../../services/AuthService').then(m => m.authService.logout());
+                        await authService.logout();
 
                         // 2. 导航回个人中心 (重置路由栈以防返回)
                         router.dismissAll();
