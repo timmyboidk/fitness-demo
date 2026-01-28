@@ -8,7 +8,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
-import { useCameraPermissions } from 'expo-camera'; // Keep valid permission hook or replace if totally removing expo-camera
+import { useCameraPermissions } from 'expo-camera';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Modal, Switch, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
@@ -33,7 +33,7 @@ export default function WorkoutSession() {
     const [permission, requestPermission] = useCameraPermissions();
     const [facing, setFacing] = useState<'front' | 'back'>('front');
 
-    // Performance: Pause camera when screen is not focused
+    // 性能优化：当屏幕失去焦点时暂停相机
     const isFocused = useIsFocused();
 
     //  获取安全区域距离 (刘海屏/Home条高度)
@@ -43,12 +43,12 @@ export default function WorkoutSession() {
     const [showSettings, setShowSettings] = useState(false);
     const [settings, setSettings] = useState({ sound: true, mirror: true, aiGuide: true });
 
-    // Session Execution Logic
+    // 训练序列执行逻辑
     const [sequence, setSequence] = useState<any[]>([]);
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
     const [isSessionComplete, setIsSessionComplete] = useState(false);
 
-    // Playback State
+    // 播放状态
     const [isPlaying, setIsPlaying] = useState(false);
 
     // AI评分状态管理
@@ -81,7 +81,7 @@ export default function WorkoutSession() {
                 setLastScore(response.score);
                 setFeedback(response.feedback);
 
-                // Track data for analytics
+                // 采集数据用于分析
                 Collector.track('score', {
                     moveId: sequence[currentMoveIndex].id,
                     score: response.score,
@@ -89,7 +89,7 @@ export default function WorkoutSession() {
                 });
             }
         } catch (error) {
-            console.error("AI Scoring failed", error);
+            console.error("AI 评分失败:", error);
         }
     };
 
@@ -128,7 +128,7 @@ export default function WorkoutSession() {
     };
 
     const currentMove = sequence[currentMoveIndex];
-    const progressText = mode === 'session' ? `Move ${currentMoveIndex + 1}/${sequence.length}` : 'Single Move';
+    const progressText = mode === 'session' ? `动作 ${currentMoveIndex + 1}/${sequence.length}` : '单项练习';
 
     if (!permission) return <View className="flex-1 bg-black" />;
     if (!permission.granted) {
@@ -157,15 +157,15 @@ export default function WorkoutSession() {
                 </View>
             )}
 
-            {/* UI Overlay Container - Safe Area */}
+            {/* UI 覆盖层容器 - 安全区域 */}
             <View
                 className="absolute top-0 left-0 w-full h-full flex justify-between"
                 style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
                 pointerEvents="box-none"
             >
-                {/* Top Section: Header + Info */}
+                {/* 顶部区域: 头部 + 信息 */}
                 <View className="z-50" pointerEvents="box-none">
-                    {/* Header Bar */}
+                    {/* 状态栏 */}
                     <View className="flex-row justify-between items-center px-4 pt-2">
                         <View className="bg-black/60 px-3 py-1 rounded-lg border border-[#CCFF00]/30">
                             <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
@@ -187,10 +187,10 @@ export default function WorkoutSession() {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Move Info */}
+                    {/* 动作信息 */}
                     <View className="items-center mt-6">
                         <Text className="text-white font-black text-3xl shadow-black shadow-lg">
-                            {currentMove?.name || 'Loading...'}
+                            {currentMove?.name || '加载中...'}
                         </Text>
                         <Text className="text-[#CCFF00] font-bold text-lg shadow-black shadow-lg">
                             {currentMove?.level}
@@ -198,30 +198,30 @@ export default function WorkoutSession() {
                     </View>
                 </View>
 
-                {/* Middle Section: Viewfinder Guide */}
-                {/* Flex-1 ensures it takes available space but doesn't force overlap if space is tight */}
+                {/* 中间区域: 取景框引导 */}
+                {/* Flex-1 确保它占用可用空间，但在空间紧张时不强制重叠 */}
                 {settings.aiGuide && (
                     <View className="flex-1 justify-center items-center pointer-events-none z-0 px-8 py-4">
-                        {/* Frame */}
+                        {/* 框架 */}
                         <View className="w-full aspect-[3/4] max-h-[70%] relative opacity-80 border-white/0">
-                            {/* TL */}
+                            {/* 左上 */}
                             <View className="absolute top-0 left-0 w-10 h-10 border-t-[6px] border-l-[6px] border-white rounded-tl-3xl shadow-sm" />
-                            {/* TR */}
+                            {/* 右上 */}
                             <View className="absolute top-0 right-0 w-10 h-10 border-t-[6px] border-r-[6px] border-white rounded-tr-3xl shadow-sm" />
-                            {/* BL */}
+                            {/* 左下 */}
                             <View className="absolute bottom-0 left-0 w-10 h-10 border-b-[6px] border-l-[6px] border-white rounded-bl-3xl shadow-sm" />
-                            {/* BR */}
+                            {/* 右下 */}
                             <View className="absolute bottom-0 right-0 w-10 h-10 border-b-[6px] border-r-[6px] border-white rounded-br-3xl shadow-sm" />
                         </View>
 
-                        {/* Text Prompt - Positioned relative to the flex container, ensuring it pushes down or sits below */}
+                        {/* 文字提示 - 相对于 flex 容器布局，确保其向下推或位于下方 */}
                         <Text className="text-white font-bold bg-black/40 px-6 py-3 rounded-full overflow-hidden text-base tracking-widest mt-6">
                             请将身体对准框线
                         </Text>
                     </View>
                 )}
 
-                {/* Bottom Section: Controls */}
+                {/* 底部区域: 控制按钮 */}
                 <View className="w-full px-6 pb-4">
                     <View className="bg-black/80 rounded-3xl p-5 flex-row justify-between items-center mb-6 backdrop-blur-md border border-gray-800">
                         <StatItem label="次数" value="0" />
@@ -254,7 +254,7 @@ export default function WorkoutSession() {
                 </View>
             </View>
 
-            {/* Settings Modal - Outside UI container to overlay everything */}
+            {/* 设置模态框 - 位于 UI 容器外部以覆盖所有内容 */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
                 <TouchableOpacity testID="modal-backdrop" className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
                     <View className="absolute bottom-0 w-full bg-white dark:bg-[#1C1C1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>

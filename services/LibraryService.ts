@@ -38,7 +38,7 @@ export class LibraryService {
             }
             return null;
         } catch (e) {
-            console.error('Fetch library error:', e);
+            console.error('获取训练库出错:', e);
             return null;
         }
     }
@@ -53,9 +53,9 @@ export class LibraryService {
      * @returns {Promise<any>} API响应结果
      */
     async addItem(userId: string, itemId: string, itemType: 'move' | 'session') {
-        // Based on the spec, there isn't a direct 'addItem' endpoint in fitness-content,
-        // but let's assume it's part of the library management if needed.
-        // For now, keeping the structure but updating to client.
+        // 根据规范，目前 fitness-content 模块中没有直接的 'addItem' 端点，
+        // 但如果需要，我们可以假设它是库管理的一部分。
+        // 暂时保留逻辑，并确保使用统一的 client 调用。
         try {
             const response = await client.post('/api/library', {
                 type: 'add_item',
@@ -63,8 +63,8 @@ export class LibraryService {
             });
             return response.data;
         } catch (e) {
-            console.error('Add item error:', e);
-            return { success: false, error: 'Network Error' };
+            console.error('添加项目出错:', e);
+            return { success: false, error: '网络错误' };
         }
     }
 }

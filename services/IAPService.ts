@@ -26,7 +26,7 @@ class IAPService {
             await InAppPurchases.connectAsync();
             this.connected = true;
         } catch (error) {
-            console.error('IAP Connection Error:', error);
+            console.error('IAP 连接错误:', error);
         }
     }
 
@@ -39,7 +39,7 @@ class IAPService {
             const { results } = await InAppPurchases.getProductsAsync(itemIds);
             return results || [];
         } catch (error) {
-            console.error('Error fetching products', error);
+            console.error('获取产品信息失败', error);
             return [];
         }
     }
@@ -52,7 +52,7 @@ class IAPService {
         try {
             await InAppPurchases.purchaseItemAsync(productId);
         } catch (error) {
-            console.error('Purchase failed', error);
+            console.error('购买失败', error);
             throw error;
         }
     }
@@ -68,12 +68,12 @@ class IAPService {
             this.history = await InAppPurchases.getPurchaseHistoryAsync();
             return this.history;
         } catch (error) {
-            console.error('Error fetching history', error);
+            console.error('获取购买历史失败', error);
             return {
                 results: [],
                 responseCode: InAppPurchases.IAPResponseCode.ERROR,
                 errorCode: InAppPurchases.IAPErrorCode.UNKNOWN,
-            }; // Return empty on error
+            }; // 出错时返回空结果
         }
     }
 
@@ -82,14 +82,14 @@ class IAPService {
             if (responseCode === InAppPurchases.IAPResponseCode.OK && results) {
                 results.forEach(purchase => {
                     if (!purchase.acknowledged) {
-                        InAppPurchases.finishTransactionAsync(purchase, true); // Consume for consumable, false for non-consumable usually
+                        InAppPurchases.finishTransactionAsync(purchase, true); // 消耗品传 true，非消耗品通常传 false
                         callback(purchase);
                     }
                 });
             } else if (responseCode === InAppPurchases.IAPResponseCode.USER_CANCELED) {
-                console.log('User canceled the transaction');
+                console.log('用户取消了交易');
             } else {
-                console.warn(`Something went wrong with the purchase. Error code: ${errorCode}`);
+                console.warn(`购买过程中出错。错误代码: ${errorCode}`);
             }
         });
     }

@@ -1,6 +1,6 @@
 /**
  * @file types/index.ts
- * @description Shared TypeScript interfaces for the application.
+ * @description 应用全局共享的 TypeScript 接口定义。
  */
 
 export interface User {
@@ -17,7 +17,7 @@ export interface Move {
     id: string;
     name: string;
     level: string;
-    icon: string; // SF Symbol Name
+    icon: string; // SF Symbol 图标名称
     isVisible: boolean;
     modelUrl?: string;
     scoringConfig?: any;
@@ -26,9 +26,9 @@ export interface Move {
 export interface Session {
     id: string;
     name: string;
-    time: string; // e.g. "20 分钟"
-    duration?: number; // in minutes
-    count: string; // e.g. "4 个动作"
+    time: string; // 例如: "20 分钟"
+    duration?: number; // 分钟数
+    count: string; // 例如: "4 个动作"
     color: string;
     isVisible: boolean;
     moveIds: string[];

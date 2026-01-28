@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import { LogBox, View, useColorScheme } from 'react-native';
 import 'react-native-reanimated';
 
-// Suppress warnings for demo
+// 在演示环境中屏蔽所有警告
 LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {

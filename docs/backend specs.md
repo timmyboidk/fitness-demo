@@ -29,9 +29,15 @@
 | id               | BIGINT (PK) | 用户唯一 ID (自增)    |
 | phone            | VARCHAR(32) | 手机号 (AES 加密存储) |
 | nickname         | VARCHAR(64) | 用户昵称              |
+| avatar_url       | VARCHAR(255)| 头像 URL              |
 | open_id          | VARCHAR(64) | 微信 OpenID (唯一)    |
 | difficulty_level | VARCHAR(32) | NOVICE/SKILLED/EXPERT |
+| is_vip           | TINYINT(1)  | 是否为 VIP (0/1)      |
+| vip_expire_time  | DATETIME    | VIP 过期时间          |
 | total_score      | INT         | 累计评分              |
+| total_duration   | INT         | 累计训练时长 (秒)     |
+| total_calories   | INT         | 累计消耗热量 (kcal)   |
+| push_token       | VARCHAR(255)| 消息推送 Token        |
 
 #### 动作定义表 (`move`)
 | 字段           | 类型         | 描述                           |
@@ -41,6 +47,7 @@
 | difficulty     | VARCHAR(32)  | 适用等级                       |
 | model_url      | VARCHAR(255) | ONNX 模型下载地址              |
 | scoring_config | JSON         | 包含角度阈值、判定灵敏度等配置 |
+| is_vip         | TINYINT(1)   | 是否为 VIP 专属 (0/1)          |
 
 #### 训练课程表 (`training_session`)
 | 字段       | 类型        | 描述                |
@@ -49,6 +56,7 @@
 | name       | VARCHAR(64) | 课程标题            |
 | difficulty | VARCHAR(32) | 课程整体难度        |
 | duration   | INT         | 预估训练时长 (分钟) |
+| is_vip     | TINYINT(1)  | 是否为 VIP 专属 (0/1) |
 
 #### 课程-动作关系表 (`session_move_relation`)
 | 字段             | 类型   | 描述                     |
@@ -62,7 +70,17 @@
 
 ## 3. API 参考 (API Reference)
 
-所有接口统一采用 RESTful 风格，返回格式遵循通用响应格式：
+```
+| 状态码 | 描述 |
+| :--- | :--- |
+| **200** | 操作成功 |
+| **400** | 参数验证失败 (Bad Request) |
+| **401** | Token 失效或未登录 (Unauthorized) |
+| **403** | 权限不足 (如非 VIP 访问 PRO 动作) |
+| **429** | 请求过于频繁 (Rate Limit) |
+| **500** | 业务逻辑错误或系统崩溃 |
+
+**响应格式示例:**
 ```json
 {
   "success": true,
@@ -258,6 +276,99 @@
 
 ---
 
+### 3.5 个人中心与社交 (`fitness-social`)
+
+#### 1. 获取个人训练统计 (Stats)
+**端点:** `GET /api/user/stats`
+**响应示例:**
+```json
+{
+  "success": true,
+  "data": {
+    "weeklyDuration": 120,
+    "totalCalories": 1500,
+    "completionRate": 85,
+    "history": [
+      { "date": "2024-01-01", "duration": 30, "calories": 400 }
+    ]
+  }
+}
+```
+
+#### 2. 全球排行榜 (Leaderboard)
+**端点:** `GET /api/social/leaderboard`
+**参数:** `type` (daily/weekly/all)
+**响应示例:**
+```json
+{
+  "success": true,
+  "data": [
+    { "rank": 1, "nickname": "GymHero", "score": 12500, "avatar": "..." },
+    { "rank": 2, "nickname": "FitQueen", "score": 11800, "avatar": "..." }
+  ]
+}
+```
+
+#### 3. 动态广场 (Social Feed)
+**端点:** `GET /api/social/feed`
+**响应示例:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "f_1",
+      "user": "GymHero",
+      "content": "完成了晨间唤醒训练！",
+      "type": "workout_complete",
+      "time": "5分钟前"
+    }
+  ]
+}
+```
+
+---
+
+### 3.6 支付与会员 (`fitness-pay`)
+
+#### 1. 支付凭证验证 (IAP Verification)
+**端点:** `POST /api/pay/verify`
+**描述:** 验证受 Apple/Android 收据凭证并升级用户为 VIP。
+
+**请求示例:**
+```json
+{
+  "userId": "1",
+  "planId": "yearly",
+  "receipt": "MIIS6AYJKoZIhvcNAQcCoIIS2TCCEtUCAQEx...",
+  "platform": "ios"
+}
+```
+**字段说明:**
+- `userId`: 欲升级的用户 ID。
+- `planId`: 订阅计划 (`monthly`, `quarterly`, `yearly`)。
+- `receipt`: 苹果支付返回的 Base64 凭证内容。
+- `platform`: `ios` 或 `android`。
+
+**响应示例:**
+```json
+{
+  "success": true,
+  "data": {
+    "isVip": true,
+    "expireTime": 1735689600000,
+    "planName": "年度计划"
+  }
+}
+```
+**逻辑流程:**
+1. **确认**: 后端调用 Apple `verifyReceipt` 接口验证原始凭证。
+2. **校验**: 检查凭证中的 `bundle_id` 和 `product_id` (与 `planId` 匹配)。
+3. **更新**: 扣款确认后，在 `user` 表中标记用户为 VIP 并设置过期时间。
+4. **事务**: 记录支付流水到 `payment_order` 表。
+
+---
+
 ## 4. 数据流转路径 (Data Flow)
 
 ### 4.1 核心评分流
@@ -266,35 +377,26 @@
 3. **上报**: 调用 `/api/ai/score` 进行云端复核。
 4. **持久化**: 结果通过 Kafka 发送，`fitness-data` 消费者将其存入 MySQL (积分更新) 和 Doris (深度分析)。
 
-### 4.2 模型交付与分发
+### 4.2 支付与订阅流 (IAP Loop)
+1. **起手**: 客户端通过 `iapService.purchase(planId)` 发起苹果支付请求。
+2. **支付**: 弹出系统支付框，用户输入指纹/面容确认。
+3. **回调**: 苹果支付成功后，`InAppPurchases` 触发 `setPurchaseListener` 回调。
+4. **验证**: 客户端获取 `transactionReceipt`，调用 `/api/pay/verify` 将凭证发往后端。
+5. **升级**: 后端验证通过后返回成功，客户端弹窗提示并返回，首页状态通过 Token/Profile 更新。
+
+### 4.3 模型交付与分发
 1. **供应商/模型组**: 上传训练好的 `.onnx` 文件至 OSS。
 2. **后端管理**: 更新 `move` 表中的 `model_url`。
 
 ---
 
-## 5. 模型行为假设与规范 (Model Assumptions & Specifications)
+## 5. LLM 指令集：后端开发任务 (LLM Prompt for Backend Implementation)
 
-由于 AI 模型目前处于研发/交付阶段，后端逻辑基于以下量化假设构建。请模型组/供应商在交付时以此作为验收基准。
-
-### 5.1 输入数据规范 (Input Expectations)
-*   **关键点格式**: 采用 COCO 17 点标准。后端假设客户端上传的 `keypoints` 包含 `(x, y)` 归一化坐标（范围 `0.0` - `1.0`）及置信度分数 `score`。
-*   **采样频率**: 后端评分接口预期客户端的采样间隔不低于 **10fps**，以确保相似度计算的连续性。
-
-### 5.2 评分算力表现 (Performance Benchmarks)
-*   **单机并发性能**: 
-    - 接口目标响应时间（P99）应控制在 **200ms** 以内。
-    - 在 Java 21 虚拟线程支持下，单个通用型实例（4C8G）应能支撑 **500 QPS** 的评分请求。
-*   **推理引擎兼容性**: 后端模型版本接口通过 MD5 和版本号语义进行分发，假设交付物为 **ONNX OPSet 13+** 兼容格式。
-
-### 5.3 核心算法假设 (Scoring Logic Assumptions)
-| 维度             | 假设说明                                                                                              | 量化指标参考                                   |
-| :--------------- | :---------------------------------------------------------------------------------------------------- | :--------------------------------------------- |
-| **判定准确度**   | 以标准库中的“标准向量”作为 100 分基准，计算用户实时向量的余弦相似度。                                 | $\text{similarity} \ge 0.95$ 判定为“完美”      |
-| **容差调节**     | 通过 `scoring_config` 中的 `angleThreshold` 进行动态缩放。                                            | 每增加 1 度误差，评分加权扣除约 2-3 分         |
-| **用户等级补偿** | 初学者 (`novice`) 在判定时，相似度结果将获得固定 **+10%** 的偏置补偿，以提供更好的反馈激励。          | $\text{final\_score} = \text{base} \times 1.1$ |
-| **反馈时效性**   | 反馈建议列表 (`feedback`) 必须在得分结果生成出的同时，根据偏差最大的关键点索引（Index）自动匹配文本。 | 索引映射响应延迟 $< 50ms$                      |
-
-### 5.4 交付物清单 (Deliverables)
-1.  **ONNX 权重文件**: `.onnx`。
-2.  **动作标准模板**: 一个包含 17 个关键点的 JSON 向量，用于后端进行余弦相似度比对。
-3.  **反馈规则定义**: 一个逻辑映射表，例如：`"left_knee_angle > 120" -> "下蹲不够深"`。
+> **Context**: 你是一位资深 Java 后端架构师，需要根据上述规范实现 `fitness-pay` 模块。
+>
+> **Task**:
+> 1. 创建 `PaymentController` 处理收据验证请求。
+> 2. 实现 `AppleIAPService` 集成苹果远程验证接口 (`https://buy.itunes.apple.com/verifyReceipt`)。
+> 3. 实现收据去重逻辑，防止重放攻击 (Replay Attack)。
+> 4. 使用 Spring 事务确保用户信息更新与订单记录的一致性。
+> 5. **核心约束**: 必须处理 Sandbox 环境与 Production 环境的切换逻辑。

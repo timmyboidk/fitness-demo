@@ -87,11 +87,11 @@ export default function ProfileScreen() {
                     { useNativeDriver: true }
                 )}
             >
-                {/* Large Title with extra padding to match profile design */}
+                {/* 大标题区域，增加外边距以匹配个人中心设计 */}
                 <LargeTitle
                     title="个人中心"
                     rightElement={LargeRightSettingsButton}
-                    style={{ paddingHorizontal: 24 }} // px-6 = 24px
+                    style={{ paddingHorizontal: 24 }} // px-6 = 24 像素
                 />
 
                 {/* 用户信息卡片区：展示头像、昵称和会员状态 */}

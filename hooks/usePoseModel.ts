@@ -12,9 +12,9 @@ export function usePoseModel(modelUrl?: string) {
                 const modelPath = await modelService.loadModel(modelUrl || "https://example.com/model.onnx");
                 const sess = await modelService.createSession(modelPath);
                 setSession(sess);
-                Logger.info('usePoseModel', "Model loaded successfully");
+                Logger.info('usePoseModel', "模型加载成功");
             } catch (e) {
-                Logger.error('usePoseModel', "Failed to load model", { error: e });
+                Logger.error('usePoseModel', "模型加载失败", { error: e });
             }
         })();
     }, [modelUrl]);

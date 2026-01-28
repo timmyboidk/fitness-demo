@@ -44,14 +44,26 @@
   }
   ```
 
-### 升级 VIP (Upgrade to VIP)
-处理订阅升级。
-- **端点**: `POST /api/auth` (注意：在严格的 REST 中这可能是 `/api/subscriptions`，但代码使用 `upgradeToVip` 逻辑)
+### 升级与支付 (Upgrade & Payment)
+验证 Apple/Android 支付收据并升级用户。
+- **端点**: `POST /api/pay/verify`
 - **请求体**:
   ```json
   {
-    "action": "upgrade",
-    "planId": "yearly"
+    "userId": "user_123",
+    "planId": "yearly",
+    "receipt": "base64_receipt_content...",
+    "platform": "ios"
+  }
+  ```
+- **响应**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "isVip": true,
+      "expireTime": 1735689600000
+    }
   }
   ```
 

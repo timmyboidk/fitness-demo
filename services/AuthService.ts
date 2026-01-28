@@ -18,7 +18,7 @@ class AuthService {
      * 请求发送手机验证码 (OTP)
      */
     async requestOTP(phoneNumber: string): Promise<{ success: boolean; message: string }> {
-        // Placeholder for future implementation
+        // 预留接口，用于后续实现
         return { success: true, message: '' };
     }
 
@@ -28,7 +28,7 @@ class AuthService {
     async verifyOTP(phoneNumber: string, code: string): Promise<{ success: boolean; user?: User; message?: string }> {
         try {
             const response = await client.post('/api/auth/verify-otp', { phone: phoneNumber, code });
-            const data = response.data; // client.post return type depends on mock but usually response object
+            const data = response.data; // client.post 的返回类型取决于 Mock，但通常是响应对象。
             if (data.success) {
                 await AsyncStorage.setItem('user_token', data.data.token);
             }
@@ -38,7 +38,7 @@ class AuthService {
                 message: data.message
             };
         } catch (e: any) {
-            console.error('Verify OTP error:', e);
+            console.error('验证 OTP 出错:', e);
             return { success: false, message: e.response?.data?.message || '验证失败' };
         }
     }
@@ -51,7 +51,7 @@ class AuthService {
             const response = await client.post('/api/auth/wechat', { code });
             return response.data;
         } catch (e: any) {
-            console.error('WeChat login error:', e);
+            console.error('微信登录出错:', e);
             return { success: false };
         }
     }
@@ -72,29 +72,30 @@ class AuthService {
             });
             return response.data;
         } catch (e: any) {
-            console.error('Onboarding error:', e);
+            console.error('新手引导流程出错:', e);
             return { success: false, error: e.response?.data?.message || '网络错误' };
         }
     }
 
     /**
-     * 升级为 VIP 会员 (Mock)
+     * 验证支付并升级为 VIP 会员
      * @param userId - 用户 ID
-     * @param planId - 订阅计划 ID (monthly/yearly/quarterly)
+     * @param planId - 订阅计划 ID
+     * @param receipt - Apple/Android 支付凭证 (Transaction Receipt)
      */
-    async upgradeToVip(userId: string, planId: string): Promise<{ success: boolean; data?: any; error?: string }> {
+    async upgradeToVip(userId: string, planId: string, receipt: string): Promise<{ success: boolean; data?: any; error?: string }> {
         try {
-            // 模拟 API 延迟
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            // 模拟后端处理：更新用户状态
-            // 实际应用中会调用 Stripe/Apple IAP 校验
-            console.log(`User ${userId} upgrading to plan ${planId}`);
-
-            return { success: true };
+            // 在实际生成环境中，此接口应调用 fitness-pay 模块进行校验
+            const response = await client.post('/api/pay/verify', {
+                userId,
+                planId,
+                receipt,
+                platform: 'ios'
+            });
+            return response.data;
         } catch (e: any) {
-            console.error('Upgrade error:', e);
-            return { success: false, error: '支付验证失败' };
+            console.error('升级 VIP 出错:', e);
+            return { success: false, error: e.response?.data?.message || '支付验证失败' };
         }
     }
 

@@ -26,7 +26,7 @@ class AIScoringService {
             const data = response.data;
 
             if (data.success) {
-                // The spec says data.data contains the score info
+                // 根据规范，data.data 包含评分信息
                 return data.data;
             }
 
@@ -36,7 +36,7 @@ class AIScoringService {
                 feedback: ['评分服务暂时不可用']
             };
         } catch (e) {
-            console.error('AIScoring error:', e);
+            console.error('AI 评分出错:', e);
             return {
                 success: false,
                 score: 0,
