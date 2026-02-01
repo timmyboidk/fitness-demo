@@ -11,12 +11,13 @@ import * as SecureStore from 'expo-secure-store';
 
 // 创建 Axios 实例
 const client = axios.create({
-    baseURL: 'http://10.0.0.169:8080', // 开发环境后端地址
+    baseURL: 'http://10.0.0.243:8080', // 开发环境后端地址
     timeout: 10000, // 请求超时时间 10s
 });
 
 // --- 模拟适配器 (前端演示模式) ---
-// 由于后端服务未启动，此处拦截所有请求并返回模拟数据。
+// 由于后端服务已启动，此处拦截所有请求并返回模拟数据。
+/*
 client.interceptors.request.use(async (config) => {
     // 模拟延迟
     await new Promise(resolve => setTimeout(resolve, 600));
@@ -121,6 +122,7 @@ client.interceptors.request.use(async (config) => {
     console.warn(`[模拟API] 未处理的端点: ${url}`);
     throw { response: { status: 404, data: { success: false, message: "模拟端点未找到" } } };
 }, error => Promise.reject(error));
+*/
 
 /**
  * 请求拦截器

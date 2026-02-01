@@ -8,7 +8,7 @@ describe('LibraryService', () => {
     describe('fetchLibrary', () => {
         it('should fetch library data successfully', async () => {
             const mockMoves: Move[] = [
-                { id: '1', name: 'Pushup', level: 'Easy', duration: 10, calories: 5, isVisible: true }
+                { id: '1', name: 'Pushup', level: 'Easy', icon: 'figure.run', isVisible: true }
             ];
             const mockSessions: Session[] = [
                 { id: 's1', title: 'Morning', level: 'Easy', duration: 20, moves: [], isVisible: true, color: '#000' } as any

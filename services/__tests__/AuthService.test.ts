@@ -71,7 +71,7 @@ describe('AuthService', () => {
 
     describe('upgradeToVip', () => {
         it('should simulate success', async () => {
-            const res = await authService.upgradeToVip('uid', 'monthly');
+            const res = await authService.upgradeToVip('uid', 'monthly', 'test_receipt');
             expect(res.success).toBe(true);
         });
 
@@ -83,7 +83,7 @@ describe('AuthService', () => {
             // But we can manually call the catch logic if we use a spy on the method itself.
             // Or just mock the global promise.
             jest.spyOn(global, 'setTimeout').mockImplementationOnce(() => { throw new Error('fail'); });
-            const res = await authService.upgradeToVip('uid', 'plan');
+            const res = await authService.upgradeToVip('uid', 'plan', 'test_receipt');
             expect(res.success).toBe(false);
             expect(res.error).toBe('支付验证失败');
         });

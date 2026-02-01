@@ -36,7 +36,7 @@ describe('GenericSelectionScreen', () => {
         const { getByText } = render(
             <GenericSelectionScreen
                 title="Select Item"
-                data={[]}
+                data={[] as { id: string; name: string }[]}
                 renderItem={({ item }) => <Text>{item.name}</Text>}
                 emptyMessage="No items found"
             />

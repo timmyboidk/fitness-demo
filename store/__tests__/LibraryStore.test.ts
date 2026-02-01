@@ -63,7 +63,7 @@ describe('LibraryStore', () => {
             expect(sessions[0].time).toBe('10 分钟'); // Generated from duration
 
             // Test fallbacks for new move without existing visibility or props
-            mockData.moves[1].isVisible = undefined;
+            (mockData.moves[1] as any).isVisible = undefined;
             (mockData.moves[1] as any).level = undefined;
             (mockData.moves[1] as any).icon = undefined;
 

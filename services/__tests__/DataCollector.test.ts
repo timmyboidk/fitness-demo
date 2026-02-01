@@ -16,8 +16,8 @@ describe('DataCollector', () => {
         (client.post as jest.Mock).mockResolvedValue({ data: { success: true } });
 
         // Add events
-        await DataCollector.track('event1', { foo: 'bar' });
-        await DataCollector.track('event2', { foo: 'baz' });
+        await DataCollector.track('app_event', { foo: 'bar' });
+        await DataCollector.track('score', { foo: 'baz' });
 
         // Trigger flush manually or by count
         // Assuming flush buffer size is 10.
@@ -28,7 +28,7 @@ describe('DataCollector', () => {
 
         // Let's force it.
         for (let i = 0; i < 15; i++) {
-            await DataCollector.track(`event_${i}`, {});
+            await DataCollector.track('app_event', {});
         }
 
         await DataCollector.flush();
@@ -40,11 +40,11 @@ describe('DataCollector', () => {
         (NetInfo.fetch as jest.Mock).mockResolvedValue({ isConnected: false });
         (client.post as jest.Mock).mockClear();
 
-        await DataCollector.track('event_offline', {});
+        await DataCollector.track('app_event', {});
 
         // Even if we fill buffer
         for (let i = 0; i < 15; i++) {
-            await DataCollector.track(`event_${i}`, {});
+            await DataCollector.track('app_event', {});
         }
 
         expect(client.post).not.toHaveBeenCalled();

@@ -7,7 +7,6 @@
 
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as InAppPurchases from 'expo-in-app-purchases';
 import { router, Stack } from 'expo-router';
 import { memo, useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
@@ -22,7 +21,7 @@ export default function SubscriptionScreen() {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState<InAppPurchases.IAPItemDetails[]>([]);
+    const [products, setProducts] = useState<any[]>([]);
 
     useEffect(() => {
         let isMounted = true;

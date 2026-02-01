@@ -33,12 +33,20 @@ export class LibraryService {
                 params: { difficultyLevel }
             });
             const data = response.data;
-            if (data.success) {
-                return data.data;
+
+            if (data && data.success) {
+                return data.data || { moves: [], sessions: [] };
             }
+
+            console.error('获取训练库返回 success:false', data?.message);
             return null;
-        } catch (e) {
-            console.error('获取训练库出错:', e);
+        } catch (e: any) {
+            // 提供更详细的错误日志
+            const errorMsg = e.response?.data?.message || e.message || '未知网络错误';
+            console.error('获取训练库出错:', errorMsg, {
+                status: e.response?.status,
+                data: e.response?.data
+            });
             return null;
         }
     }
