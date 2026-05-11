@@ -1,24 +1,23 @@
 /**
  * @file AIScoringService.ts
- * @description 负责与AI评分后端服务进行交互。
- * 发送关键点数据以获取实时动作评分和反馈。
+ * @description Handles communication with the AI scoring backend.
+ * Sends keypoint data and returns real-time form scores and feedback.
  */
 
 import client from './api/client';
 
-import { ScoreRequest, ScoreResponse } from '../types';
+import { FeedbackCode, ScoreRequest, ScoreResponse } from '../types';
 
 /**
- * AI评分服务类
- * 封装所有与AI评分相关的API调用
+ * AI Scoring Service
+ * Encapsulates all AI scoring-related API calls.
  */
 class AIScoringService {
     /**
-     * 发送动作数据进行AI评分
+     * Submit pose data for AI scoring.
      *
-     * @param request - 包含动作ID和关键点数据的请求对象
-     * @returns {Promise<ScoreResponse>} 返回评分结果，包括分数和建议
-     * 该方法内置了基本的错误处理，确保在网络异常时返回友好的默认状态
+     * @param request - Contains move ID and keypoint data
+     * @returns {Promise<ScoreResponse>} Score result with feedback codes
      */
     async scoreMove(request: ScoreRequest): Promise<ScoreResponse> {
         try {
@@ -26,21 +25,25 @@ class AIScoringService {
             const data = response.data;
 
             if (data.success) {
-                // 根据规范，data.data 包含评分信息
-                return data.data;
+                return {
+                    ...data.data,
+                    feedbackCodes: data.data.feedbackCodes || [],
+                };
             }
 
             return {
                 success: false,
                 score: 0,
-                feedback: ['评分服务暂时不可用']
+                feedback: ['评分服务暂时不可用'],
+                feedbackCodes: [],
             };
         } catch (e) {
             console.error('AI 评分出错:', e);
             return {
                 success: false,
                 score: 0,
-                feedback: ['网络异常，请稍后重试']
+                feedback: ['网络异常，请稍后重试'],
+                feedbackCodes: [],
             };
         }
     }

@@ -131,7 +131,7 @@ export default function SignupScreen() {
                                 disabled={isTimerRunning}
                                 className={`h-14 w-32 rounded-xl items-center justify-center border border-gray-300 dark:border-gray-800 ${isTimerRunning ? 'bg-gray-200 dark:bg-gray-800' : 'bg-gray-100 dark:bg-[#1E1E1E] active:bg-gray-200 dark:active:bg-gray-800'}`}
                             >
-                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#16a34a] dark:text-[#CCFF00] font-bold"}>
+                                <Text className={isTimerRunning ? "text-gray-500 font-bold" : "text-[#00F0FF] dark:text-[#00F0FF] font-bold"}>
                                     {isTimerRunning ? `${timer}s` : "发送"}
                                 </Text>
                             </TouchableOpacity>
@@ -149,7 +149,7 @@ export default function SignupScreen() {
                     <View className="flex-row justify-center mt-auto pb-8">
                         <Text className="text-gray-500">已有账号？ </Text>
                         <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
-                            <Text className="text-[#16a34a] dark:text-[#CCFF00] font-bold">去登录</Text>
+                            <Text className="text-[#00F0FF] dark:text-[#00F0FF] font-bold">去登录</Text>
                         </TouchableOpacity>
                     </View>
 

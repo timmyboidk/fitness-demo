@@ -1,36 +1,70 @@
 /**
  * @file _layout.tsx
- * @description 应用根布局 (Root Layout)。
- * 定义全局导航结构 (Stack)、状态栏样式和全局背景色。
- * 包含 Tabs 主路由、认证组和全屏模态页面的配置。
+ * @description Application Root Layout.
+ * Loads the Inter font family via expo-font, gates rendering behind font load,
+ * and defines the global navigation structure (Stack).
  */
 
+import {
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_900Black,
+    useFonts,
+} from '@expo-google-fonts/inter';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { LogBox, View, useColorScheme } from 'react-native';
 import 'react-native-reanimated';
 
-// 在演示环境中屏蔽所有警告
+import { Palette } from '../constants/theme';
+
+// Keep splash screen visible while fonts load
+SplashScreen.preventAutoHideAsync();
+
+// Suppress all warnings in demo
 LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
+    const [fontsLoaded] = useFonts({
+        Inter_400Regular,
+        Inter_500Medium,
+        Inter_600SemiBold,
+        Inter_700Bold,
+        Inter_900Black,
+    });
+
+    useEffect(() => {
+        if (fontsLoaded) {
+            SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
+    const bg = isDark ? Palette.deepBlack : Palette.offWhite;
+
     return (
-        <View className="flex-1 bg-white dark:bg-black" style={{ flex: 1, backgroundColor: isDark ? '#000000' : '#FFFFFF' }}>
+        <View style={{ flex: 1, backgroundColor: bg }}>
             <StatusBar style={isDark ? 'light' : 'dark'} />
             <Stack screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: isDark ? '#000000' : '#FFFFFF' }
+                contentStyle: { backgroundColor: bg },
             }}>
-                {/* 登录/注册页组 (无需 Layout 包裹) */}
-                {/* (auth) 目录下的页面将作为平级 Stack Screen 呈现 */}
+                {/* Auth screens (flat Stack Screens within (auth) dir) */}
 
-                {/* 主程序 Tabs 导航 */}
+                {/* Main Tab navigation */}
                 <Stack.Screen name="(tabs)" />
 
-                {/* 核心 AI 训练页 (全屏模态展示，沉浸式体验) */}
+                {/* AI Workout (fullscreen immersive modal) */}
                 <Stack.Screen name="workout/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
         </View>

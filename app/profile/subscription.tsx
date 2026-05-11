@@ -14,8 +14,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { iapService } from '../../services/IAPService';
 
 // 浅色模式下的荧光绿，针对可见性进行了优化
-const FLUORESCENT_GREEN = '#CCFF00'; // 荧光绿
-const DARK_GREEN_BG = '#16a34a';
+const ACCENT_COLOR = '#00F0FF';
+const ACCENT_DARK_BG = '#00F0FF';
 
 export default function SubscriptionScreen() {
     const colorScheme = useColorScheme();
@@ -101,7 +101,7 @@ export default function SubscriptionScreen() {
 
             <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingTop: 10 }}>
                 <View className="relative h-60 items-center justify-center rounded-[32px] mx-4 mb-8 overflow-hidden"
-                    style={{ backgroundColor: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>
+                    style={{ backgroundColor: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>
                     <View className="absolute w-80 h-80 bg-white/10 rounded-full -top-10 -right-20" />
                     <View className="absolute w-40 h-40 bg-white/10 rounded-full bottom-10 -left-10" />
 
@@ -115,7 +115,7 @@ export default function SubscriptionScreen() {
                         <View className="flex-1"></View>
                         <View className="w-20 items-center"><Text className="text-gray-400 font-bold">免费版</Text></View>
                         <View className="w-20 items-center">
-                            <Text className={`font-black`} style={{ color: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>PRO</Text>
+                            <Text className={`font-black`} style={{ color: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>PRO</Text>
                         </View>
                     </View>
                     <FeatureRow label="动作库数量" free="10个" vip="无限" isDark={isDark} />
@@ -132,15 +132,15 @@ export default function SubscriptionScreen() {
                             onPress={() => handleUpgrade(plan.id)}
                             className={`flex-row items-center p-5 rounded-3xl border-2 mb-4`}
                             style={{
-                                borderColor: plan.recommended ? (isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG) : (isDark ? '#1F2937' : '#F3F4F6'),
+                                borderColor: plan.recommended ? (isDark ? ACCENT_COLOR : ACCENT_DARK_BG) : (isDark ? '#1F2937' : '#F3F4F6'),
                                 backgroundColor: plan.recommended
-                                    ? (isDark ? 'rgba(204, 255, 0, 0.1)' : 'rgba(22, 163, 74, 0.05)')
+                                    ? (isDark ? 'rgba(0, 240, 255, 0.1)' : 'rgba(0, 240, 255, 0.05)')
                                     : (isDark ? '#111827' : '#FFFFFF'),
                             }}
                         >
                             <View className="flex-1">
                                 {plan.recommended && (
-                                    <View className="self-start px-2 py-0.5 rounded-md mb-2" style={{ backgroundColor: isDark ? FLUORESCENT_GREEN : DARK_GREEN_BG }}>
+                                    <View className="self-start px-2 py-0.5 rounded-md mb-2" style={{ backgroundColor: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>
                                         <Text className={`text-[10px] font-bold ${isDark ? 'text-black' : 'text-white'}`}>推荐</Text>
                                     </View>
                                 )}

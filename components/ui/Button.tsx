@@ -36,7 +36,7 @@ export function Button({ className, variant = 'primary', size = 'default', label
     const baseStyles = "flex-row items-center justify-center rounded-full active:opacity-80";
 
     const variants = {
-        primary: "bg-[#16a34a] dark:bg-[#CCFF00] text-white dark:text-black", // Brand color adaption
+        primary: "bg-[#00F0FF] dark:bg-[#00F0FF] text-black dark:text-black", // Premium neon cyan accent
         secondary: "bg-gray-100 dark:bg-[#1C1C1E] border border-gray-200 dark:border-transparent",
         outline: "border border-gray-300 dark:border-gray-600 bg-transparent",
         ghost: "bg-transparent"

@@ -1,9 +1,10 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
+import * as Haptics from 'expo-haptics';
 import { Session } from '../../store/library';
 import { SessionItem } from '../SessionItem';
 
-// Rely on jest-setup.js for expo-symbols mock
+// Rely on jest-setup.js for expo-symbols, expo-haptics, and expo-linear-gradient mocks
 
 describe('SessionItem', () => {
     const mockSession: Session = {
@@ -13,8 +14,12 @@ describe('SessionItem', () => {
         count: '5 moves',
         color: '#ff0000',
         isVisible: true,
-        moveIds: ['m1']
+        moveIds: ['m1'],
     };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     it('should render session details', () => {
         const { getByText } = render(
@@ -54,5 +59,43 @@ describe('SessionItem', () => {
 
         fireEvent.press(getByTestId('symbol-minus.circle.fill'));
         expect(onRemove).toHaveBeenCalled();
+    });
+
+    it('should trigger light haptic feedback on card press', () => {
+        const { getByTestId } = render(
+            <SessionItem item={mockSession} />
+        );
+
+        const card = getByTestId('session-item-s1');
+        fireEvent.press(card);
+        expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+    });
+
+    it('should trigger haptic on add press', () => {
+        const onAdd = jest.fn();
+        const { getByTestId } = render(
+            <SessionItem item={mockSession} showAddButton={true} onAdd={onAdd} />
+        );
+
+        fireEvent.press(getByTestId('symbol-plus.circle.fill'));
+        expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+    });
+
+    it('should trigger warning haptic on remove press', () => {
+        const onRemove = jest.fn();
+        const { getByTestId } = render(
+            <SessionItem item={mockSession} showRemoveButton={true} onRemove={onRemove} />
+        );
+
+        fireEvent.press(getByTestId('symbol-minus.circle.fill'));
+        expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Warning);
+    });
+
+    it('should render gradient play button when no action buttons', () => {
+        const { getByTestId } = render(
+            <SessionItem item={mockSession} />
+        );
+
+        expect(getByTestId('linear-gradient')).toBeTruthy();
     });
 });

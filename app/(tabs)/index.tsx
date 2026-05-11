@@ -1,12 +1,13 @@
 /**
  * @file MovesScreen.tsx
- * @description 动作库主页 (Tab页)。
- * 展示所有可见的训练动作，允许用户浏览和管理动作列表。
- * 集成了全局状态管理，实时响应数据变化。
+ * @description Moves library main tab screen.
+ * Displays all visible training moves with staggered entrance animations.
+ * Integrates global state management for real-time data updates.
  */
 
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { MoveItem } from '../../components/MoveItem';
 import { ResourceListScreen } from '../../components/ResourceListScreen';
 import { libraryStore, Move } from '../../store/library';
@@ -31,12 +32,17 @@ export default function MovesScreen() {
             data={moves}
             numColumns={2}
             onAddPress={() => router.push('/add-move')}
-            renderItem={({ item }) => (
-                <MoveItem
-                    item={item}
-                    showRemoveButton={true}
-                    onRemove={() => libraryStore.toggleMoveVisibility(item.id)}
-                />
+            renderItem={({ item, index }) => (
+                <Animated.View
+                    entering={FadeInDown.delay((index ?? 0) * 80).duration(400).springify()}
+                    style={{ width: '100%' }}
+                >
+                    <MoveItem
+                        item={item}
+                        showRemoveButton={true}
+                        onRemove={() => libraryStore.toggleMoveVisibility(item.id)}
+                    />
+                </Animated.View>
             )}
         />
     );

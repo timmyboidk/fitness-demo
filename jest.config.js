@@ -8,6 +8,7 @@ module.exports = {
         "hooks/**/*.{ts,tsx}",
         "services/**/*.{ts,tsx}",
         "store/**/*.{ts,tsx}",
+        "types/**/*.{ts,tsx}",
         "!**/*.d.ts",
         "!**/node_modules/**",
         "!**/babel.config.js",

@@ -1,11 +1,14 @@
 import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SymbolView } from 'expo-symbols';
-import React, { memo } from 'react';
-import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import React, { memo, useCallback } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Session } from '../store/library';
+import { FontFamily, Palette } from '../constants/theme';
 
 /**
- * 课程列表项属性接口
+ * Session card props
  */
 interface SessionItemProps {
     item: Session;
@@ -17,56 +20,165 @@ interface SessionItemProps {
 }
 
 /**
- * 课程卡片组件 (Memoized)
+ * Premium session card with glassmorphism, gradient play button, and haptic feedback.
  */
 export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: SessionItemProps) => {
-    const handlePress = onPress || (() => router.push(`/workout/${item.id}?mode=session`));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const highlightColor = isDark ? "#CCFF00" : "#16a34a";
+
+    const handlePress = useCallback(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        if (onPress) {
+            onPress();
+        } else {
+            router.push(`/workout/${item.id}?mode=session`);
+        }
+    }, [onPress, item.id]);
+
+    const handleAdd = useCallback(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        onAdd?.();
+    }, [onAdd]);
+
+    const handleRemove = useCallback(() => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        onRemove?.();
+    }, [onRemove]);
+
+    const cardBg = isDark ? 'rgba(26, 26, 36, 0.85)' : 'rgba(255, 255, 255, 0.92)';
+    const borderColor = isDark ? Palette.cardBorder : Palette.warmGray;
+    const textPrimary = isDark ? '#ECEDEE' : Palette.charcoal;
+    const textSecondary = isDark ? Palette.mutedDark : Palette.mutedLight;
 
     return (
         <TouchableOpacity
             onPress={handlePress}
-            className="w-full bg-gray-50 dark:bg-[#1C1C1E] mb-4 p-5 rounded-3xl flex-row justify-between items-center border border-gray-200 dark:border-transparent"
+            testID={`session-item-${item.id}`}
+            activeOpacity={0.7}
+            style={[
+                styles.card,
+                {
+                    backgroundColor: cardBg,
+                    borderColor: borderColor,
+                },
+            ]}
         >
-            <View className="flex-row items-center flex-1">
-                {/* Left Decoration Bar */}
-                <View className="w-1 h-12 rounded-full mr-4" style={{ backgroundColor: item.color }} />
+            <View style={styles.row}>
+                {/* Left: color bar + text */}
+                <View style={styles.leftSection}>
+                    <View style={[styles.colorBar, { backgroundColor: item.color }]} />
 
-                <View>
-                    <Text className="text-black dark:text-white font-bold text-xl mb-2">{item.name}</Text>
-                    <View className="flex-row space-x-4">
-                        <View className="flex-row items-center">
-                            <SymbolView name={"clock" as any} size={14} tintColor="#888" style={{ marginRight: 4 }} />
-                            <Text className="text-gray-500 dark:text-gray-400 text-xs">{item.time}</Text>
-                        </View>
-                        <View className="flex-row items-center">
-                            <SymbolView name={"square.stack.3d.up" as any} size={14} tintColor="#888" style={{ marginRight: 4 }} />
-                            <Text className="text-gray-500 dark:text-gray-400 text-xs">{item.count}</Text>
+                    <View style={styles.textBlock}>
+                        <Text
+                            style={[styles.title, { color: textPrimary, fontFamily: FontFamily.bold }]}
+                            numberOfLines={1}
+                        >
+                            {item.name}
+                        </Text>
+
+                        <View style={styles.metaRow}>
+                            <View style={styles.metaItem}>
+                                <SymbolView name={"clock" as any} size={12} tintColor={textSecondary} style={{ marginRight: 4 }} />
+                                <Text style={[styles.metaText, { color: textSecondary, fontFamily: FontFamily.medium }]}>
+                                    {item.time}
+                                </Text>
+                            </View>
+                            <View style={[styles.metaDot, { backgroundColor: textSecondary }]} />
+                            <View style={styles.metaItem}>
+                                <SymbolView name={"square.stack.3d.up" as any} size={12} tintColor={textSecondary} style={{ marginRight: 4 }} />
+                                <Text style={[styles.metaText, { color: textSecondary, fontFamily: FontFamily.medium }]}>
+                                    {item.count}
+                                </Text>
+                            </View>
                         </View>
                     </View>
                 </View>
+
+                {/* Right: action buttons */}
+                {showAddButton ? (
+                    <TouchableOpacity onPress={handleAdd} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                        <SymbolView name={"plus.circle.fill" as any} size={28} tintColor={Palette.cyan} />
+                    </TouchableOpacity>
+                ) : null}
+
+                {showRemoveButton ? (
+                    <TouchableOpacity onPress={handleRemove} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                        <SymbolView name={"minus.circle.fill" as any} size={28} tintColor={Palette.red} />
+                    </TouchableOpacity>
+                ) : null}
+
+                {!showAddButton && !showRemoveButton ? (
+                    <LinearGradient
+                        colors={[item.color, Palette.violet]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={styles.playButton}
+                    >
+                        <SymbolView name={"play.fill" as any} size={22} tintColor="#FFFFFF" style={{ marginLeft: 3 }} />
+                    </LinearGradient>
+                ) : null}
             </View>
-
-            {/* Action Buttons Area */}
-            {showAddButton ? (
-                <TouchableOpacity onPress={onAdd}>
-                    <SymbolView name={"plus.circle.fill" as any} size={30} tintColor={highlightColor} />
-                </TouchableOpacity>
-            ) : null}
-
-            {showRemoveButton ? (
-                <TouchableOpacity onPress={onRemove}>
-                    <SymbolView name={"minus.circle.fill" as any} size={30} tintColor="#FF3B30" />
-                </TouchableOpacity>
-            ) : null}
-
-            {!showAddButton && !showRemoveButton ? (
-                <View className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 items-center justify-center">
-                    <SymbolView name={"play.fill" as any} size={24} tintColor={item.color} style={{ marginLeft: 4 }} />
-                </View>
-            ) : null}
         </TouchableOpacity>
     );
+});
+
+const styles = StyleSheet.create({
+    card: {
+        width: '100%',
+        marginBottom: 14,
+        paddingVertical: 20,
+        paddingHorizontal: 18,
+        borderRadius: 24,
+        borderWidth: 1,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    leftSection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+    },
+    colorBar: {
+        width: 4,
+        height: 48,
+        borderRadius: 100,
+        marginRight: 16,
+    },
+    textBlock: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 22,
+        lineHeight: 28,
+        marginBottom: 6,
+    },
+    metaRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    metaItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    metaDot: {
+        width: 3,
+        height: 3,
+        borderRadius: 1.5,
+        marginHorizontal: 8,
+        opacity: 0.4,
+    },
+    metaText: {
+        fontSize: 12,
+        letterSpacing: 0.3,
+    },
+    playButton: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

@@ -1,37 +1,36 @@
 /**
  * @file _layout.tsx
- * @description 主 Tab 导航布局。
- * 使用 Material Top Tabs 实现可滑动的底部导航栏效果。
- * 自定义了 TabBar 和全局 Header 逻辑，集成暗黑模式适配。
+ * @description Main Tab navigation layout.
+ * Uses Material Top Tabs for swipeable navigation.
+ * Custom TabBar with haptic feedback and premium accent colors.
  */
 
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import * as Haptics from 'expo-haptics';
 import { usePathname, withLayoutContext } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { libraryStore } from '../../store/library';
+import { Palette, FontFamily } from '../../constants/theme';
 
-// 1. 创建支持滑动的 Tab 导航器实例
+// 1. Create swipeable Tab navigator
 const { Navigator } = createMaterialTopTabNavigator();
-// 暴露给 expo-router 使用
 export const MaterialTopTabs = withLayoutContext(Navigator);
 
 /**
- * 自定义底部 Tab Bar 组件
- * 替代默认的 Material Top Tab Bar，放置在屏幕底部
+ * Custom bottom Tab Bar with haptic feedback on tab switch.
  */
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
-    // 动态配色方案
-    const bgColor = isDark ? '#121212' : '#FFFFFF';
-    const borderColor = isDark ? '#333' : '#E5E5E5';
-    const activeColor = isDark ? '#CCFF00' : '#16a34a'; // 高亮色: 暗色模式下为荧光绿，亮色模式下为深绿
-    const inactiveColor = isDark ? '#666' : '#999';
-    const textColor = isDark ? '#888' : '#666';
+    const bgColor = isDark ? Palette.surface : '#FFFFFF';
+    const borderColor = isDark ? Palette.cardBorder : '#E8E6E1';
+    const activeColor = Palette.cyan;
+    const inactiveColor = isDark ? Palette.mutedDark : Palette.mutedLight;
+    const textColor = isDark ? Palette.mutedDark : Palette.mutedLight;
 
     return (
         <View style={{ backgroundColor: bgColor }}>
@@ -39,17 +38,16 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                 <View className="flex-row h-[60px] border-t items-center" style={{ backgroundColor: bgColor, borderColor: borderColor }}>
                     {state.routes.map((route: any, index: number) => {
                         const { options } = descriptors[route.key];
-                        // 优先使用 tabBarLabel，其次 title，最后 name
                         const label = options.tabBarLabel !== undefined
                             ? options.tabBarLabel
                             : options.title !== undefined
                                 ? options.title
                                 : route.name;
 
-                        // 判断当前 Tab 是否激活
                         const isFocused = state.index === index;
 
                         const onPress = () => {
+                            Haptics.selectionAsync();
                             const event = navigation.emit({
                                 type: 'tabPress',
                                 target: route.key,
@@ -61,7 +59,6 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                             }
                         };
 
-                        // 图标选择逻辑: 根据 Tab 名称和激活状态切换 icon
                         let iconName: any = 'help';
                         if (route.name === 'index') iconName = isFocused ? 'barbell' : 'barbell-outline';
                         else if (route.name === 'sessions') iconName = isFocused ? 'timer' : 'timer-outline';
@@ -76,7 +73,12 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                                 activeOpacity={0.7}
                             >
                                 <Ionicons name={iconName} size={26} color={isFocused ? activeColor : inactiveColor} />
-                                <Text style={{ fontSize: 10, marginTop: 4, color: isFocused ? activeColor : textColor }}>
+                                <Text style={{
+                                    fontSize: 10,
+                                    marginTop: 4,
+                                    color: isFocused ? activeColor : textColor,
+                                    fontFamily: isFocused ? FontFamily.semiBold : FontFamily.regular,
+                                }}>
                                     {label}
                                 </Text>
                             </TouchableOpacity>
@@ -89,35 +91,27 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
 };
 
 /**
- * Tab 布局入口组件
+ * Tab Layout entry component
  */
 export default function TabLayout() {
     const pathname = usePathname();
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const bgColor = isDark ? '#121212' : '#FFFFFF';
-    const primaryTextColor = isDark ? '#FFFFFF' : '#000000';
-    const iconColor = isDark ? '#CCFF00' : '#16a34a';
+    const bgColor = isDark ? Palette.deepBlack : Palette.offWhite;
 
     useEffect(() => {
-        // App 启动/Tab 加载时同步最新的库数据
         libraryStore.sync();
     }, []);
 
-    // 动态 Header 配置逻辑
-    // 根据当前路由路径 (pathname) 动态决定 Header 的标题和右侧按钮
-    // 这种方式比在每个Screen里单独配Header更灵活，尤其是在自定义TabLayout的情况下
-
     return (
         <View className="flex-1" style={{ backgroundColor: bgColor }}>
-            {/* Tab 导航容器 */}
             <MaterialTopTabs
                 tabBarPosition="bottom"
                 tabBar={(props) => <CustomTabBar {...props} />}
                 screenOptions={{
-                    swipeEnabled: true, // 允许左右滑动切换 Tab
+                    swipeEnabled: true,
                     animationEnabled: true,
-                    tabBarStyle: { display: 'none' }, // 隐藏默认 TabBar (使用自定义的)
+                    tabBarStyle: { display: 'none' },
                 }}
             >
                 <MaterialTopTabs.Screen name="index" options={{ tabBarLabel: '动作' }} />

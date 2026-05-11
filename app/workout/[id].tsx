@@ -299,7 +299,7 @@ const SettingRow = ({ label, value, onToggle }: any) => {
                 testID={`switch-${label}`}
                 value={value}
                 onValueChange={onToggle}
-                trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#16a34a" }}
+                trackColor={{ false: "#333", true: isDark ? "#00F0FF" : "#00F0FF" }}
                 thumbColor={value ? (isDark ? "black" : "white") : "#f4f3f4"}
             />
         </View>

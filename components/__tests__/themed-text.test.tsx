@@ -67,7 +67,7 @@ describe('ThemedText', () => {
         const text = getByText('Link');
 
         const flatStyle = text.props.style.flat ? text.props.style.flat() : text.props.style;
-        expect(flatStyle).toContainEqual(expect.objectContaining({ color: '#16a34a' }));
+        expect(flatStyle).toContainEqual(expect.objectContaining({ color: '#00F0FF' }));
     });
 
     it('should pass lightColor and darkColor to useThemeColor', () => {

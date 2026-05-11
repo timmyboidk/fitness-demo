@@ -7,7 +7,7 @@ import { StickyHeader } from './StickyHeader';
 interface ResourceListScreenProps<T> {
     title: string;
     data: T[];
-    renderItem: ({ item }: { item: T }) => React.ReactElement;
+    renderItem: ({ item, index }: { item: T; index?: number }) => React.ReactElement;
     onAddPress: () => void;
     numColumns?: number;
     testID?: string;
@@ -23,7 +23,7 @@ export function ResourceListScreen<T extends { id: string }>({
 }: ResourceListScreenProps<T>) {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const iconColor = isDark ? '#CCFF00' : '#16a34a';
+    const iconColor = isDark ? '#00F0FF' : '#00F0FF';
 
     const scrollY = useRef(new Animated.Value(0)).current;
 

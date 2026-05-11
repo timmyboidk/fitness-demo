@@ -60,7 +60,7 @@ export default function HelpScreen() {
 
                 {/* 版本号 */}
                 <View className="items-center mt-10">
-                    <Text className="text-[#16a34a] dark:text-[#CCFF00] font-black text-2xl italic mb-1">FITBODY</Text>
+                    <Text className="text-[#00F0FF] dark:text-[#00F0FF] font-black text-2xl italic mb-1">FITBODY</Text>
                     <Text className="text-gray-500 dark:text-gray-600 text-sm">Version 1.0.0 (Build 20240101)</Text>
                 </View>
             </ScrollView>

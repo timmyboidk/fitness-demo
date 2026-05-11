@@ -41,6 +41,37 @@ jest.mock('expo-haptics', () => ({
         Medium: 'medium',
         Heavy: 'heavy',
     },
+    NotificationFeedbackType: {
+        Success: 'success',
+        Warning: 'warning',
+        Error: 'error',
+    },
+}));
+
+// Mock expo-linear-gradient
+jest.mock('expo-linear-gradient', () => {
+    const { View } = require('react-native');
+    return {
+        LinearGradient: ({ children, ...props }) => (
+            <View testID="linear-gradient" {...props}>{children}</View>
+        ),
+    };
+});
+
+// Mock @expo-google-fonts/inter
+jest.mock('@expo-google-fonts/inter', () => ({
+    useFonts: jest.fn(() => [true]),
+    Inter_400Regular: 'Inter_400Regular',
+    Inter_500Medium: 'Inter_500Medium',
+    Inter_600SemiBold: 'Inter_600SemiBold',
+    Inter_700Bold: 'Inter_700Bold',
+    Inter_900Black: 'Inter_900Black',
+}));
+
+// Mock expo-splash-screen
+jest.mock('expo-splash-screen', () => ({
+    preventAutoHideAsync: jest.fn(),
+    hideAsync: jest.fn(),
 }));
 
 // Mock react-native-worklets-core
@@ -88,6 +119,14 @@ jest.mock('vision-camera-resize-plugin', () => ({
 jest.mock('react-native-reanimated', () => {
     const Reanimated = require('react-native-reanimated/mock');
     Reanimated.default.call = () => { };
+    // Add FadeInDown mock
+    Reanimated.FadeInDown = {
+        delay: jest.fn(() => ({
+            duration: jest.fn(() => ({
+                springify: jest.fn(() => 'mock-animation'),
+            })),
+        })),
+    };
     return Reanimated;
 });
 

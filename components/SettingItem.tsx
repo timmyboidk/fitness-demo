@@ -38,7 +38,7 @@ export function SettingItem({
                 <Switch
                     value={value as boolean}
                     onValueChange={onValueChange}
-                    trackColor={{ false: "#333", true: isDark ? "#CCFF00" : "#16a34a" }}
+                    trackColor={{ false: "#333", true: isDark ? "#00F0FF" : "#00F0FF" }}
                     thumbColor={value ? (isDark ? "#000" : "#fff") : "#f4f3f4"}
                     testID={`${testID}-switch`}
                 />

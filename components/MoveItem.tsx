@@ -1,11 +1,14 @@
 import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SymbolView } from 'expo-symbols';
-import React, { memo } from 'react';
-import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import React, { memo, useCallback } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Move } from '../store/library';
+import { FontFamily, Palette } from '../constants/theme';
 
 /**
- * 动作列表项属性接口
+ * Move card props
  */
 interface MoveItemProps {
     item: Move;
@@ -17,46 +20,138 @@ interface MoveItemProps {
 }
 
 /**
- * 动作卡片组件 (Memoized)
+ * Premium move card with glassmorphism, gradient accent, and haptic feedback.
  */
 export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: MoveItemProps) => {
-    const handlePress = onPress || (() => router.push(`/workout/${item.id}?mode=move`));
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const tintColor = isDark ? "white" : "black";
-    const highlightColor = isDark ? "#CCFF00" : "#16a34a";
+
+    const handlePress = useCallback(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        if (onPress) {
+            onPress();
+        } else {
+            router.push(`/workout/${item.id}?mode=move`);
+        }
+    }, [onPress, item.id]);
+
+    const handleAdd = useCallback(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        onAdd?.();
+    }, [onAdd]);
+
+    const handleRemove = useCallback(() => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        onRemove?.();
+    }, [onRemove]);
+
+    const accentColor = Palette.cyan;
+    const cardBg = isDark ? 'rgba(26, 26, 36, 0.85)' : 'rgba(255, 255, 255, 0.92)';
+    const borderColor = isDark ? Palette.cardBorder : Palette.warmGray;
+    const textPrimary = isDark ? '#ECEDEE' : Palette.charcoal;
+    const textSecondary = isDark ? Palette.mutedDark : Palette.mutedLight;
+    const iconTint = isDark ? '#ECEDEE' : Palette.charcoal;
 
     return (
         <TouchableOpacity
             onPress={handlePress}
             testID={`move-item-${item.id}`}
-            className="w-[48%] bg-gray-50 dark:bg-[#1C1C1E] mb-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-transparent"
+            activeOpacity={0.7}
+            style={[
+                styles.card,
+                {
+                    backgroundColor: cardBg,
+                    borderColor: borderColor,
+                },
+            ]}
         >
-            <View className="h-32 items-center justify-center bg-gray-200 dark:bg-[#252525]">
-                <SymbolView name={item.icon as any} size={60} tintColor={tintColor} fallback="body" />
+            {/* Accent gradient line */}
+            <LinearGradient
+                colors={[accentColor, Palette.violet]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientAccent}
+            />
+
+            {/* Icon area */}
+            <View style={[styles.iconArea, { backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }]}>
+                <SymbolView name={item.icon as any} size={56} tintColor={iconTint} fallback="body" />
             </View>
 
-            <View className="p-3">
-                <Text className="text-black dark:text-white font-bold text-lg mb-1">{item.name}</Text>
-                <View className="flex-row items-center justify-between">
-                    <View className="flex-row items-center">
-                        <View className="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#CCFF00] mr-2" />
-                        <Text className="text-gray-500 dark:text-gray-400 text-xs">{item.level}</Text>
+            {/* Content */}
+            <View style={styles.content}>
+                <Text
+                    style={[styles.title, { color: textPrimary, fontFamily: FontFamily.bold }]}
+                    numberOfLines={1}
+                >
+                    {item.name}
+                </Text>
+
+                <View style={styles.metaRow}>
+                    {/* Level pill */}
+                    <View style={[styles.levelPill, { backgroundColor: isDark ? 'rgba(0,240,255,0.1)' : 'rgba(0,240,255,0.08)' }]}>
+                        <Text style={[styles.levelText, { color: accentColor, fontFamily: FontFamily.semiBold }]}>
+                            {item.level}
+                        </Text>
                     </View>
 
                     {showAddButton ? (
-                        <TouchableOpacity onPress={onAdd}>
-                            <SymbolView name={"plus.circle.fill" as any} size={24} tintColor={highlightColor} />
+                        <TouchableOpacity onPress={handleAdd} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                            <SymbolView name={"plus.circle.fill" as any} size={22} tintColor={accentColor} />
                         </TouchableOpacity>
                     ) : null}
 
                     {showRemoveButton ? (
-                        <TouchableOpacity onPress={onRemove}>
-                            <SymbolView name={"minus.circle.fill" as any} size={24} tintColor="#FF3B30" />
+                        <TouchableOpacity onPress={handleRemove} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                            <SymbolView name={"minus.circle.fill" as any} size={22} tintColor={Palette.red} />
                         </TouchableOpacity>
                     ) : null}
                 </View>
             </View>
         </TouchableOpacity>
     );
+});
+
+const styles = StyleSheet.create({
+    card: {
+        width: '48%',
+        marginBottom: 16,
+        borderRadius: 20,
+        overflow: 'hidden',
+        borderWidth: 1,
+    },
+    gradientAccent: {
+        height: 3,
+        width: '100%',
+    },
+    iconArea: {
+        height: 120,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    content: {
+        paddingHorizontal: 14,
+        paddingTop: 10,
+        paddingBottom: 14,
+    },
+    title: {
+        fontSize: 18,
+        lineHeight: 22,
+        marginBottom: 8,
+    },
+    metaRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    levelPill: {
+        paddingHorizontal: 10,
+        paddingVertical: 3,
+        borderRadius: 100,
+    },
+    levelText: {
+        fontSize: 11,
+        letterSpacing: 0.5,
+        textTransform: 'uppercase',
+    },
 });
