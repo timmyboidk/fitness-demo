@@ -65,7 +65,7 @@ export default function OnboardingScreen() {
                         />
 
                         <View className="flex-1 justify-end px-8 pb-40">
-                            <Text className="text-neon font-bold mb-2 tracking-widest">FITBODY</Text>
+                            <Text className="text-white font-bold mb-2 tracking-widest">FITBODY</Text>
                             <Text className="text-white text-5xl font-black leading-tight mb-4">
                                 {item.title.split(' ').map((word: string, i: number) => (
                                     <Text key={i}>{word}{'\n'}</Text>
@@ -83,7 +83,7 @@ export default function OnboardingScreen() {
                     {SLIDES.map((_, index) => (
                         <View
                             key={index}
-                            className={`h-2 rounded-full transition-all ${index === currentIndex ? 'w-8 bg-neon' : 'w-2 bg-gray-600'}`}
+                            className={`h-2 rounded-full transition-all ${index === currentIndex ? 'w-8 bg-white' : 'w-2 bg-gray-600'}`}
                         />
                     ))}
                 </View>

@@ -5,7 +5,7 @@ import { SymbolView } from 'expo-symbols';
 import React, { memo, useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Move } from '../store/library';
-import { FontFamily, Palette } from '../constants/theme';
+import { FontFamily } from '../constants/theme';
 
 /**
  * Move card props
@@ -45,12 +45,12 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
         onRemove?.();
     }, [onRemove]);
 
-    const accentColor = Palette.cyan;
-    const cardBg = isDark ? 'rgba(26, 26, 36, 0.85)' : 'rgba(255, 255, 255, 0.92)';
-    const borderColor = isDark ? Palette.cardBorder : Palette.warmGray;
-    const textPrimary = isDark ? '#ECEDEE' : Palette.charcoal;
-    const textSecondary = isDark ? Palette.mutedDark : Palette.mutedLight;
-    const iconTint = isDark ? '#ECEDEE' : Palette.charcoal;
+    const accentColor = isDark ? '#FFFFFF' : '#000000';
+    const cardBg = isDark ? '#1C1C1E' : '#FFFFFF';
+    const borderColor = isDark ? '#38383A' : '#E5E5EA';
+    const textPrimary = isDark ? '#FFFFFF' : '#000000';
+    const textSecondary = isDark ? '#AEAEB2' : '#8E8E93';
+    const iconTint = isDark ? '#FFFFFF' : '#000000';
 
     return (
         <TouchableOpacity
@@ -67,7 +67,7 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
         >
             {/* Accent gradient line */}
             <LinearGradient
-                colors={[accentColor, Palette.violet]}
+                colors={isDark ? ['#2C2C2E', '#1C1C1E'] : ['#D1D1D6', '#F2F2F7']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.gradientAccent}
@@ -89,7 +89,7 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
 
                 <View style={styles.metaRow}>
                     {/* Level pill */}
-                    <View style={[styles.levelPill, { backgroundColor: isDark ? 'rgba(0,240,255,0.1)' : 'rgba(0,240,255,0.08)' }]}>
+                    <View style={[styles.levelPill, { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }]}>
                         <Text style={[styles.levelText, { color: accentColor, fontFamily: FontFamily.semiBold }]}>
                             {item.level}
                         </Text>
@@ -103,7 +103,7 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
 
                     {showRemoveButton ? (
                         <TouchableOpacity onPress={handleRemove} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                            <SymbolView name={"minus.circle.fill" as any} size={22} tintColor={Palette.red} />
+                            <SymbolView name={"minus.circle.fill" as any} size={22} tintColor={isDark ? '#AEAEB2' : '#8E8E93'} />
                         </TouchableOpacity>
                     ) : null}
                 </View>

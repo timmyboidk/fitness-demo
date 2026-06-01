@@ -20,21 +20,21 @@ const LEVELS = [
         title: '入门 (Novice)',
         desc: '从未尝试过健身或长时间未运动',
         icon: 'fitness-outline',
-        color: '#34d399'
+        color: '#636366'
     },
     {
         id: 'skilled',
         title: '进阶 (Skilled)',
         desc: '有一定基础，每周坚持 2-3 次运动',
         icon: 'barbell-outline',
-        color: '#fbbf24'
+        color: '#3C3C43'
     },
     {
         id: 'expert',
         title: '高手 (Expert)',
         desc: '资深健身爱好者，追求极致挑战',
         icon: 'trophy-outline',
-        color: '#f87171'
+        color: '#000000'
     }
 ];
 
@@ -117,7 +117,7 @@ export default function DifficultyScreen() {
                             onPress={() => setSelectedLevel(level.id)}
                             testID={`level-${level.id}`}
                             className={`p-6 rounded-3xl border-2 transition-all flex-row items-center ${selectedLevel === level.id
-                                ? 'border-[#CCFF00] bg-[#CCFF00]/5'
+                                ? 'border-black dark:border-white bg-gray-100 dark:bg-gray-800'
                                 : 'border-gray-100 dark:border-gray-800'
                                 }`}
                         >
@@ -135,7 +135,7 @@ export default function DifficultyScreen() {
 
                             {/* 选中状态打钩 */}
                             {selectedLevel === level.id && (
-                                <Ionicons name="checkmark-circle" size={24} color="#CCFF00" />
+                                <Ionicons name="checkmark-circle" size={24} color={isDark ? "#FFFFFF" : "#000000"} />
                             )}
                         </TouchableOpacity>
                     ))}

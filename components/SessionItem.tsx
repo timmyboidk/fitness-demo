@@ -5,7 +5,7 @@ import { SymbolView } from 'expo-symbols';
 import React, { memo, useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { Session } from '../store/library';
-import { FontFamily, Palette } from '../constants/theme';
+import { FontFamily } from '../constants/theme';
 
 /**
  * Session card props
@@ -45,10 +45,10 @@ export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemo
         onRemove?.();
     }, [onRemove]);
 
-    const cardBg = isDark ? 'rgba(26, 26, 36, 0.85)' : 'rgba(255, 255, 255, 0.92)';
-    const borderColor = isDark ? Palette.cardBorder : Palette.warmGray;
-    const textPrimary = isDark ? '#ECEDEE' : Palette.charcoal;
-    const textSecondary = isDark ? Palette.mutedDark : Palette.mutedLight;
+    const cardBg = isDark ? '#1C1C1E' : '#FFFFFF';
+    const borderColor = isDark ? '#38383A' : '#E5E5EA';
+    const textPrimary = isDark ? '#FFFFFF' : '#000000';
+    const textSecondary = isDark ? '#AEAEB2' : '#8E8E93';
 
     return (
         <TouchableOpacity
@@ -66,7 +66,7 @@ export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemo
             <View style={styles.row}>
                 {/* Left: color bar + text */}
                 <View style={styles.leftSection}>
-                    <View style={[styles.colorBar, { backgroundColor: item.color }]} />
+                    <View style={[styles.colorBar, { backgroundColor: isDark ? '#38383A' : '#D1D1D6' }]} />
 
                     <View style={styles.textBlock}>
                         <Text
@@ -97,19 +97,19 @@ export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemo
                 {/* Right: action buttons */}
                 {showAddButton ? (
                     <TouchableOpacity onPress={handleAdd} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                        <SymbolView name={"plus.circle.fill" as any} size={28} tintColor={Palette.cyan} />
+                        <SymbolView name={"plus.circle.fill" as any} size={28} tintColor={isDark ? '#FFFFFF' : '#000000'} />
                     </TouchableOpacity>
                 ) : null}
 
                 {showRemoveButton ? (
                     <TouchableOpacity onPress={handleRemove} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                        <SymbolView name={"minus.circle.fill" as any} size={28} tintColor={Palette.red} />
+                        <SymbolView name={"minus.circle.fill" as any} size={28} tintColor={isDark ? '#AEAEB2' : '#8E8E93'} />
                     </TouchableOpacity>
                 ) : null}
 
                 {!showAddButton && !showRemoveButton ? (
                     <LinearGradient
-                        colors={[item.color, Palette.violet]}
+                        colors={isDark ? ['#38383A', '#2C2C2E'] : ['#D1D1D6', '#E5E5EA']}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 1 }}
                         style={styles.playButton}

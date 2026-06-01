@@ -167,8 +167,8 @@ export default function WorkoutSession() {
                 <View className="z-50" pointerEvents="box-none">
                     {/* 状态栏 */}
                     <View className="flex-row justify-between items-center px-4 pt-2">
-                        <View className="bg-black/60 px-3 py-1 rounded-lg border border-[#CCFF00]/30">
-                            <Text className="text-[#CCFF00] font-bold text-xs">AI 实时监控中</Text>
+                        <View className="bg-black/60 px-3 py-1 rounded-lg border border-white/30">
+                            <Text className="text-white font-bold text-xs">AI 实时监控中</Text>
                         </View>
 
                         {mode === 'session' && (
@@ -192,7 +192,7 @@ export default function WorkoutSession() {
                         <Text className="text-white font-black text-3xl shadow-black shadow-lg">
                             {currentMove?.name || '加载中...'}
                         </Text>
-                        <Text className="text-[#CCFF00] font-bold text-lg shadow-black shadow-lg">
+                        <Text className="text-white font-bold text-lg shadow-black shadow-lg">
                             {currentMove?.level}
                         </Text>
                     </View>
@@ -225,12 +225,12 @@ export default function WorkoutSession() {
                 <View className="w-full px-6 pb-4">
                     <View className="bg-black/80 rounded-3xl p-5 flex-row justify-between items-center mb-6 backdrop-blur-md border border-gray-800">
                         <StatItem label="次数" value="0" />
-                        <StatItem label="标准度" value={lastScore ? `${lastScore}%` : "--%"} color="#CCFF00" />
+                        <StatItem label="标准度" value={lastScore ? `${lastScore}%` : "--%"} color="#FFFFFF" />
                         <StatItem label="耗时" value="00:00" />
                     </View>
 
                     {feedback.length > 0 && (
-                        <View className="bg-[#CCFF00] rounded-2xl p-4 mb-6">
+                        <View className="bg-white rounded-2xl p-4 mb-6">
                             <Text className="text-black font-bold text-base">
                                 {feedback[0]}
                             </Text>
@@ -244,7 +244,7 @@ export default function WorkoutSession() {
                         <TouchableOpacity
                             onPress={handlePlayPause}
                             testID="play-pause-button"
-                            className="w-20 h-20 bg-[#CCFF00] rounded-full items-center justify-center shadow-lg shadow-[#CCFF00]/40"
+                            className="w-20 h-20 bg-white rounded-full items-center justify-center shadow-lg shadow-black/40"
                         >
                             <Ionicons name={isPlaying ? "pause" : "play"} size={36} color="black" />
                         </TouchableOpacity>
@@ -257,7 +257,7 @@ export default function WorkoutSession() {
             {/* 设置模态框 - 位于 UI 容器外部以覆盖所有内容 */}
             <Modal animationType="slide" transparent={true} visible={showSettings} onRequestClose={() => setShowSettings(false)}>
                 <TouchableOpacity testID="modal-backdrop" className="flex-1 bg-black/60" activeOpacity={1} onPress={() => setShowSettings(false)}>
-                    <View className="absolute bottom-0 w-full bg-white dark:bg-[#1C1C1E] rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
+                    <View className="absolute bottom-0 w-full bg-white dark:bg-gray-800 rounded-t-[30px] p-6 pb-10" onStartShouldSetResponder={() => true}>
                         <View className="flex-row justify-between items-center mb-6">
                             <Text className="text-black dark:text-white text-xl font-bold">训练设置</Text>
                             <TouchableOpacity testID="close-modal-button" onPress={() => setShowSettings(false)} hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}>
@@ -299,8 +299,8 @@ const SettingRow = ({ label, value, onToggle }: any) => {
                 testID={`switch-${label}`}
                 value={value}
                 onValueChange={onToggle}
-                trackColor={{ false: "#333", true: isDark ? "#00F0FF" : "#00F0FF" }}
-                thumbColor={value ? (isDark ? "black" : "white") : "#f4f3f4"}
+                trackColor={{ false: "#48484A", true: "#000000" }}
+                thumbColor={value ? "#FFFFFF" : "#D1D1D6"}
             />
         </View>
     );

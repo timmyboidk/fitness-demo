@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import { LogBox, View, useColorScheme } from 'react-native';
 import 'react-native-reanimated';
 
-import { Palette } from '../constants/theme';
+import { Colors } from '../constants/theme';
 
 // Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
@@ -50,7 +50,7 @@ export default function RootLayout() {
         return null;
     }
 
-    const bg = isDark ? Palette.deepBlack : Palette.offWhite;
+    const bg = isDark ? Colors.dark.background : Colors.light.background;
 
     return (
         <View style={{ flex: 1, backgroundColor: bg }}>

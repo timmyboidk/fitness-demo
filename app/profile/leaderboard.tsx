@@ -35,9 +35,9 @@ export default function LeaderboardScreen() {
             </View>
 
             {/* 顶部提示栏 */}
-            <View className="p-4 bg-gray-50 dark:bg-[#1C1C1E] mb-2 flex-row justify-between items-center mx-4 rounded-2xl">
-                <Text className="text-[#00F0FF] dark:text-[#00F0FF] font-bold text-lg">本周排名</Text>
-                <Text className="text-gray-500 dark:text-gray-400">距离上一名还差 200 分</Text>
+            <View className="p-4 bg-gray-50 dark:bg-gray-800 mb-2 flex-row justify-between items-center mx-4 rounded-2xl">
+                <Text className="text-black dark:text-white font-bold text-lg">本周排名</Text>
+                <Text className="text-gray-400 dark:text-gray-300">距离上一名还差 200 分</Text>
             </View>
 
             <FlatList
@@ -45,13 +45,13 @@ export default function LeaderboardScreen() {
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                     // 当前用户高亮显示
-                    <View className={`flex-row items-center p-4 mx-4 mb-3 rounded-2xl ${item.name === 'You' ? 'bg-[#00F0FF]/10 dark:bg-[#00F0FF]/10 border border-[#00F0FF] dark:border-[#00F0FF]' : 'bg-gray-50 dark:bg-[#1C1C1E]'}`}>
-                        <Text className={`text-xl font-black w-8 ${item.rank <= 3 ? 'text-[#00F0FF] dark:text-[#00F0FF]' : 'text-gray-500'}`}>
+                    <View className={`flex-row items-center p-4 mx-4 mb-3 rounded-2xl ${item.name === 'You' ? 'bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-500' : 'bg-gray-50 dark:bg-gray-800'}`}>
+                        <Text className={`text-xl font-black w-8 ${item.rank <= 3 ? 'text-black dark:text-white' : 'text-gray-400 dark:text-gray-300'}`}>
                             #{item.rank}
                         </Text>
                         <Image source={{ uri: item.avatar }} className="w-10 h-10 rounded-full mx-3" />
                         <Text className="text-black dark:text-white font-bold flex-1">{item.name}</Text>
-                        <Text className="text-[#00F0FF] dark:text-[#00F0FF] font-black">{item.score}</Text>
+                        <Text className="text-black dark:text-white font-black">{item.score}</Text>
                     </View>
                 )}
             />

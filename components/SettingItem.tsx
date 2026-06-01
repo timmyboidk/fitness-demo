@@ -29,23 +29,23 @@ export function SettingItem({
     const isDark = colorScheme === 'dark';
 
     const Content = (
-        <View className="flex-row items-center justify-between p-4 bg-gray-50 dark:bg-[#1C1C1E]" style={style}>
+        <View className="flex-row items-center justify-between p-4 bg-gray-50 dark:bg-gray-800" style={style}>
             <View className="flex-row items-center">
-                {icon && <Ionicons name={icon} size={22} color={isDark ? "#999" : "#666"} style={{ marginRight: 12 }} />}
+                {icon && <Ionicons name={icon} size={22} color={isDark ? "#AEAEB2" : "#636366"} style={{ marginRight: 12 }} />}
                 <Text className="text-black dark:text-white text-base font-bold">{label}</Text>
             </View>
             {isSwitch ? (
                 <Switch
                     value={value as boolean}
                     onValueChange={onValueChange}
-                    trackColor={{ false: "#333", true: isDark ? "#00F0FF" : "#00F0FF" }}
-                    thumbColor={value ? (isDark ? "#000" : "#fff") : "#f4f3f4"}
+                    trackColor={{ false: "#48484A", true: "#000000" }}
+                    thumbColor={value ? "#FFFFFF" : "#D1D1D6"}
                     testID={`${testID}-switch`}
                 />
             ) : (
                 <View className="flex-row items-center">
-                    {typeof value === 'string' && <Text className="text-gray-500 mr-2">{value}</Text>}
-                    {showChevron && <Ionicons name="chevron-forward" size={18} color="#666" />}
+                    {typeof value === 'string' && <Text className="text-gray-400 dark:text-gray-300 mr-2">{value}</Text>}
+                    {showChevron && <Ionicons name="chevron-forward" size={18} color="#AEAEB2" />}
                 </View>
             )}
         </View>

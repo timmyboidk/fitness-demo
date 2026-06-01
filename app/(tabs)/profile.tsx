@@ -104,15 +104,15 @@ export default function ProfileScreen() {
                     className="px-6 mb-8 flex-row items-center"
                 >
                     {/* 头像区域：圆角裁剪 + 边框 */}
-                    <View className={`w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 overflow-hidden mr-5 justify-center items-center ${user?.isVip ? 'border-[#FFD700]' : 'border-[#00F0FF] dark:border-[#00F0FF]'}`}>
+                    <View className={`w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-2 overflow-hidden mr-5 justify-center items-center ${user?.isVip ? 'border-black dark:border-white' : 'border-gray-300 dark:border-gray-600'}`}>
                         <Image
                             source={{ uri: avatarUrl }}
                             className="w-full h-full"
                         />
-                        {/* VIP 金色皇冠装饰 */}
+                        {/* VIP 装饰 */}
                         {user?.isVip && (
                             <View className="absolute -top-4 -right-2">
-                                <MaterialCommunityIcons name="crown" size={24} color="#FFD700" />
+                                <MaterialCommunityIcons name="crown" size={24} color="#000000" />
                             </View>
                         )}
                     </View>
@@ -121,13 +121,13 @@ export default function ProfileScreen() {
                         <Text className="text-gray-500 dark:text-gray-400">{userId}</Text>
 
                         {user?.isVip ? (
-                            <View className="bg-yellow-400 dark:bg-yellow-500 px-3 py-1 rounded-full self-start mt-2">
-                                <Text className="text-black text-xs font-black">VIP 会员</Text>
+                            <View className="bg-black dark:bg-white px-3 py-1 rounded-full self-start mt-2">
+                                <Text className="text-white dark:text-black text-xs font-black">VIP 会员</Text>
                             </View>
                         ) : (
                             <TouchableOpacity
                                 onPress={() => router.push('/profile/subscription' as any)}
-                                className="bg-[#00F0FF] dark:bg-[#00F0FF] px-3 py-1 rounded-full self-start mt-2 flex-row items-center"
+                                className="bg-black dark:bg-white px-3 py-1 rounded-full self-start mt-2 flex-row items-center"
                             >
                                 <Text className="text-white dark:text-black text-xs font-bold mr-1">升级 PRO</Text>
                                 <Ionicons name="arrow-forward" size={10} color={isDark ? "black" : "white"} />
@@ -140,7 +140,7 @@ export default function ProfileScreen() {
                 <TouchableOpacity onPress={() => {
                     router.push('/profile/stats');
                 }}>
-                    <View className="mx-6 p-6 bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl border border-gray-200 dark:border-transparent mb-8 flex-row justify-between">
+                    <View className="mx-6 p-6 bg-gray-50 dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 mb-8 flex-row justify-between">
                         <StatItem value={user?.stats?.totalWorkouts || "0"} label="累计训练" />
                         <View className="w-[1px] bg-gray-300 dark:bg-gray-800 h-full" />
                         <StatItem value={user?.stats?.accuracyAvg ? `${user.stats.accuracyAvg}%` : "-"} label="动作评分" />
@@ -157,7 +157,7 @@ export default function ProfileScreen() {
                 {/* 功能菜单列表 */}
                 <View className="px-6">
                     <Text className="text-gray-500 dark:text-gray-400 mb-4 font-bold ml-2">常用功能</Text>
-                    <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-3xl overflow-hidden">
+                    <View className="bg-gray-50 dark:bg-gray-800 rounded-3xl overflow-hidden">
                         {MENU_ITEMS.map((item, index) => (
                             <TouchableOpacity
                                 key={item.label}
@@ -167,8 +167,8 @@ export default function ProfileScreen() {
                                 }}
                                 className={`flex-row items-center p-5 ${index < MENU_ITEMS.length - 1 ? 'border-b border-gray-200 dark:border-gray-800' : ''}`}
                             >
-                                <View className="w-10 h-10 bg-gray-200 dark:bg-[#2C2C2C] rounded-full items-center justify-center mr-4">
-                                    <Ionicons name={item.icon as any} size={20} color={isDark ? "#00F0FF" : "#00F0FF"} />
+                                    <View className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full items-center justify-center mr-4">
+                                    <Ionicons name={item.icon as any} size={20} color={isDark ? "#FFFFFF" : "#000000"} />
                                 </View>
                                 <Text className="text-black dark:text-white font-bold text-lg flex-1">{item.label}</Text>
                                 <Ionicons name="chevron-forward" size={20} color={isDark ? "#555" : "#ccc"} />
@@ -187,8 +187,8 @@ export default function ProfileScreen() {
 function StatItem({ value, label }: { value: string, label: string }) {
     return (
         <View className="items-center flex-1">
-            <Text className="text-[#00F0FF] dark:text-[#00F0FF] text-2xl font-black mb-1 italic">{value}</Text>
-            <Text className="text-gray-500 dark:text-gray-400 text-xs">{label}</Text>
+            <Text className="text-black dark:text-white text-2xl font-black mb-1 italic">{value}</Text>
+            <Text className="text-gray-400 dark:text-gray-300 text-xs">{label}</Text>
         </View>
     );
 }

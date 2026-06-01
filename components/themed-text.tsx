@@ -5,7 +5,7 @@
  * 自动根据系统亮/暗模式切换文本颜色。
  */
 
-import { StyleSheet, Text, type TextProps } from 'react-native';
+import { StyleSheet, Text, type TextProps, useColorScheme } from 'react-native';
 
 import { useThemeColor } from '@/hooks/use-theme-color';
 
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
   link: {
     lineHeight: 30,
     fontSize: 16,
-    color: '#00F0FF',
+    textDecorationLine: 'underline',
   },
 });

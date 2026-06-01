@@ -1,16 +1,16 @@
 /**
  * @file theme.ts
- * @description Premium design token system.
+ * @description Design token system — grayscale (Apple HIG).
  *
  * Color palette:
- *   – Dark mode:  Deep black (#0A0A0F) + neon cyan (#00F0FF) accent
- *   – Light mode: Warm off-white (#F8F7F4) + deep charcoal (#1A1A2E) accent
- *   – Secondary accent: Electric violet (#B026FF)
- *   – Tertiary: Retained neon-lime (#CCFF00) for session highlights
+ *   – Pure black & white with Apple HIG system gray scale
+ *   – Follows iOS label / secondaryLabel / systemBackground semantics
  *
  * Typography:
  *   – Inter font family loaded via @expo-google-fonts/inter
  */
+
+import { Gray, SystemColors, SurfaceGray, TextGray } from './grayscale-theme';
 
 // ─────────────────────────────────────────────
 //  Font Family
@@ -25,24 +25,24 @@ export const FontFamily = {
 } as const;
 
 // ─────────────────────────────────────────────
-//  Color Palette
+//  Grayscale Palette
 // ─────────────────────────────────────────────
 
 export const Palette = {
-    cyan: '#00F0FF',
-    violet: '#B026FF',
-    lime: '#CCFF00',
-    red: '#FF3B30',
-    gold: '#FFD700',
-    deepBlack: '#0A0A0F',
-    surface: '#121216',
-    card: '#1A1A24',
-    cardBorder: '#2A2A3A',
-    offWhite: '#F8F7F4',
-    warmGray: '#E8E6E1',
-    charcoal: '#1A1A2E',
-    mutedDark: '#6B6B80',
-    mutedLight: '#9A9AB0',
+    cyan: Gray[900],
+    violet: Gray[600],
+    lime: Gray[300],
+    red: Gray[300],
+    gold: Gray[250],
+    deepBlack: Gray[900],
+    surface: Gray[750],
+    card: Gray[700],
+    cardBorder: Gray[650],
+    offWhite: SurfaceGray.grouped.light,
+    warmGray: Gray[100],
+    charcoal: Gray[900],
+    mutedDark: Gray[300],
+    mutedLight: Gray[250],
 } as const;
 
 // ─────────────────────────────────────────────
@@ -51,38 +51,38 @@ export const Palette = {
 
 export const Colors = {
     light: {
-        text: '#1A1A2E',
-        textSecondary: '#6B6B80',
-        background: '#F8F7F4',
-        surface: '#FFFFFF',
+        text: SystemColors.light.label,
+        textSecondary: SystemColors.light.secondaryLabel,
+        background: SystemColors.light.systemBackground,
+        surface: SystemColors.light.secondarySystemBackground,
         card: '#FFFFFF',
-        cardBorder: '#E8E6E1',
-        tint: '#1A1A2E',
-        accent: '#00F0FF',
-        accentSecondary: '#B026FF',
-        icon: '#6B6B80',
-        tabIconDefault: '#9A9AB0',
-        tabIconSelected: '#00F0FF',
-        success: '#00F0FF',
-        error: '#FF3B30',
-        warning: '#FFD700',
+        cardBorder: SystemColors.light.separator,
+        tint: SystemColors.light.tint,
+        accent: SystemColors.light.tint,
+        accentSecondary: SystemColors.light.secondaryLabel,
+        icon: SystemColors.light.secondaryLabel,
+        tabIconDefault: SystemColors.light.tertiaryLabel,
+        tabIconSelected: SystemColors.light.tint,
+        success: SystemColors.light.success,
+        error: SystemColors.light.error,
+        warning: SystemColors.light.warning,
     },
     dark: {
-        text: '#ECEDEE',
-        textSecondary: '#6B6B80',
-        background: '#0A0A0F',
-        surface: '#121216',
-        card: '#1A1A24',
-        cardBorder: '#2A2A3A',
-        tint: '#00F0FF',
-        accent: '#00F0FF',
-        accentSecondary: '#B026FF',
-        icon: '#6B6B80',
-        tabIconDefault: '#6B6B80',
-        tabIconSelected: '#00F0FF',
-        success: '#00F0FF',
-        error: '#FF3B30',
-        warning: '#FFD700',
+        text: SystemColors.dark.label,
+        textSecondary: SystemColors.dark.secondaryLabel,
+        background: SystemColors.dark.systemBackground,
+        surface: SystemColors.dark.secondarySystemBackground,
+        card: SystemColors.dark.tertiarySystemBackground,
+        cardBorder: SystemColors.dark.separator,
+        tint: SystemColors.dark.tint,
+        accent: SystemColors.dark.tint,
+        accentSecondary: SystemColors.dark.secondaryLabel,
+        icon: SystemColors.dark.secondaryLabel,
+        tabIconDefault: SystemColors.dark.tertiaryLabel,
+        tabIconSelected: SystemColors.dark.tint,
+        success: SystemColors.dark.success,
+        error: SystemColors.dark.error,
+        warning: SystemColors.dark.warning,
     },
 };
 

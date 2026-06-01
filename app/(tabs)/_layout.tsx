@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { libraryStore } from '../../store/library';
-import { Palette, FontFamily } from '../../constants/theme';
+import { FontFamily } from '../../constants/theme';
 
 // 1. Create swipeable Tab navigator
 const { Navigator } = createMaterialTopTabNavigator();
@@ -26,11 +26,11 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
-    const bgColor = isDark ? Palette.surface : '#FFFFFF';
-    const borderColor = isDark ? Palette.cardBorder : '#E8E6E1';
-    const activeColor = Palette.cyan;
-    const inactiveColor = isDark ? Palette.mutedDark : Palette.mutedLight;
-    const textColor = isDark ? Palette.mutedDark : Palette.mutedLight;
+    const bgColor = isDark ? '#1C1C1E' : '#FFFFFF';
+    const borderColor = isDark ? '#38383A' : '#E5E5EA';
+    const activeColor = isDark ? '#FFFFFF' : '#000000';
+    const inactiveColor = isDark ? '#636366' : '#AEAEB2';
+    const textColor = isDark ? '#636366' : '#AEAEB2';
 
     return (
         <View style={{ backgroundColor: bgColor }}>
@@ -97,7 +97,7 @@ export default function TabLayout() {
     const pathname = usePathname();
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const bgColor = isDark ? Palette.deepBlack : Palette.offWhite;
+    const bgColor = isDark ? '#000000' : '#F2F2F7';
 
     useEffect(() => {
         libraryStore.sync();

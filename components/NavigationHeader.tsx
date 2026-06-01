@@ -27,10 +27,10 @@ export function NavigationHeader({ title, onBack, rightElement, style }: Navigat
             <View className="flex-row items-center">
                 <TouchableOpacity
                     onPress={handleBack}
-                    className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-[#1C1C1E] rounded-full"
+                    className="mr-4 w-10 h-10 items-center justify-center bg-gray-100 dark:bg-gray-750 rounded-full"
                     testID="header-back-button"
                 >
-                    <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "black"} />
+                    <Ionicons name="arrow-back" size={24} color={isDark ? "#FFFFFF" : "#000000"} />
                 </TouchableOpacity>
                 <Text className="text-black dark:text-white text-xl font-bold">{title}</Text>
             </View>

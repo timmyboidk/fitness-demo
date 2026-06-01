@@ -11,8 +11,6 @@ interface StickyHeaderProps {
 export function StickyHeader({ scrollY, title, rightElement }: StickyHeaderProps) {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const textColor = isDark ? '#FFFFFF' : '#000000';
-    const bgColor = isDark ? '#000000' : '#FFFFFF';
 
     const headerOpacity = scrollY.interpolate({
         inputRange: [0, 50],
@@ -22,9 +20,9 @@ export function StickyHeader({ scrollY, title, rightElement }: StickyHeaderProps
 
     return (
         <View className="absolute top-0 left-0 right-0 z-10">
-            <SafeAreaView edges={['top']} style={{ backgroundColor: bgColor }}>
+            <SafeAreaView edges={['top']} style={{ backgroundColor: isDark ? '#000000' : '#FFFFFF' }}>
                 <Animated.View style={{ opacity: headerOpacity }} className="h-[44px] flex-row items-center justify-between px-4 border-b border-gray-100 dark:border-gray-900">
-                    <Text className="text-lg font-bold" style={{ color: textColor }}>{title}</Text>
+                    <Text className="text-lg font-bold text-black dark:text-white">{title}</Text>
                     {rightElement}
                 </Animated.View>
             </SafeAreaView>

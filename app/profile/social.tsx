@@ -28,9 +28,9 @@ export default function SocialScreen() {
             </View>
 
             <View className="p-4">
-                <SocialItem icon="logo-wechat" name="微信" status="已连接" color="#07C160" onPress={() => console.log("Hook: Social Link - WeChat")} />
-                <SocialItem icon="logo-apple" name="Apple ID" status="未连接" color={isDark ? "#fff" : "#000"} onPress={() => console.log("Hook: Social Link - Apple")} />
-                <SocialItem icon="logo-instagram" name="Instagram" status="未连接" color="#E1306C" onPress={() => console.log("Hook: Social Link - Instagram")} />
+                <SocialItem icon="logo-wechat" name="微信" status="已连接" onPress={() => console.log("Hook: Social Link - WeChat")} />
+                <SocialItem icon="logo-apple" name="Apple ID" status="未连接" onPress={() => console.log("Hook: Social Link - Apple")} />
+                <SocialItem icon="logo-instagram" name="Instagram" status="未连接" onPress={() => console.log("Hook: Social Link - Instagram")} />
             </View>
         </SafeAreaView>
     );
@@ -39,14 +39,16 @@ export default function SocialScreen() {
 /**
  * 社交账号列表项组件
  */
-function SocialItem({ icon, name, status, color, onPress }: any) {
+function SocialItem({ icon, name, status, onPress }: any) {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
     return (
-        <TouchableOpacity onPress={onPress} className="flex-row items-center justify-between bg-gray-50 dark:bg-[#1C1C1E] p-5 rounded-2xl mb-4">
+        <TouchableOpacity onPress={onPress} className="flex-row items-center justify-between bg-gray-50 dark:bg-gray-800 p-5 rounded-2xl mb-4">
             <View className="flex-row items-center">
-                <Ionicons name={icon} size={28} color={color} style={{ marginRight: 16 }} />
+                <Ionicons name={icon} size={28} color={isDark ? "#FFFFFF" : "#000000"} style={{ marginRight: 16 }} />
                 <Text className="text-black dark:text-white font-bold text-lg">{name}</Text>
             </View>
-            <Text className={status === '已连接' ? 'text-[#07C160]' : 'text-gray-500'}>{status}</Text>
+            <Text className={status === '已连接' ? 'text-black dark:text-white' : 'text-gray-400 dark:text-gray-300'}>{status}</Text>
         </TouchableOpacity>
     );
 }

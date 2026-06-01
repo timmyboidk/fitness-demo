@@ -31,7 +31,7 @@ export default function HelpScreen() {
 
             <ScrollView className="p-4">
                 {/* 联系客服区域 */}
-                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden mb-6">
                     <SettingItem
                         icon="chatbubbles-outline"
                         label="联系在线客服"
@@ -46,7 +46,7 @@ export default function HelpScreen() {
                 </View>
 
                 {/* 协议与政策 */}
-                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden mb-6">
                     <SettingItem
                         label="用户协议"
                         onPress={() => console.log("Hook: Help - User Agreement")}
@@ -60,7 +60,7 @@ export default function HelpScreen() {
 
                 {/* 版本号 */}
                 <View className="items-center mt-10">
-                    <Text className="text-[#00F0FF] dark:text-[#00F0FF] font-black text-2xl italic mb-1">FITBODY</Text>
+                    <Text className="text-black dark:text-white font-black text-2xl italic mb-1">FITBODY</Text>
                     <Text className="text-gray-500 dark:text-gray-600 text-sm">Version 1.0.0 (Build 20240101)</Text>
                 </View>
             </ScrollView>

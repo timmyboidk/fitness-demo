@@ -36,9 +36,9 @@ export function Button({ className, variant = 'primary', size = 'default', label
     const baseStyles = "flex-row items-center justify-center rounded-full active:opacity-80";
 
     const variants = {
-        primary: "bg-[#00F0FF] dark:bg-[#00F0FF] text-black dark:text-black", // Premium neon cyan accent
-        secondary: "bg-gray-100 dark:bg-[#1C1C1E] border border-gray-200 dark:border-transparent",
-        outline: "border border-gray-300 dark:border-gray-600 bg-transparent",
+        primary: "bg-black dark:bg-white",
+        secondary: "bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700",
+        outline: "border border-gray-300 dark:border-gray-500 bg-transparent",
         ghost: "bg-transparent"
     };
 
@@ -52,7 +52,7 @@ export function Button({ className, variant = 'primary', size = 'default', label
         primary: "text-white dark:text-black font-bold text-lg",
         secondary: "text-black dark:text-white font-bold text-lg",
         outline: "text-black dark:text-white font-medium",
-        ghost: "text-gray-500 dark:text-gray-400 font-medium"
+        ghost: "text-gray-400 dark:text-gray-300 font-medium"
     };
 
     return (

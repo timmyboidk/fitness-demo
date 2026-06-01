@@ -13,10 +13,6 @@ import { Alert, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { iapService } from '../../services/IAPService';
 
-// 浅色模式下的荧光绿，针对可见性进行了优化
-const ACCENT_COLOR = '#00F0FF';
-const ACCENT_DARK_BG = '#00F0FF';
-
 export default function SubscriptionScreen() {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
@@ -101,12 +97,12 @@ export default function SubscriptionScreen() {
 
             <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingTop: 10 }}>
                 <View className="relative h-60 items-center justify-center rounded-[32px] mx-4 mb-8 overflow-hidden"
-                    style={{ backgroundColor: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>
-                    <View className="absolute w-80 h-80 bg-white/10 rounded-full -top-10 -right-20" />
-                    <View className="absolute w-40 h-40 bg-white/10 rounded-full bottom-10 -left-10" />
+                    style={{ backgroundColor: isDark ? '#1C1C1E' : '#F2F2F7' }}>
+                    <View className="absolute w-80 h-80 bg-black/5 dark:bg-white/5 rounded-full -top-10 -right-20" />
+                    <View className="absolute w-40 h-40 bg-black/5 dark:bg-white/5 rounded-full bottom-10 -left-10" />
 
-                    <Text className={`text-4xl font-black mb-2 ${isDark ? 'text-black' : 'text-white'}`}>PRO 会员</Text>
-                    <Text className={`text-lg font-medium ${isDark ? 'text-black/70' : 'text-white/80'}`}>解锁无限可能</Text>
+                    <Text className="text-black dark:text-white text-4xl font-black mb-2">PRO 会员</Text>
+                    <Text className="text-gray-400 dark:text-gray-300 text-lg font-medium">解锁无限可能</Text>
                 </View>
 
                 <View className="px-6 mb-10">
@@ -115,7 +111,7 @@ export default function SubscriptionScreen() {
                         <View className="flex-1"></View>
                         <View className="w-20 items-center"><Text className="text-gray-400 font-bold">免费版</Text></View>
                         <View className="w-20 items-center">
-                            <Text className={`font-black`} style={{ color: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>PRO</Text>
+                            <Text className="font-black text-black dark:text-white">PRO</Text>
                         </View>
                     </View>
                     <FeatureRow label="动作库数量" free="10个" vip="无限" isDark={isDark} />
@@ -132,16 +128,16 @@ export default function SubscriptionScreen() {
                             onPress={() => handleUpgrade(plan.id)}
                             className={`flex-row items-center p-5 rounded-3xl border-2 mb-4`}
                             style={{
-                                borderColor: plan.recommended ? (isDark ? ACCENT_COLOR : ACCENT_DARK_BG) : (isDark ? '#1F2937' : '#F3F4F6'),
+                                borderColor: plan.recommended ? (isDark ? '#FFFFFF' : '#000000') : (isDark ? '#38383A' : '#E5E5EA'),
                                 backgroundColor: plan.recommended
-                                    ? (isDark ? 'rgba(0, 240, 255, 0.1)' : 'rgba(0, 240, 255, 0.05)')
-                                    : (isDark ? '#111827' : '#FFFFFF'),
+                                    ? (isDark ? '#2C2C2E' : '#F2F2F7')
+                                    : (isDark ? '#1C1C1E' : '#FFFFFF'),
                             }}
                         >
                             <View className="flex-1">
                                 {plan.recommended && (
-                                    <View className="self-start px-2 py-0.5 rounded-md mb-2" style={{ backgroundColor: isDark ? ACCENT_COLOR : ACCENT_DARK_BG }}>
-                                        <Text className={`text-[10px] font-bold ${isDark ? 'text-black' : 'text-white'}`}>推荐</Text>
+                                    <View className="self-start px-2 py-0.5 rounded-md mb-2 bg-black dark:bg-white">
+                                        <Text className="text-[10px] font-bold text-white dark:text-black">推荐</Text>
                                     </View>
                                 )}
                                 <Text className="text-black dark:text-white font-bold text-lg">{plan.label}</Text>
@@ -172,7 +168,7 @@ const FeatureRow = memo(({ label, free, vip, highlight, isDark }: { label: strin
             </View>
             <View className="w-20 items-center">
                 <View className="flex-row items-center">
-                    {highlight && <MaterialCommunityIcons name="star" size={12} color="#EAB308" style={{ marginRight: 2 }} />}
+                    {highlight && <MaterialCommunityIcons name="star" size={12} color="#000000" style={{ marginRight: 2 }} />}
                     <Text className="text-black dark:text-white font-bold text-sm">{vip}</Text>
                 </View>
             </View>

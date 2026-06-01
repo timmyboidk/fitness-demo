@@ -32,17 +32,17 @@ interface InputProps extends TextInputProps {
 export function Input({ label, error, icon, className, ...props }: InputProps) {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const placeholderColor = isDark ? '#666' : '#999';
-    const iconColor = isDark ? '#666' : '#999';
+    const placeholderColor = isDark ? '#636366' : '#8E8E93';
+    const iconColor = isDark ? '#636366' : '#8E8E93';
 
     return (
         <View className="mb-4 space-y-2 w-full">
-            {label && <Text className="text-gray-500 dark:text-gray-400 text-sm ml-1">{label}</Text>}
+            {label && <Text className="text-gray-400 dark:text-gray-300 text-sm ml-1">{label}</Text>}
 
             {/* 输入框容器：负责背景和边框 */}
             <View className={cn(
-                "flex-row items-center bg-gray-50 dark:bg-[#1A1A24] h-14 px-5 rounded-2xl border border-gray-200 dark:border-[#2A2A3A] focus:border-[#00F0FF] dark:focus:border-[#00F0FF]",
-                error && "border-red-500",
+                "flex-row items-center bg-gray-50 dark:bg-gray-800 h-14 px-5 rounded-2xl border border-gray-200 dark:border-gray-700",
+                error && "border-gray-400 dark:border-gray-400",
                 className
             )}>
                 {/* 如果有图标，显示图标 */}
@@ -58,7 +58,7 @@ export function Input({ label, error, icon, className, ...props }: InputProps) {
                 />
             </View>
 
-            {error && <Text className="text-red-500 text-xs ml-1">{error}</Text>}
+            {error && <Text className="text-gray-400 dark:text-gray-300 text-xs ml-1">{error}</Text>}
         </View>
     );
 }

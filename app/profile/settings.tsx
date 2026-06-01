@@ -30,7 +30,7 @@ export default function SettingsScreen() {
 
             <ScrollView className="p-4">
                 {/* 常规设置组 */}
-                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden mb-6">
                     <SettingItem
                         icon="notifications-outline"
                         label="推送通知"
@@ -53,7 +53,7 @@ export default function SettingsScreen() {
                 </View>
 
                 {/* 个性化设置组 */}
-                <View className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl overflow-hidden mb-6">
+                <View className="bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden mb-6">
                     <SettingItem icon="language-outline" label="语言" value="简体中文" onPress={() => { }} />
                     <View className="h-[1px] bg-gray-200 dark:bg-gray-800 mx-4" />
                     <SettingItem icon="moon-outline" label="深色模式" value="已开启" onPress={() => { }} />
@@ -69,9 +69,9 @@ export default function SettingsScreen() {
                         router.dismissAll();
                         router.replace('/(tabs)/profile');
                     }}
-                    className="bg-gray-50 dark:bg-[#1C1C1E] rounded-2xl p-4 flex-row items-center justify-center mt-4"
+                    className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-4 flex-row items-center justify-center mt-4"
                 >
-                    <Text className="text-red-500 font-bold text-lg">退出登录</Text>
+                    <Text className="text-gray-400 dark:text-gray-300 font-bold text-lg">退出登录</Text>
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>

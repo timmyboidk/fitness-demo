@@ -23,7 +23,7 @@ export function ResourceListScreen<T extends { id: string }>({
 }: ResourceListScreenProps<T>) {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const iconColor = isDark ? '#00F0FF' : '#00F0FF';
+    const iconColor = isDark ? '#FFFFFF' : '#000000';
 
     const scrollY = useRef(new Animated.Value(0)).current;
 
