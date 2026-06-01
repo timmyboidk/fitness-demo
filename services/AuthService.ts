@@ -27,15 +27,19 @@ class AuthService {
      */
     async verifyOTP(phoneNumber: string, code: string): Promise<{ success: boolean; user?: User; message?: string }> {
         try {
-            const response = await client.post('/api/auth/verify-otp', { phone: phoneNumber, code });
-            const data = response.data; // client.post 的返回类型取决于 Mock，但通常是响应对象。
+            const response = await client.post('/api/auth', {
+                type: 'login_phone',
+                phone: phoneNumber,
+                code,
+            });
+            const data = response.data;
             if (data.success) {
                 await AsyncStorage.setItem('user_token', data.data.token);
             }
             return {
                 success: data.success,
                 user: data.data,
-                message: data.message
+                message: data.message,
             };
         } catch (e: any) {
             console.error('验证 OTP 出错:', e);
@@ -48,8 +52,16 @@ class AuthService {
      */
     async loginWithWeChat(code: string): Promise<{ success: boolean; user?: User; message?: string }> {
         try {
-            const response = await client.post('/api/auth/wechat', { code });
-            return response.data;
+            const response = await client.post('/api/auth', {
+                type: 'login_wechat',
+                payload: { code },
+            });
+            const data = response.data;
+            return {
+                success: data.success,
+                user: data.data,
+                message: data.message,
+            };
         } catch (e: any) {
             console.error('微信登录出错:', e);
             return { success: false };

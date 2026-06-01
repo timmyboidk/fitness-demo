@@ -5,134 +5,72 @@
 
 import { GET, POST } from '../library+api';
 
-// 模拟不存在的文件的 mock
-jest.mock('../../../lib/mongoose', () => jest.fn(), { virtual: true });
-jest.mock('../../../models/User', () => ({
-    User: {
-        findById: jest.fn(),
-    }
-}), { virtual: true });
-jest.mock('../../../models/Move', () => ({
-    Move: {
-        find: jest.fn(),
-    }
-}), { virtual: true });
-jest.mock('../../../models/Session', () => ({
-    Session: {
-        find: jest.fn(),
-    }
-}), { virtual: true });
-
-const { User } = require('../../../models/User');
-const { Move } = require('../../../models/Move');
-const { Session } = require('../../../models/Session');
-
 describe('Library API', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        jest.resetModules();
     });
 
     describe('GET', () => {
         it('should return all moves and sessions', async () => {
-            (Move.find as jest.Mock).mockResolvedValue([{ id: 'm1' }]);
-            (Session.find as jest.Mock).mockResolvedValue([{ id: 's1' }]);
-
             const response = await GET({} as any);
-            const data = await response.json();
+            const body = await response.json();
 
-            expect(data.moves).toHaveLength(1);
-            expect(data.sessions).toHaveLength(1);
+            expect(body.success).toBe(true);
+            expect(body.data.moves).toBeDefined();
+            expect(body.data.sessions).toBeDefined();
+            expect(body.data.moves.length).toBeGreaterThan(0);
+            expect(body.data.sessions.length).toBeGreaterThan(0);
+            expect(body.code).toBe('200');
         });
     });
 
     describe('POST', () => {
         it('should handle add_item for move', async () => {
-            const mockUser = {
-                myMoves: [],
-                mySessions: [],
-                save: jest.fn().mockResolvedValue(true),
-            };
-            const findByIdMock = {
-                populate: jest.fn().mockReturnThis(),
-                then: jest.fn().mockImplementation(callback => Promise.resolve(callback(mockUser))),
-            };
-            (User.findById as jest.Mock).mockReturnValue(findByIdMock);
-
             const request = {
                 json: jest.fn().mockResolvedValue({
                     type: 'add_item',
-                    payload: { userId: 'u1', itemId: 'm1', itemType: 'move' }
-                })
+                    payload: { userId: 'u1', itemId: 'm_001', itemType: 'move' },
+                }),
             } as any;
 
             const response = await POST(request);
-            const data = await response.json();
+            const body = await response.json();
 
-            expect(data.success).toBe(true);
-            expect(mockUser.myMoves).toContain('m1');
-            expect(mockUser.save).toHaveBeenCalled();
+            expect(body.success).toBe(true);
+            expect(body.data.user.myMoves).toContainEqual(
+                expect.objectContaining({ id: 'm_001' }),
+            );
         });
 
         it('should handle add_item for session', async () => {
-            const mockUser = {
-                myMoves: [],
-                mySessions: [],
-                save: jest.fn().mockResolvedValue(true),
-            };
-            const findByIdMock = {
-                populate: jest.fn().mockReturnThis(),
-                then: jest.fn().mockImplementation(callback => Promise.resolve(callback(mockUser))),
-            };
-            (User.findById as jest.Mock).mockReturnValue(findByIdMock);
-
             const request = {
                 json: jest.fn().mockResolvedValue({
                     type: 'add_item',
-                    payload: { userId: 'u1', itemId: 's1', itemType: 'session' }
-                })
+                    payload: { userId: 'u2', itemId: 's_001', itemType: 'session' },
+                }),
             } as any;
 
             const response = await POST(request);
-            const data = await response.json();
+            const body = await response.json();
 
-            expect(data.success).toBe(true);
-            expect(mockUser.mySessions).toContain('s1');
+            expect(body.success).toBe(true);
+            expect(body.data.user.mySessions).toContainEqual(
+                expect.objectContaining({ id: 's_001' }),
+            );
         });
 
-        it('should return 404 if user not found', async () => {
-            const findByIdMock = {
-                populate: jest.fn().mockReturnThis(),
-                then: jest.fn().mockImplementation(callback => Promise.resolve(callback(null))),
-            };
-            (User.findById as jest.Mock).mockReturnValue(findByIdMock);
-
+        it('should return 400 for unknown type', async () => {
             const request = {
-                json: jest.fn().mockResolvedValue({
-                    type: 'add_item',
-                    payload: { userId: 'nonexistent', itemId: 'm1', itemType: 'move' }
-                })
+                json: jest.fn().mockResolvedValue({ type: 'unknown' }),
             } as any;
 
             const response = await POST(request);
-            expect(response.status).toBe(404);
+            expect(response.status).toBe(400);
         });
 
-        it('should return 500 on save error', async () => {
-            const mockUser = {
-                myMoves: [],
-                save: jest.fn().mockRejectedValue(new Error('Save failed')),
-            };
-            const findByIdMock = {
-                populate: jest.fn().mockReturnThis(),
-                then: jest.fn().mockImplementation(callback => Promise.resolve(callback(mockUser))),
-            };
-            (User.findById as jest.Mock).mockReturnValue(findByIdMock);
-
+        it('should return 500 on unexpected error', async () => {
             const request = {
-                json: jest.fn().mockResolvedValue({
-                    type: 'add_item',
-                    payload: { userId: 'u1', itemId: 'm1', itemType: 'move' }
-                })
+                json: jest.fn().mockRejectedValue(new Error('Unexpected error')),
             } as any;
 
             const response = await POST(request);

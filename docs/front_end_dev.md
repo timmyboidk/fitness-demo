@@ -14,11 +14,11 @@
 ### 1.2 技术栈选型 (Tech Stack)
 | 模块          | 选型                         | 版本   | 选型理由                                                                |
 | :------------ | :--------------------------- | :----- | :---------------------------------------------------------------------- |
-| **Runtime**   | React Native                 | 0.74+  | 必须开启 **New Architecture (Fabric)** 以支持 JSI 同步调用。            |
-| **Camera**    | `react-native-vision-camera` | v4.0+  | v4 提供了 Skia 集成与更稳定的 Frame Processor 调度。                    |
-| **AI Engine** | `onnxruntime-react-native`   | v1.17+ | 这是**集成供应模型**的核心。支持 iOS CoreML 与 Android NNAPI 硬件加速。 |
-| **3D Engine** | `@react-three/fiber`         | v8.x   | 声明式 3D 编程，配合 `drei/native` 实现高性能 GLB 加载。                |
-| **Bridge**    | `react-native-worklets-core` | v1.x   | 实现 JS 线程与 Frame Processor 线程间的零拷贝通信。                     |
+| **Runtime**   | React Native                 | 0.85.3 | 已开启 **New Architecture (Fabric)** 以支持 JSI 同步调用。              |
+| **Camera**    | `react-native-vision-camera` | v5.0+  | v5 提供了 Skia 集成与更稳定的 Frame Processor 调度。                    |
+| **AI Engine** | `onnxruntime-react-native`   | v1.24+ | 这是**集成供应模型**的核心。支持 iOS CoreML 与 Android NNAPI 硬件加速。 |
+| **3D Engine** | `@react-three/fiber`         | -      | **可选 / Phase 2**（当前使用原生渲染）。                                |
+| **Bridge**    | `react-native-worklets-core` | v1.6+  | 实现 JS 线程与 Frame Processor 线程间的零拷贝通信。                     |
 
 ### 1.3 数据流架构 (Data Flow Pipeline)
 **(核心链路)**
@@ -119,7 +119,7 @@ client.interceptors.request.use(async (config) => {
 ```
 
 ### 3.2 初始化项目
-使用 Expo SDK 50+ (支持 New Architecture):
+使用 Expo SDK 56 (支持 New Architecture):
 ```bash
 npx create-expo-app@latest fitness-app --template default
 cd fitness-app
@@ -128,23 +128,23 @@ npx expo prebuild --clean
 ```
 
 ### 3.2 安装核心依赖
-复制以下命令执行，安装 3D、相机、手势与高性能组件：
+复制以下命令执行，安装相机、手势与高性能组件：
 ```bash
 # 基础 UI 与路由
 npm install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
-
-# 3D 引擎 (React Three Fiber)
-npm install three @types/three @react-three/fiber @react-three/drei
 
 # 原生高性能组件
 npm install react-native-reanimated react-native-gesture-handler
 npm install react-native-vision-camera
 npm install react-native-worklets-core
 npm install onnxruntime-react-native
+
+# 可选 — 3D 引擎 (React Three Fiber, Phase 2)
+# npm install three @types/three @react-three/fiber @react-three/drei
 ```
 
 ### 3.3 配置文件修正
-**修改 `babel.config.js`** 以支持 Reanimated 和 Worklets:
+**修改 `babel.config.js`** 以支持 Reanimated:
 ```javascript
 module.exports = function(api) {
   api.cache(true);
@@ -153,7 +153,6 @@ module.exports = function(api) {
     plugins: [
       // 必须在最后
       'react-native-reanimated/plugin',
-      ['react-native-worklets-core/plugin']
     ],
   };
 };
@@ -173,7 +172,7 @@ module.exports = function(api) {
     /profile.tsx
   /Login.tsx            # 登录页
 /components
-  /3d                   # R3F 组件
+  /3d                   # R3F 组件 (Phase 2 — 当前使用 SVG/原生渲染)
     /HumanAvatar.tsx    # 3D 人偶组件 (加载 GLB)
     /Scene.tsx          # 灯光与环境
   /ui                   # 通用 UI (Button, Card)
@@ -368,23 +367,15 @@ buildscript {
 3.  **禁止** 发送任何网络请求至后端日志服务。
 
 ### 4.4 社交分享与登录 (Social Integration)
-使用 `react-native-wechat-lib` 实现微信交互。
-**Setup:**
-```bash
-npm install react-native-wechat-lib
-```
+微信交互使用统一登录接口 `POST /api/auth`（type=login_wechat）。
+
 **Code:**
 ```tsx
-import * as WeChat from 'react-native-wechat-lib';
-
-// App Launch
-WeChat.registerApp('wx_app_id', 'universal_link');
-
-// Login
-async function wechatLogin() {
-  const { code } = await WeChat.sendAuthRequest({ scope: 'snsapi_userinfo' });
-  // Call Backend: POST /api/auth { type: 'login_wechat', payload: { code } }
-}
+// 调用后端统一登录接口
+const response = await client.post('/api/auth', {
+  type: 'login_wechat',
+  payload: { code: 'wx_auth_code' },
+});
 ```
 
 ---

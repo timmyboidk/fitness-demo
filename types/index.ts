@@ -134,6 +134,7 @@ export interface Move {
     level: string;
     icon: string; // SF Symbol 图标名称
     isVisible: boolean;
+    isVip?: boolean;
     modelUrl?: string;
     scoringConfig?: ScoringConfig;
 }
@@ -141,11 +142,12 @@ export interface Move {
 export interface Session {
     id: string;
     name: string;
-    time: string;       // e.g. "20 分钟"
+    time?: string;       // e.g. "20 分钟"（展示用）
     duration?: number;   // 分钟
     count: string;       // e.g. "4 个动作"
     color: string;
     isVisible: boolean;
+    isVip?: boolean;
     moveIds: string[];
     difficulty?: string;
 }
@@ -219,4 +221,99 @@ export interface WorkoutHistory {
     frequentFeedbackCodes: { code: FeedbackCode; count: number }[];
     averageRepScore: number;
     peakRepScore: number;
+}
+
+// ─────────────────────────────────────────────
+//  API 请求/响应类型（文档与代码对齐）
+// ─────────────────────────────────────────────
+
+/** 获取验证码请求 */
+export interface OtpRequest {
+    phone: string;
+}
+
+/** 获取验证码响应 */
+export interface OtpResponse {
+    expiresIn: number;
+}
+
+/** 新手引导设置请求 */
+export interface OnboardingRequest {
+    userId: string;
+    difficultyLevel: 'novice' | 'skilled' | 'expert';
+}
+
+/** 新手引导设置响应 */
+export interface OnboardingResponse {
+    status: string;
+    scoringTolerance?: number;
+    recommendedPlan?: string;
+}
+
+/** 支付凭证验证请求 */
+export interface PayVerifyRequest {
+    userId: string;
+    planId: string;
+    receipt: string;
+    platform: 'ios' | 'android';
+}
+
+/** 支付凭证验证响应 */
+export interface PayVerifyResponse {
+    isVip: boolean;
+    expireTime: number;
+    planName: string;
+}
+
+/** 训练统计响应 */
+export interface StatsResponse {
+    weeklyDuration: number;
+    totalCalories: number;
+    completionRate: number;
+    history: { date: string; duration: number; calories?: number }[];
+}
+
+/** 排行榜条目 */
+export interface LeaderboardEntry {
+    rank: number;
+    nickname: string;
+    score: number;
+    avatar: string;
+}
+
+/** 动态广场条目 */
+export interface FeedItem {
+    id: string;
+    user: string;
+    content: string;
+    type?: string;
+    time: string;
+}
+
+/** 模型版本检查请求参数 */
+export interface ModelVersionRequest {
+    platform: string;
+    currentVersion: string;
+}
+
+/** 模型版本检查响应 */
+export interface ModelVersionResponse {
+    hasUpdate: boolean;
+    data?: {
+        version: string;
+        downloadUrl: string;
+        md5: string;
+        forceUpdate: boolean;
+    };
+}
+
+/** 数据采集批量上传请求 */
+export interface DataCollectRequest {
+    sessionId: string;
+    items: { type: string; [key: string]: any }[];
+}
+
+/** 数据采集批量上传响应 */
+export interface DataCollectResponse {
+    recorded: boolean;
 }
