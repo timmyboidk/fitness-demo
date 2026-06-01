@@ -4,7 +4,7 @@
  * 根据当前系统主题 (亮/暗) 自动返回对应的颜色值。
  * 支持从 props 中覆盖默认的主题色。
  *
- * Learn more about light and dark modes:
+ * 了解更多亮色和暗色模式：
  * https://docs.expo.dev/guides/color-schemes/
  */
 

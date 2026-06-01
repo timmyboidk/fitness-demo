@@ -8,25 +8,25 @@ jest.mock('../api/client');
 describe('DataCollector', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // Reset internal state if possible, but singleton.
+        // 如果可能则重置内部状态，但它是单例。
     });
 
     it('should buffer events and flush when limit reached', async () => {
         (NetInfo.fetch as jest.Mock).mockResolvedValue({ isConnected: true, type: 'wifi' });
         (client.post as jest.Mock).mockResolvedValue({ data: { success: true } });
 
-        // Add events
+        // 添加事件
         await DataCollector.track('app_event', { foo: 'bar' });
         await DataCollector.track('score', { foo: 'baz' });
 
-        // Trigger flush manually or by count
-        // Assuming flush buffer size is 10.
-        // We can force flush if exposed, otherwise we rely on limit.
+        // 手动或通过计数触发刷新
+        // 假设刷新缓冲区大小为 10。
+        // 如果暴露了强制刷新方法，我们可以使用，否则依赖限制。
 
-        // Wait, DataCollector logic:
+        // 等等，DataCollector 逻辑：
         // track -> addToBuffer -> if buffer >= limit -> flush
 
-        // Let's force it.
+        // 强制触发它。
         for (let i = 0; i < 15; i++) {
             await DataCollector.track('app_event', {});
         }
@@ -42,7 +42,7 @@ describe('DataCollector', () => {
 
         await DataCollector.track('app_event', {});
 
-        // Even if we fill buffer
+        // 即使我们填满缓冲区
         for (let i = 0; i < 15; i++) {
             await DataCollector.track('app_event', {});
         }

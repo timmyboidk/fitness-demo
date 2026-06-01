@@ -15,7 +15,7 @@ jest.mock('onnxruntime-react-native', () => ({
     },
 }));
 
-// Mock Logger to avoid cluttering test output
+// 模拟 Logger 以避免测试输出杂乱
 jest.mock('../Logger', () => ({
     Logger: {
         info: jest.fn(),
@@ -51,7 +51,7 @@ describe('ModelService', () => {
 
     describe('loadModel', () => {
         it('should return path if model already exists', async () => {
-            // First call for dir check (init), second call for file check
+            // 第一次调用检查目录（init），第二次调用检查文件
             (FileSystem.getInfoAsync as jest.Mock)
                 .mockResolvedValueOnce({ exists: true }) // dir exists
                 .mockResolvedValueOnce({ exists: true }); // file exists

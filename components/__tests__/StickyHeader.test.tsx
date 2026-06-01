@@ -1,13 +1,13 @@
 /**
  * @file StickyHeader.test.tsx
- * @description Unit tests for StickyHeader component
+ * @description StickyHeader 组件的单元测试
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 import { Animated, Text } from 'react-native';
 
-// Mock safe-area-context
+// 模拟 safe-area-context
 jest.mock('react-native-safe-area-context', () => ({
     SafeAreaView: ({ children, ...props }: any) => {
         const { View } = require('react-native');
@@ -49,7 +49,7 @@ describe('StickyHeader', () => {
             <StickyHeader scrollY={scrollY} title="Header" />
         );
 
-        // Find the Animated.View
+        // 查找 Animated.View
         const animatedView = UNSAFE_getByType(Animated.View);
         expect(animatedView.props.style).toBeDefined();
     });

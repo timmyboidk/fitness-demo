@@ -1,6 +1,6 @@
 /**
  * @file RootLayout.test.tsx
- * @description Unit tests for RootLayout
+ * @description RootLayout 的单元测试
  */
 
 import { render } from '@testing-library/react-native';
@@ -8,7 +8,7 @@ import React from 'react';
 import { useColorScheme } from 'react-native';
 import RootLayout from '../_layout';
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => {
     const React = require('react');
     const { View } = require('react-native');
@@ -17,12 +17,12 @@ jest.mock('expo-router', () => {
     return { Stack };
 });
 
-// Mock status bar
+// 模拟状态栏
 jest.mock('expo-status-bar', () => ({
     StatusBar: () => null,
 }));
 
-// Mock reanimated
+// 模拟 reanimated
 jest.mock('react-native-reanimated', () => ({}));
 
 describe('RootLayout', () => {
@@ -33,7 +33,7 @@ describe('RootLayout', () => {
     it('should render correctly in light mode', () => {
         (useColorScheme as jest.Mock).mockReturnValue('light');
         const { getByTestId } = render(<RootLayout />);
-        // Basic render check
+        // 基本的渲染检查
     });
 
     it('should render correctly in dark mode', () => {

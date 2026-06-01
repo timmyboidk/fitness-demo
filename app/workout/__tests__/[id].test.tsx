@@ -1,6 +1,6 @@
 /**
  * @file [id].test.tsx
- * @description Unit tests for WorkoutSession screen
+ * @description WorkoutSession 屏幕的单元测试
  */
 
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
@@ -12,12 +12,12 @@ import { Collector } from '../../../services/analytics/DataCollector';
 import { libraryStore } from '../../../store/library';
 import WorkoutSession from '../[id]';
 
-// Mock expo-camera
+// 模拟 expo-camera
 jest.mock('expo-camera', () => ({
     useCameraPermissions: jest.fn(),
 }));
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => ({
     router: {
         back: jest.fn(),
@@ -26,12 +26,12 @@ jest.mock('expo-router', () => ({
     useLocalSearchParams: jest.fn(),
 }));
 
-// Mock navigation
+// 模拟导航
 jest.mock('@react-navigation/native', () => ({
     useIsFocused: () => true,
 }));
 
-// Mock services
+// 模拟服务
 jest.mock('../../../services/AIScoringService', () => ({
     aiScoringService: {
         scoreMove: jest.fn(),
@@ -44,7 +44,7 @@ jest.mock('../../../services/analytics/DataCollector', () => ({
     },
 }));
 
-// Mock store
+// 模拟 store
 jest.mock('../../../store/library', () => ({
     libraryStore: {
         getSessionMoves: jest.fn(() => []),
@@ -52,7 +52,7 @@ jest.mock('../../../store/library', () => ({
     },
 }));
 
-// Mock components
+// 模拟组件
 jest.mock('../../../components/PoseDetectorCamera', () => ({
     PoseDetectorCamera: ({ onInferenceResult }: any) => {
         const { View, Button } = require('react-native');
@@ -78,7 +78,7 @@ jest.mock('../../../components/ui/Button', () => ({
     },
 }));
 
-// Mock safe area
+// 模拟安全区域
 jest.mock('react-native-safe-area-context', () => ({
     useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
@@ -133,7 +133,7 @@ describe('WorkoutSession', () => {
         fireEvent.press(getByTestId('play-pause-button'));
 
         await waitFor(() => {
-            // expect(getByText('评分计算中...')).toBeTruthy(); // Feature not implemented
+            // expect(getByText('评分计算中...')).toBeTruthy(); // 功能未实现
         });
     });
 
@@ -143,7 +143,7 @@ describe('WorkoutSession', () => {
         fireEvent.press(getByTestId('settings-button'));
         expect(queryByText('训练设置')).toBeTruthy();
 
-        // Test Switches
+        // 测试开关
         const soundSwitch = getByTestId('switch-开启语音指导');
         fireEvent(soundSwitch, 'onValueChange', false);
         fireEvent(soundSwitch, 'onValueChange', true);
@@ -151,11 +151,11 @@ describe('WorkoutSession', () => {
         const aiSwitch = getByTestId('switch-显示 AI 骨架辅助');
         fireEvent(aiSwitch, 'onValueChange', false);
 
-        // Test Close Button
+        // 测试关闭按钮
         fireEvent.press(getByTestId('close-modal-button'));
         expect(queryByText('训练设置')).toBeFalsy();
 
-        // Re-open and Test Backdrop
+        // 重新打开并测试背景遮罩
         fireEvent.press(getByTestId('settings-button'));
         expect(queryByText('训练设置')).toBeTruthy();
         fireEvent.press(getByTestId('modal-backdrop'));
@@ -164,22 +164,22 @@ describe('WorkoutSession', () => {
 
     it('should handle camera reverse', () => {
         const { getByTestId } = render(<WorkoutSession />);
-        const reverseButton = getByTestId('camera-reverse-outline'); // Assuming it gets testID or we find by icon
-        // ControlButton uses icon as testID if not provided? No, I'll check find by icon or add testID.
-        // I'll add a testID to the ControlButton in the source or assume it has one.
-        // Wait, I saw ControlButton icon="camera-reverse-outline"
+        const reverseButton = getByTestId('camera-reverse-outline'); // 假设它通过 testID 或图标查找
+        // ControlButton 在未提供 testID 时使用图标作为 testID？不，我将检查是否通过图标查找或添加 testID
+        // 我将向 ControlButton 添加 testID 或假设它已有一个
+        // 等等，我看到 ControlButton icon="camera-reverse-outline"
         fireEvent.press(reverseButton);
     });
 
     it('should handle inference results and null score', async () => {
         const { getByText, getByTestId } = render(<WorkoutSession />);
         fireEvent.press(getByText('Mock Inference'));
-        expect(getByText('--%')).toBeTruthy(); // Initially null
+        expect(getByText('--%')).toBeTruthy(); // 初始为 null
     });
 
     it('should hide camera if not focused', () => {
         const { queryByTestId } = render(<WorkoutSession />);
-        // Assuming we mock useIsFocused to return false in this specific test
+        // 假设在这个特定测试中模拟 useIsFocused 返回 false
     });
 
     it('should hide AI guide if disabled in settings', async () => {
@@ -213,7 +213,7 @@ describe('WorkoutSession', () => {
     });
 
     /*
-    // Feature not implemented
+    // 功能未实现
     it('should handle AI scoring failure', async () => {
         (aiScoringService.scoreMove as jest.Mock).mockResolvedValue({
             success: false,
@@ -239,11 +239,11 @@ describe('WorkoutSession', () => {
 
         await waitFor(() => expect(getByText('Move 1')).toBeTruthy());
 
-        // Play and then finish current move
+        // 播放然后完成当前动作
         fireEvent.press(getByTestId('play-pause-button'));
 
-        // Mock next button (it replaces play button when move is in progress or done? actually in [id].tsx it's always there in the control bar if in session mode)
-        // Let's find "下一动作"
+        // 模拟下一个按钮（当动作进行中或完成时替换播放按钮？实际上在 [id].tsx 中，如果在会话模式下它始终在控制栏中）
+        // 查找 "下一动作"
         const nextButton = getByText('下一动作');
         fireEvent.press(nextButton);
 
@@ -252,7 +252,7 @@ describe('WorkoutSession', () => {
             expect(getByText('Move 2')).toBeTruthy();
         });
 
-        // Finish last move
+        // 完成最后一个动作
         const finishButton = getByText('结束训练');
         fireEvent.press(finishButton);
 

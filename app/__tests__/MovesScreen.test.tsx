@@ -3,10 +3,10 @@ import React from 'react';
 import MovesScreen from '../(tabs)/index';
 import { libraryStore } from '../../store/library';
 
-// Don't mock ResourceListScreen to allow internal functions to run
+// 不要模拟 ResourceListScreen 以允许内部函数运行
 // jest.mock('../../components/ResourceListScreen', ...);
 
-// Mock SafeAreaView
+// 模拟 SafeAreaView
 jest.mock('react-native-safe-area-context', () => ({
     useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));

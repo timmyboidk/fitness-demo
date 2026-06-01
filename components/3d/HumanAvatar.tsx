@@ -26,7 +26,7 @@ export function HumanAvatar({ poseSharedValue }: Props) {
         // 从 SharedValue 读取旋转矩阵并应用给骨骼
         if (!poseSharedValue || !poseSharedValue.value) return;
         const rotations = poseSharedValue.value;
-        // Example: nodes.Spine.quaternion.set(...)
+        // 示例：nodes.Spine.quaternion.set(...)
         // 注意: 这里必须直接操作 threejs 对象，不仅 state update 以保证 30fps
     });
 

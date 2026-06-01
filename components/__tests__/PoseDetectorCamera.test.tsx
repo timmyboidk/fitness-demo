@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native';
 import React from 'react';
 import { PoseDetectorCamera } from '../PoseDetectorCamera';
 
-// Mock expo-camera
+// 模拟 expo-camera
 jest.mock('expo-camera', () => {
     const React = require('react');
     const { View } = require('react-native');
@@ -30,6 +30,6 @@ describe('PoseDetectorCamera', () => {
     it('renders with onInferenceResult (no-op check)', () => {
         const fn = jest.fn();
         render(<PoseDetectorCamera onInferenceResult={fn} />);
-        // Currently component doesn't use it, just checking it renders without crash
+        // 当前组件未使用它，只检查它不会崩溃地渲染
     });
 });

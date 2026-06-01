@@ -39,7 +39,7 @@ export default function WorkoutSession() {
     //  获取安全区域距离 (刘海屏/Home条高度)
     const insets = useSafeAreaInsets();
 
-    // ... rest of state ...
+    // ... 其余状态 ...
     const [showSettings, setShowSettings] = useState(false);
     const [settings, setSettings] = useState({ sound: true, mirror: true, aiGuide: true });
 
@@ -71,7 +71,7 @@ export default function WorkoutSession() {
                 moveId: sequence[currentMoveIndex].id,
                 data: {
                     keypoints: latestKeypoints.length > 0 ? latestKeypoints : [
-                        { x: 0.5, y: 0.5, score: 0.9 } // Fallback mock
+                        { x: 0.5, y: 0.5, score: 0.9 } // 回退模拟数据
                     ],
                     userId: userId
                 }
@@ -103,7 +103,7 @@ export default function WorkoutSession() {
         }
     }, [id, mode]);
 
-    // Hooks for buttons
+    // 按钮相关钩子
     /**
      * 处理播放/暂停按钮点击
      * 暂停时停止评分，播放时触发评分逻辑
@@ -151,7 +151,7 @@ export default function WorkoutSession() {
                                 setLatestKeypoints(res.keypoints);
                             }
                         }}
-                        modelUrl="https://github.com/onnx/models/raw/main/vision/body_analysis/ultraface/models/version-RFB-320.onnx" // Mock URL
+                        modelUrl="https://github.com/onnx/models/raw/main/vision/body_analysis/ultraface/models/version-RFB-320.onnx" // 模拟 URL
                         facing={facing}
                     />
                 </View>

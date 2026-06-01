@@ -1,8 +1,8 @@
 /**
  * @file types/__tests__/index.test.ts
- * @description Tests for strict data structure definitions.
- * Validates FeedbackCode enum, ScoringConfig structure,
- * LiveSessionState and WorkoutHistory interfaces.
+ * @description 严格数据结构定义的测试。
+ * 验证 FeedbackCode 枚举、ScoringConfig 结构、
+ * LiveSessionState 和 WorkoutHistory 接口。
  */
 
 import {

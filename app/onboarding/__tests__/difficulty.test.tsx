@@ -1,6 +1,6 @@
 /**
  * @file difficulty.test.tsx
- * @description Unit tests for Onboarding Difficulty selection screen
+ * @description 引导页难度选择屏幕的单元测试
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,7 +10,7 @@ import React from 'react';
 import { Alert } from 'react-native';
 import { authService } from '../../../services/AuthService';
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => ({
     router: {
         replace: jest.fn(),
@@ -18,10 +18,10 @@ jest.mock('expo-router', () => ({
     useLocalSearchParams: jest.fn(),
 }));
 
-// Mock react-native Alert
+// 模拟 react-native Alert
 jest.spyOn(Alert, 'alert');
 
-// Mock components
+// 模拟组件
 jest.mock('../../../components/ui/Button', () => ({
     Button: ({ label, onPress, disabled, testID }: any) => {
         const { TouchableOpacity, Text } = require('react-native');
@@ -33,7 +33,7 @@ jest.mock('../../../components/ui/Button', () => ({
     },
 }));
 
-// Mock services
+// 模拟服务
 jest.mock('../../../services/AuthService', () => ({
     authService: {
         onboarding: jest.fn(),
@@ -70,8 +70,8 @@ describe('DifficultyScreen', () => {
         const skilledLevel = getByTestId('level-skilled');
         fireEvent.press(skilledLevel);
 
-        // State is internal, but we can verify it by looking at the UI changes if needed
-        // Since we are mocking icons, we just check if it doesn't crash
+        // 状态是内部的，但我们可以通过 UI 变化来验证
+        // 由于我们模拟了图标，只检查它是否不会崩溃
     });
 
     it('should show error alert if no userId is found', async () => {
@@ -97,7 +97,7 @@ describe('DifficultyScreen', () => {
             expect(authService.onboarding).toHaveBeenCalled();
             expect(Alert.alert).toHaveBeenCalledWith("设置成功", "你的训练计划已更新！", expect.any(Array));
 
-            // Trigger the alert callback
+            // 触发提示框回调
             const alertCall = (Alert.alert as jest.Mock).mock.calls[0];
             const buttons = alertCall[2];
             buttons[0].onPress();

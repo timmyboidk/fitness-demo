@@ -1,6 +1,6 @@
 /**
  * @file sessions.test.tsx
- * @description Unit tests for Sessions screen
+ * @description Sessions 屏幕的单元测试
  */
 
 import { fireEvent, render } from '@testing-library/react-native';
@@ -9,14 +9,14 @@ import React from 'react';
 import { libraryStore } from '../../../store/library';
 import SessionsScreen from '../sessions';
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => ({
     router: {
         push: jest.fn(),
     },
 }));
 
-// Mock store
+// 模拟 store
 jest.mock('../../../store/library', () => ({
     libraryStore: {
         getSessions: jest.fn(() => []),
@@ -25,7 +25,7 @@ jest.mock('../../../store/library', () => ({
     }
 }));
 
-// Mock components
+// 模拟组件
 jest.mock('../../../components/ResourceListScreen', () => {
     const React = require('react');
     const { View, Text, TouchableOpacity } = require('react-native');
@@ -66,7 +66,7 @@ describe('SessionsScreen', () => {
 
         const { getByText } = render(<SessionsScreen />);
 
-        // Should only show visible items (1 item)
+        // 应该只显示可见项目（1 项）
         expect(getByText('1 sessions')).toBeTruthy();
         expect(getByText('Session 1')).toBeTruthy();
     });

@@ -76,12 +76,11 @@ describe('AuthService', () => {
         });
 
         it('should handle exception', async () => {
-            // Force an error if possible, but the code is very simple.
-            // We can mock console.log to throw? No.
-            // Actually, we can use a spy on setTimeout if we wanted, but let's just 
-            // accept that the catch block is hard to hit without a real failure.
-            // But we can manually call the catch logic if we use a spy on the method itself.
-            // Or just mock the global promise.
+            // 如果可能则强制错误，但代码非常简单。
+            // 我们可以模拟 console.log 抛出异常吗？不行。
+            // 实际上，我们可以使用 setTimeout 的 spy，但暂时接受没有真实失败难以命中 catch 块的事实。
+            // 但如果使用方法本身的 spy，可以手动调用 catch 逻辑。
+            // 或者模拟全局 promise。
             jest.spyOn(global, 'setTimeout').mockImplementationOnce(() => { throw new Error('fail'); });
             const res = await authService.upgradeToVip('uid', 'plan', 'test_receipt');
             expect(res.success).toBe(false);

@@ -8,7 +8,7 @@ import { Session } from '../store/library';
 import { FontFamily } from '../constants/theme';
 
 /**
- * Session card props
+ * 会话卡片属性
  */
 interface SessionItemProps {
     item: Session;
@@ -20,7 +20,7 @@ interface SessionItemProps {
 }
 
 /**
- * Premium session card with glassmorphism, gradient play button, and haptic feedback.
+ * 带玻璃拟态效果、渐变播放按钮和触觉反馈的高级会话卡片。
  */
 export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: SessionItemProps) => {
     const colorScheme = useColorScheme();
@@ -64,7 +64,7 @@ export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemo
             ]}
         >
             <View style={styles.row}>
-                {/* Left: color bar + text */}
+                {/* 左侧：彩色条 + 文本 */}
                 <View style={styles.leftSection}>
                     <View style={[styles.colorBar, { backgroundColor: isDark ? '#38383A' : '#D1D1D6' }]} />
 
@@ -94,7 +94,7 @@ export const SessionItem = memo(({ item, onPress, showAddButton, onAdd, showRemo
                     </View>
                 </View>
 
-                {/* Right: action buttons */}
+                {/* 右侧：操作按钮 */}
                 {showAddButton ? (
                     <TouchableOpacity onPress={handleAdd} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
                         <SymbolView name={"plus.circle.fill" as any} size={28} tintColor={isDark ? '#FFFFFF' : '#000000'} />

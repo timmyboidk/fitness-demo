@@ -1,13 +1,13 @@
 /**
  * @file types/index.ts
- * @description Application-wide TypeScript interfaces and enums.
+ * @description 应用程序范围内的 TypeScript 接口和枚举。
  *
- * Strict data structures for AI-powered fitness scoring,
- * real-time session tracking, and workout history.
+ * 用于 AI 健身评分的严格数据结构、
+ * 实时会话跟踪和锻炼历史记录。
  */
 
 // ─────────────────────────────────────────────
-//  Core User
+//  核心用户
 // ─────────────────────────────────────────────
 
 export interface User {
@@ -21,10 +21,10 @@ export interface User {
 }
 
 // ─────────────────────────────────────────────
-//  Biomechanics – Joint & Angle Definitions
+//  生物力学 – 关节与角度定义
 // ─────────────────────────────────────────────
 
-/** Standard pose-estimation joint names (COCO-compatible). */
+/** 标准姿态估计关节名称（兼容 COCO）。 */
 export type JointName =
     | 'LEFT_SHOULDER'
     | 'RIGHT_SHOULDER'
@@ -42,11 +42,11 @@ export type JointName =
     | 'SPINE';
 
 /**
- * A single reference angle used to score form quality.
- * @property jointName   – The joint this angle is measured at.
- * @property targetAngleDeg – Ideal angle in degrees (0-360).
- * @property toleranceDeg   – Acceptable ± deviation before penalty.
- * @property weight         – Relative importance in composite score (0-1).
+ * 用于评分动作质量的单个参考角度。
+ * @property jointName   – 测量此角度的关节。
+ * @property targetAngleDeg – 理想角度（度，0-360）。
+ * @property toleranceDeg   – 扣分前的允许偏差（±）。
+ * @property weight         – 在综合评分中的相对重要性（0-1）。
  */
 export interface ReferenceAngle {
     jointName: JointName;
@@ -56,17 +56,17 @@ export interface ReferenceAngle {
 }
 
 // ─────────────────────────────────────────────
-//  Movement Phases
+//  运动阶段
 // ─────────────────────────────────────────────
 
-/** Canonical movement phases for resistance exercises. */
+/** 抗阻训练的规范运动阶段。 */
 export type MovementPhase = 'eccentric' | 'concentric' | 'isometric';
 
 /**
- * Defines expected body geometry and timing for a single phase.
- * @property phase           – Which phase this definition covers.
- * @property durationMs      – Expected duration of this phase.
- * @property referenceAngles – Target joint angles specific to this phase.
+ * 定义单个阶段的预期身体几何和时序。
+ * @property phase           – 此定义覆盖的阶段。
+ * @property durationMs      – 此阶段的预期持续时间。
+ * @property referenceAngles – 此阶段特定的目标关节角度。
  */
 export interface PhaseDefinition {
     phase: MovementPhase;
@@ -75,17 +75,17 @@ export interface PhaseDefinition {
 }
 
 // ─────────────────────────────────────────────
-//  Scoring Configuration
+//  评分配置
 // ─────────────────────────────────────────────
 
 /**
- * Full scoring configuration attached to each Move.
- * Replaces the former `scoringConfig?: any`.
+ * 附加到每个动作的完整评分配置。
+ * 取代之前的 `scoringConfig?: any`。
  *
- * @property referenceAngles         – Global (phase-agnostic) reference angles.
- * @property phases                  – Phase-specific angle targets and timings.
- * @property minConfidenceThreshold  – Minimum keypoint confidence to accept a frame (0-1).
- * @property maxRepDurationMs        – Timeout for a single rep before it's discarded.
+ * @property referenceAngles         – 全局（与阶段无关）参考角度。
+ * @property phases                  – 特定阶段的角度目标和时序。
+ * @property minConfidenceThreshold  – 接受帧的最小关键点置信度（0-1）。
+ * @property maxRepDurationMs        – 单次重复的超时时间，超时则丢弃。
  */
 export interface ScoringConfig {
     referenceAngles: ReferenceAngle[];
@@ -95,15 +95,15 @@ export interface ScoringConfig {
 }
 
 // ─────────────────────────────────────────────
-//  AI Feedback Codes
+//  AI 反馈代码
 // ─────────────────────────────────────────────
 
 /**
- * Discrete feedback codes produced by the AI scoring engine.
- * Grouped by severity: ERR (form error), WARN (tempo/ROM), SUCCESS (positive).
+ * AI 评分引擎生成的不同反馈代码。
+ * 按严重程度分组：ERR（动作错误）、WARN（节奏/幅度）、SUCCESS（正面）。
  */
 export enum FeedbackCode {
-    // ── Form Errors ──
+    // ── 动作错误 ──
     ERR_KNEE_VALGUS         = 'ERR_KNEE_VALGUS',
     ERR_ROUNDED_BACK        = 'ERR_ROUNDED_BACK',
     ERR_ELBOW_FLARE         = 'ERR_ELBOW_FLARE',
@@ -112,27 +112,27 @@ export enum FeedbackCode {
     ERR_HIP_SHIFT           = 'ERR_HIP_SHIFT',
     ERR_NECK_HYPEREXTENSION = 'ERR_NECK_HYPEREXTENSION',
 
-    // ── Warnings ──
+    // ── 警告 ──
     WARN_TOO_FAST           = 'WARN_TOO_FAST',
     WARN_TOO_SLOW           = 'WARN_TOO_SLOW',
     WARN_PARTIAL_ROM        = 'WARN_PARTIAL_ROM',
     WARN_UNSTABLE_BASE      = 'WARN_UNSTABLE_BASE',
 
-    // ── Success ──
+    // ── 成功 ──
     SUCCESS_PERFECT_REP     = 'SUCCESS_PERFECT_REP',
     SUCCESS_GOOD_FORM       = 'SUCCESS_GOOD_FORM',
     SUCCESS_IMPROVED        = 'SUCCESS_IMPROVED',
 }
 
 // ─────────────────────────────────────────────
-//  Move & Session (Library Entities)
+//  动作与会话（库实体）
 // ─────────────────────────────────────────────
 
 export interface Move {
     id: string;
     name: string;
     level: string;
-    icon: string; // SF Symbol icon name
+    icon: string; // SF Symbol 图标名称
     isVisible: boolean;
     modelUrl?: string;
     scoringConfig?: ScoringConfig;
@@ -142,7 +142,7 @@ export interface Session {
     id: string;
     name: string;
     time: string;       // e.g. "20 分钟"
-    duration?: number;   // minutes
+    duration?: number;   // 分钟
     count: string;       // e.g. "4 个动作"
     color: string;
     isVisible: boolean;
@@ -151,7 +151,7 @@ export interface Session {
 }
 
 // ─────────────────────────────────────────────
-//  AI Scoring API Contracts
+//  AI 评分 API 契约
 // ─────────────────────────────────────────────
 
 export interface Keypoint {
@@ -177,12 +177,12 @@ export interface ScoreResponse {
 }
 
 // ─────────────────────────────────────────────
-//  Live Session State (Real-time Tracking)
+//  实时会话状态（实时追踪）
 // ─────────────────────────────────────────────
 
 /**
- * Tracks the real-time state of an active workout.
- * Designed to be held in-memory and flushed to WorkoutHistory on completion.
+ * 追踪进行中锻炼的实时状态。
+ * 设计为保存在内存中，并在完成后写入 WorkoutHistory。
  */
 export interface LiveSessionState {
     sessionId: string;
@@ -197,21 +197,21 @@ export interface LiveSessionState {
 }
 
 // ─────────────────────────────────────────────
-//  Workout History (Persisted)
+//  锻炼历史（持久化）
 // ─────────────────────────────────────────────
 
 /**
- * A completed workout record, persisted for progress charting.
+ * 已完成的锻炼记录，持久化用于进度图表展示。
  *
- * @property frequentFeedbackCodes – Aggregated feedback for trend analysis.
- * @property averageRepScore       – Mean score across all reps.
- * @property peakRepScore          – Best individual rep score achieved.
+ * @property frequentFeedbackCodes – 用于趋势分析的汇总反馈。
+ * @property averageRepScore       – 所有重复的平均得分。
+ * @property peakRepScore          – 达到的最佳单次重复得分。
  */
 export interface WorkoutHistory {
     id: string;
     sessionId: string;
     userId: string;
-    timestamp: number;       // Unix epoch ms
+    timestamp: number;       // Unix 纪元毫秒
     totalScore: number;
     repsCompleted: number;
     durationMs: number;

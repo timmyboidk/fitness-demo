@@ -1,11 +1,11 @@
 /**
  * @file usePoseModel.test.ts
- * @description Unit tests for usePoseModel hook
+ * @description usePoseModel hook 的单元测试
  */
 
 import { renderHook, waitFor } from '@testing-library/react-native';
 
-// Mock dependencies
+// 模拟依赖
 jest.mock('../../services/Logger', () => ({
     Logger: {
         info: jest.fn(),

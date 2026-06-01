@@ -1,8 +1,8 @@
 /**
  * @file _layout.tsx
- * @description Main Tab navigation layout.
- * Uses Material Top Tabs for swipeable navigation.
- * Custom TabBar with haptic feedback and premium accent colors.
+ * @description 主标签导航布局。
+ * 使用 Material Top Tabs 实现可滑动的导航。
+ * 自定义标签栏，带有触觉反馈和高级强调色。
  */
 
 import { Ionicons } from '@expo/vector-icons';
@@ -15,12 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { libraryStore } from '../../store/library';
 import { FontFamily } from '../../constants/theme';
 
-// 1. Create swipeable Tab navigator
+// 1. 创建可滑动的标签导航器
 const { Navigator } = createMaterialTopTabNavigator();
 export const MaterialTopTabs = withLayoutContext(Navigator);
 
 /**
- * Custom bottom Tab Bar with haptic feedback on tab switch.
+ * 自定义底部标签栏，切换标签时带有触觉反馈。
  */
 const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     const colorScheme = useColorScheme();
@@ -91,7 +91,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
 };
 
 /**
- * Tab Layout entry component
+ * 标签布局入口组件
  */
 export default function TabLayout() {
     const pathname = usePathname();

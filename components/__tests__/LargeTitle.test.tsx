@@ -1,6 +1,6 @@
 /**
  * @file LargeTitle.test.tsx
- * @description Unit tests for LargeTitle component
+ * @description LargeTitle 组件的单元测试
  */
 
 import { render } from '@testing-library/react-native';
@@ -33,7 +33,7 @@ describe('LargeTitle', () => {
             <LargeTitle title="Styled" style={customStyle} />
         );
 
-        // Verify component renders with custom style
+        // 验证组件使用了自定义样式渲染
         expect(toJSON()).toBeTruthy();
     });
 });

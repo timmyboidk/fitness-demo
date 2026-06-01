@@ -1,12 +1,12 @@
 /**
  * @file themed-text.test.tsx
- * @description Unit tests for ThemedText component
+ * @description ThemedText 组件的单元测试
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 
-// Mock the theme hook
+// 模拟主题 hook
 jest.mock('@/hooks/use-theme-color', () => ({
     useThemeColor: jest.fn(() => '#000000'),
 }));
@@ -32,7 +32,7 @@ describe('ThemedText', () => {
         const { getByText } = render(<ThemedText>Colored</ThemedText>);
         const text = getByText('Colored');
 
-        // Check that the color is applied in the style array
+        // 检查颜色是否应用在样式数组中
         const flatStyle = text.props.style.flat ? text.props.style.flat() : text.props.style;
         expect(flatStyle).toContainEqual(expect.objectContaining({ color: '#FF0000' }));
     });
@@ -41,7 +41,7 @@ describe('ThemedText', () => {
         const { getByText } = render(<ThemedText type="title">Title</ThemedText>);
         const text = getByText('Title');
 
-        // Title style should have fontSize: 32
+        // 标题样式应有 fontSize: 32
         const flatStyle = text.props.style.flat ? text.props.style.flat() : text.props.style;
         expect(flatStyle).toContainEqual(expect.objectContaining({ fontSize: 32 }));
     });

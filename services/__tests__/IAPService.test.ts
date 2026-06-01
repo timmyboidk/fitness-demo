@@ -1,10 +1,10 @@
 /**
  * @file IAPService.test.ts
- * @description Unit tests for IAPService - In-App Purchases service
+ * @description IAPService 的单元测试 - 应用内购买服务
  */
 
 
-// Mock the expo-in-app-purchases module
+// 模拟 expo-in-app-purchases 模块
 jest.mock('expo-in-app-purchases', () => ({
     connectAsync: jest.fn(),
     disconnectAsync: jest.fn(),
@@ -17,17 +17,17 @@ jest.mock('expo-in-app-purchases', () => ({
     IAPErrorCode: { UNKNOWN: 0 },
 }));
 
-// Variables to hold current mock instances
+// 保存当前 mock 实例的变量
 let mockInAppPurchases: any;
 let iapService: any;
 
 describe('IAPService', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // Reset the module cache to get a fresh singleton
+        // 重置模块缓存以获取新的单例
         jest.resetModules();
 
-        // Re-require the mock to get the current instance after reset
+        // 重新 require 模拟以在重置后获取当前实例
         mockInAppPurchases = require('expo-in-app-purchases');
         const IAPServiceModule = require('../IAPService');
         iapService = IAPServiceModule.iapService;
@@ -165,7 +165,7 @@ describe('IAPService', () => {
 
             iapService.setPurchaseListener(callback);
 
-            // Get the registered listener and call it
+            // 获取注册的监听器并调用它
             const registeredListener = (mockInAppPurchases.setPurchaseListener as jest.Mock).mock.calls[0][0];
             registeredListener({
                 responseCode: mockInAppPurchases.IAPResponseCode.OK,

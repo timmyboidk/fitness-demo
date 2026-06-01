@@ -3,14 +3,14 @@ import { Alert } from 'react-native';
 import { authService } from '../../services/AuthService';
 import { useOTP } from '../useOTP';
 
-// Mock AuthService
+// 模拟 AuthService
 jest.mock('../../services/AuthService', () => ({
     authService: {
         requestOTP: jest.fn(),
     },
 }));
 
-// Mock Alert
+// 模拟 Alert
 jest.spyOn(Alert, 'alert');
 
 describe('useOTP', () => {
@@ -57,7 +57,7 @@ describe('useOTP', () => {
         expect(result.current.timer).toBe(60);
         expect(Alert.alert).toHaveBeenCalledWith("提示", "验证码已发送 (默认1234)");
 
-        // Fast-forward timer
+        // 快进计时器
         act(() => {
             jest.advanceTimersByTime(1000);
         });

@@ -1,17 +1,17 @@
 /**
  * @file icon-symbol.test.tsx
- * @description Unit tests for IconSymbol component (Android/Web fallback)
+ * @description IconSymbol 组件的单元测试（Android/Web 回退）
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 
-// Mock expo-symbols in case the iOS version is picked up
+// 模拟 expo-symbols in case the iOS version is picked up
 jest.mock('expo-symbols', () => ({
     SymbolView: ({ name, tintColor, weight, style }: any) => {
         const { Text, StyleSheet } = require('react-native');
         const flat = StyleSheet.flatten(style);
-        // Map common symbols to Material names for the test to pass
+        // 将常见符号映射到 Material 名称以便测试通过
         const mappedName = name === 'house.fill' ? 'home' :
             name === 'paperplane.fill' ? 'send' :
                 name === 'chevron.left.forwardslash.chevron.right' ? 'code' :
@@ -20,7 +20,7 @@ jest.mock('expo-symbols', () => ({
     },
 }));
 
-// Mock MaterialIcons
+// 模拟 MaterialIcons
 jest.mock('@expo/vector-icons/MaterialIcons', () => {
     const { Text } = require('react-native');
     return function MockMaterialIcons({ name, size, color, style }: any) {
@@ -28,7 +28,7 @@ jest.mock('@expo/vector-icons/MaterialIcons', () => {
     };
 });
 
-// Import the specific implementation to avoid platform resolution confusion during tests
+// 导入特定实现以避免测试中的平台解析混淆
 const { IconSymbol } = require('../icon-symbol');
 
 describe('IconSymbol (Android/Web)', () => {
@@ -37,7 +37,7 @@ describe('IconSymbol (Android/Web)', () => {
             <IconSymbol name="house.fill" size={24} color="#000" />
         );
 
-        // This path works regardless of which file was loaded because of our mocks
+        // 由于我们的模拟，无论加载哪个文件，此路径都有效
         expect(getByTestId('icon-home')).toBeTruthy();
     });
 

@@ -1,8 +1,8 @@
 /**
  * @file DataCollector.ts
- * @description 数据采集服务 (Analytics)。
+ * @description 数据采集服务（分析服务）。
  * 负责收集应用内的打分数据、行为事件和健康数据。
- * 实现本地缓冲 (Buffer)、隐私脱敏 (Differential Privacy) 和批量上传策略。
+ * 实现本地缓冲（Buffer）、隐私脱敏（差分隐私）和批量上传策略。
  */
 
 import NetInfo from "@react-native-community/netinfo";
@@ -53,7 +53,7 @@ class DataCollector {
   }
 
   /**
-   * 2. 隐私脱敏 (Local Differential Privacy)
+     * 2. 隐私脱敏（本地差分隐私）
    * 在数据离开设备前去除敏感信息并添加噪声
    * @param data - 原始数据
    */

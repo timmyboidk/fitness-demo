@@ -6,7 +6,7 @@ import { Alert, useColorScheme } from 'react-native';
 import { iapService } from '../../../services/IAPService';
 import SubscriptionScreen from '../subscription';
 
-// Mock services
+// 模拟服务
 jest.mock('../../../services/IAPService', () => ({
     iapService: {
         connect: jest.fn(),
@@ -17,29 +17,29 @@ jest.mock('../../../services/IAPService', () => ({
     }
 }));
 
-// Mock AsyncStorage
+// 模拟 AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
     getItem: jest.fn(),
 }));
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => ({
     router: { back: jest.fn(), push: jest.fn() },
     Stack: { Screen: () => null },
 }));
 
-// Mock expo-in-app-purchases
+// 模拟 expo-in-app-purchases
 jest.mock('expo-in-app-purchases', () => ({
-    // Empty
+    // 空
 }));
 
-// Mock icons
+// 模拟图标
 jest.mock('@expo/vector-icons', () => ({
     Ionicons: () => null,
     MaterialCommunityIcons: () => null,
 }));
 
-// Mock safe area
+// 模拟安全区域
 jest.mock('react-native-safe-area-context', () => ({
     SafeAreaView: ({ children }: any) => {
         const { View } = require('react-native');
@@ -47,7 +47,7 @@ jest.mock('react-native-safe-area-context', () => ({
     },
 }));
 
-// Mock react-native's useColorScheme
+// 模拟 react-native 的 useColorScheme
 jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
     default: jest.fn(),
 }));
@@ -79,8 +79,8 @@ describe('SubscriptionScreen - Branch Expansion', () => {
             expect(getByText('PRO 会员')).toBeTruthy();
         });
 
-        // Verify sorting (yearly at the end because micros is highest)
-        // Verify period labeling logic
+        // 验证排序（yearly 在最后，因为 micros 最大）
+        // 验证周期标签逻辑
         expect(getByText('/年')).toBeTruthy();
         expect(getByText('/3个月')).toBeTruthy();
         expect(getByText('/月')).toBeTruthy();
@@ -129,7 +129,7 @@ describe('SubscriptionScreen - Branch Expansion', () => {
 
         expect(Alert.alert).toHaveBeenCalledWith("恭喜", "您已成功升级为 VIP 会员！", expect.any(Array));
 
-        // Trigger onPress
+        // 触发 onPress
         const buttons = (Alert.alert as jest.Mock).mock.calls[0][2];
         buttons[0].onPress();
         expect(router.back).toHaveBeenCalled();

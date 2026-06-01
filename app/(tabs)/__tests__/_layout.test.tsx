@@ -1,6 +1,6 @@
 /**
  * @file _layout.test.tsx
- * @description Unit tests for TabLayout
+ * @description TabLayout 的单元测试
  */
 
 import { fireEvent, render } from '@testing-library/react-native';
@@ -9,7 +9,7 @@ import React from 'react';
 import { libraryStore } from '../../../store/library';
 import TabLayout from '../_layout';
 
-// Mock material top tabs properly
+// 正确模拟 material top tabs
 const mockState = {
     index: 0,
     routes: [
@@ -28,7 +28,7 @@ const mockNavigation = {
     navigate: jest.fn(),
 };
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => {
     const React = require('react');
     const { View } = require('react-native');
@@ -53,19 +53,19 @@ jest.mock('expo-router', () => {
     };
 });
 
-// Mock icons
+// 模拟图标
 jest.mock('@expo/vector-icons', () => ({
     Ionicons: () => null,
 }));
 
-// Mock store
+// 模拟 store
 jest.mock('../../../store/library', () => ({
     libraryStore: {
         sync: jest.fn(),
     }
 }));
 
-// Mock SafeAreaView
+// 模拟 SafeAreaView
 jest.mock('react-native-safe-area-context', () => {
     const { View } = require('react-native');
     return {
@@ -100,9 +100,9 @@ describe('TabLayout', () => {
 
     it('should show correct icons for each tab', () => {
         const { getByTestId, getAllByTestId } = render(<TabLayout />);
-        // This is hard to verify without looking at props, but we cover the icon logic branches.
-        // We can check if snapshots or finding by specific elements works, but 
-        // the goal is just reaching the branches.
+        // 在不查看 props 的情况下很难验证，但我们覆盖了图标逻辑分支。
+        // 可以检查快照或通过特定元素查找是否有效，
+        // 但目标是覆盖这些分支。
         expect(getByTestId('tab-button-index')).toBeTruthy();
         expect(getByTestId('tab-button-sessions')).toBeTruthy();
         expect(getByTestId('tab-button-profile')).toBeTruthy();
@@ -135,7 +135,7 @@ describe('TabLayout', () => {
         routes.forEach((name, index) => {
             mockState.index = index;
             const { getByTestId, queryByText } = render(<TabLayout />);
-            // Trigger focus branches
+            // 触发焦点分支
             expect(getByTestId('tabs-container')).toBeTruthy();
         });
         mockState.index = 0; // reset

@@ -37,9 +37,9 @@ describe('SettingItem', () => {
     });
 
     it('renders icon when provided', () => {
-        // Since we mock Ionicons in setup, we can check if the mock view is rendered or just check for no errors
-        // Ideally we check testID if we added it to icon, but currently SettingItem doesn't add testID to icon.
-        // We can check if it renders without crashing.
+        // 由于我们在 setup 中模拟了 Ionicons，可以检查模拟视图是否渲染或只检查是否没有错误
+        // 理想情况下我们检查 testID（如果我们在图标上添加了它），但当前 SettingItem 没有向图标添加 testID
+        // 我们可以检查它是否在不会崩溃的情况下渲染
         render(<SettingItem label="Icon Label" icon="settings" />);
     });
 });

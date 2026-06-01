@@ -92,8 +92,8 @@ class IAPService {
     async getPurchaseHistory(): Promise<any> {
         const errorResponse = {
             results: [],
-            responseCode: 2, // ERROR
-            errorCode: 0, // UNKNOWN
+            responseCode: 2, // 错误
+            errorCode: 0, // 未知
         };
 
         if (!this.isAvailable() || !InAppPurchases.getPurchaseHistoryAsync) {

@@ -8,9 +8,9 @@ jest.mock('@react-native-async-storage/async-storage');
 describe('LibraryStore', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // Reset store state? Since it's a singleton, state persists.
-        // Ideally we shouldn't rely on singleton export for tests, or have a reset method.
-        // But we can manipulate the public properties if needed.
+        // 重置 store 状态？由于它是单例，状态会持久化。
+        // 理想情况下，测试不应依赖单例导出，或应有重置方法。
+        // 但我们可以根据需要操作公共属性。
         libraryStore.moves = [];
         libraryStore.sessions = [];
         libraryStore.listeners = [];
@@ -25,17 +25,17 @@ describe('LibraryStore', () => {
 
     describe('sync', () => {
         it('should fetch data and merge with local state', async () => {
-            // Setup initial state
+            // 设置初始状态
             libraryStore.moves = [{ id: 'm1', name: 'M1', isVisible: true } as any];
 
-            // Mock AsyncStorage
+            // 模拟 AsyncStorage
             (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ difficultyLevel: 'Hard' }));
 
-            // Mock Service Response
+            // 模拟服务响应
             const mockData = {
                 moves: [
-                    { id: 'm1', name: 'M1 Updated' }, // Should keep isVisible: true
-                    { id: 'm2', name: 'M2 New' }      // Should default to isVisible: false
+                    { id: 'm1', name: 'M1 Updated' }, // 应保留 isVisible: true
+                    { id: 'm2', name: 'M2 New' }      // 应默认为 isVisible: false
                 ],
                 sessions: [
                     { id: 's1', name: 'S1', duration: 10 }
@@ -43,7 +43,7 @@ describe('LibraryStore', () => {
             };
             (libraryService.fetchLibrary as jest.Mock).mockResolvedValue(mockData);
 
-            // Spy on notify
+            // 监视 notify
             const listener = jest.fn();
             libraryStore.subscribe(listener);
 
@@ -54,15 +54,15 @@ describe('LibraryStore', () => {
 
             const moves = libraryStore.getMoves();
             expect(moves).toHaveLength(2);
-            expect(moves.find(m => m.id === 'm1')?.isVisible).toBe(true); // Preserved
-            expect(moves.find(m => m.id === 'm1')?.name).toBe('M1 Updated'); // Updated
-            expect(moves.find(m => m.id === 'm2')?.isVisible).toBe(false); // Default
+            expect(moves.find(m => m.id === 'm1')?.isVisible).toBe(true); // 保留
+            expect(moves.find(m => m.id === 'm1')?.name).toBe('M1 Updated'); // 更新
+            expect(moves.find(m => m.id === 'm2')?.isVisible).toBe(false); // 默认
 
             const sessions = libraryStore.getSessions();
             expect(sessions).toHaveLength(1);
-            expect(sessions[0].time).toBe('10 分钟'); // Generated from duration
+            expect(sessions[0].time).toBe('10 分钟'); // 从 duration 生成
 
-            // Test fallbacks for new move without existing visibility or props
+            // 测试新动作在缺少现有 visibility 或属性时的回退
             (mockData.moves[1] as any).isVisible = undefined;
             (mockData.moves[1] as any).level = undefined;
             (mockData.moves[1] as any).icon = undefined;
@@ -149,11 +149,11 @@ describe('LibraryStore', () => {
 
     describe('Edge Cases / Helpers', () => {
         it('should capitalize strings (internal test for coverage)', () => {
-            // Since it's not exported, we can't test it directly easily,
-            // but we can check if it's used in sync or just call it if we can.
-            // Actually, I'll just check if it's used in level mapping.
-            // If it's NOT used, then it's a 0% function.
-            // I'll call it via a hack if I have to, or just ignore if it's just 1 function.
+            // 由于它未导出，我们无法直接轻松测试，
+            // 但可以检查它是否在 sync 中使用，或者如果可以调用它。
+            // 实际上，我只检查它是否在级别映射中使用。
+            // 如果未使用，则它是一个 0% 覆盖率的函数。
+            // 如果必要，我通过 hack 调用它，如果只是一个函数就忽略。
         });
     });
 });

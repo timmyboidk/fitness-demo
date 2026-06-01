@@ -2,9 +2,9 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
 import HelpScreen from '../help';
-// Wait, local import ../help is correct.
-// The failure in HelpScreen was implicit?
-// Let's re-run after fixing others.
+// 注意，本地导入 ../help 是正确的。
+// HelpScreen 的失败是隐式的吗？
+// 在修复其他问题后重新运行。
 
 describe.skip('HelpScreen', () => {
     beforeEach(() => {

@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { authService } from '../services/AuthService';
 
 /**
- * Custom hook to handle OTP (One-Time Password) sending and timer logic.
+ * 自定义 Hook，处理 OTP（一次性密码）发送和计时器逻辑。
  */
 export function useOTP() {
     const [timer, setTimer] = useState(0);

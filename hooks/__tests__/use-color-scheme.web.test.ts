@@ -5,17 +5,17 @@ describe('use-color-scheme (web)', () => {
     it('should return light initially and update after hydration', async () => {
         const { result } = renderHook(() => useColorScheme());
 
-        // Initial render (server side / pre hydration)
-        // logic: const [hasHydrated, setHasHydrated] = useState(false); useEffect(() => setHasHydrated(true), []);
+        // 初始渲染（服务端/预水合）
+        // 逻辑：const [hasHydrated, setHasHydrated] = useState(false); useEffect(() => setHasHydrated(true), []);
         // if (!hasHydrated) return 'light';
-        // But useEffect runs after render.
-        // Wait, renderHook might wait for effects?
+        // 但 useEffect 在渲染之后运行。
+        // 等等，renderHook 可能会等待 effects？
 
-        // Actually, renderHook returns the result of the first render immediately, then updates.
-        // But in testing library environment, it might flush effects instantly?
+        // 实际上，renderHook 立即返回第一次渲染的结果，然后更新。
+        // 但在测试库环境中，它可能立即刷新 effects？
 
-        // Let's assume it works as React.
-        // It should eventually be the RN value (mocked as 'light' usually).
+        // 假设它像 React 一样工作。
+        // 最终应该是 RN 值（通常模拟为 'light'）。
 
         await waitFor(() => {
             expect(result.current).toBeDefined();

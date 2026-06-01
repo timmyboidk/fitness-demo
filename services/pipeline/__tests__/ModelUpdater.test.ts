@@ -1,11 +1,11 @@
 /**
  * @file ModelUpdater.test.ts
- * @description Unit tests for ModelUpdater pipeline service
+ * @description ModelUpdater 管道服务的单元测试
  */
 
 import * as FileSystem from 'expo-file-system';
 
-// Mock dependencies
+// 模拟依赖
 jest.mock('expo-file-system', () => ({
     downloadAsync: jest.fn(),
     getInfoAsync: jest.fn(),

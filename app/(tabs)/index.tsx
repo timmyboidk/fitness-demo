@@ -1,8 +1,8 @@
 /**
  * @file MovesScreen.tsx
- * @description Moves library main tab screen.
- * Displays all visible training moves with staggered entrance animations.
- * Integrates global state management for real-time data updates.
+ * @description 动作库主标签屏幕。
+ * 展示所有可见的训练动作，带有错开入场动画。
+ * 集成全局状态管理以实现实时数据更新。
  */
 
 import { router } from 'expo-router';

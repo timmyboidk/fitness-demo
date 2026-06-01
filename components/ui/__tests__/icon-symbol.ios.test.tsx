@@ -1,12 +1,12 @@
 /**
  * @file icon-symbol.ios.test.tsx
- * @description Unit tests for IconSymbol iOS component (SF Symbols)
+ * @description IconSymbol iOS 组件的单元测试（SF Symbols）
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 
-// Mock expo-symbols
+// 模拟 expo-symbols
 jest.mock('expo-symbols', () => ({
     SymbolView: function MockSymbolView({ name, tintColor, weight, style }: any) {
         const { View, Text } = require('react-native');
@@ -18,7 +18,7 @@ jest.mock('expo-symbols', () => ({
     },
 }));
 
-// Import the iOS version explicitly
+// 显式导入 iOS 版本
 const { IconSymbol } = require('../icon-symbol.ios');
 
 describe('IconSymbol (iOS)', () => {

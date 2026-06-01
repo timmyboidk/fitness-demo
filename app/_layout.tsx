@@ -1,8 +1,8 @@
 /**
  * @file _layout.tsx
- * @description Application Root Layout.
- * Loads the Inter font family via expo-font, gates rendering behind font load,
- * and defines the global navigation structure (Stack).
+ * @description 应用根布局。
+ * 通过 expo-font 加载 Inter 字体族，在字体加载完成后渲染，
+ * 并定义全局导航结构（Stack）。
  */
 
 import {
@@ -22,10 +22,10 @@ import 'react-native-reanimated';
 
 import { Colors } from '../constants/theme';
 
-// Keep splash screen visible while fonts load
+// 在字体加载期间保持启动屏幕可见
 SplashScreen.preventAutoHideAsync();
 
-// Suppress all warnings in demo
+// 在演示中抑制所有警告
 LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {
@@ -59,12 +59,12 @@ export default function RootLayout() {
                 headerShown: false,
                 contentStyle: { backgroundColor: bg },
             }}>
-                {/* Auth screens (flat Stack Screens within (auth) dir) */}
+                {/* 认证屏幕（(auth)目录中的平面堆栈屏幕）*/}
 
-                {/* Main Tab navigation */}
+                {/* 主标签导航 */}
                 <Stack.Screen name="(tabs)" />
 
-                {/* AI Workout (fullscreen immersive modal) */}
+                {/* AI 训练（全屏沉浸式模态）*/}
                 <Stack.Screen name="workout/[id]" options={{ presentation: 'fullScreenModal' }} />
             </Stack>
         </View>

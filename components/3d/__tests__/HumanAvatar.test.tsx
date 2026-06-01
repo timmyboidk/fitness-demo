@@ -1,12 +1,12 @@
 /**
  * @file HumanAvatar.test.tsx
- * @description Unit tests for HumanAvatar (3D) component
+ * @description HumanAvatar（3D）组件的单元测试
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 
-// Mock react-three/fiber as a virtual module since it's missing from package.json
+// 模拟 react-three/fiber 作为虚拟模块，因为它不在 package.json 中
 let frameCallback: any;
 jest.mock('@react-three/fiber', () => ({
     useFrame: (callback: any) => {
@@ -21,7 +21,7 @@ describe('HumanAvatar', () => {
         const poseSharedValue = { value: null };
         const { toJSON } = render(<HumanAvatar poseSharedValue={poseSharedValue} />);
 
-        // Match snapshot or basic structure
+        // 匹配快照或基本结构
         const json = toJSON();
         expect(json).toBeTruthy();
     });
@@ -30,7 +30,7 @@ describe('HumanAvatar', () => {
         const poseSharedValue = { value: { spine: { x: 1, y: 0, z: 0 } } };
         render(<HumanAvatar poseSharedValue={poseSharedValue} />);
 
-        // Trigger useFrame
+        // 触发 useFrame
         if (frameCallback) {
             expect(() => frameCallback()).not.toThrow();
         }

@@ -1,11 +1,11 @@
 /**
  * @file use-theme-color.test.ts
- * @description Unit tests for useThemeColor hook
+ * @description useThemeColor hook 的单元测试
  */
 
 import { renderHook } from '@testing-library/react-native';
 
-// Mock the color scheme hook
+// 模拟颜色方案 hook
 let mockColorScheme: 'light' | 'dark' | null = 'light';
 
 jest.mock('@/hooks/use-color-scheme', () => ({

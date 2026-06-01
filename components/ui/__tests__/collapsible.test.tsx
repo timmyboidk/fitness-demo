@@ -1,12 +1,12 @@
 /**
  * @file collapsible.test.tsx
- * @description Unit tests for Collapsible component
+ * @description Collapsible 组件的单元测试
  */
 
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 
-// Mock dependencies
+// 模拟依赖
 let mockColorScheme: 'light' | 'dark' | null = 'light';
 jest.mock('@/hooks/use-color-scheme', () => ({
     useColorScheme: () => mockColorScheme,
@@ -83,7 +83,7 @@ describe('Collapsible', () => {
             </Collapsible>
         );
 
-        // Click to expand
+        // 点击展开
         fireEvent.press(getByTestId('text-defaultSemiBold'));
 
         expect(getByText('Visible Content')).toBeTruthy();
@@ -98,14 +98,14 @@ describe('Collapsible', () => {
 
         const titleButton = getByTestId('text-defaultSemiBold');
 
-        // Initially collapsed
+        // 初始折叠
         expect(queryByText('Toggle Content')).toBeNull();
 
-        // Expand
+        // 展开
         fireEvent.press(titleButton);
         expect(queryByText('Toggle Content')).toBeTruthy();
 
-        // Collapse again
+        // 再次折叠
         fireEvent.press(titleButton);
         expect(queryByText('Toggle Content')).toBeNull();
     });
@@ -119,15 +119,15 @@ describe('Collapsible', () => {
 
         const icon = getByTestId('icon');
 
-        // Initially not rotated
+        // 初始未旋转
         expect(icon.props.style).toMatchObject({
             transform: [{ rotate: '0deg' }]
         });
 
-        // Click to expand
+        // 点击展开
         fireEvent.press(getByTestId('text-defaultSemiBold'));
 
-        // Verify rotation (need to re-query after state change)
+        // 验证旋转（状态更改后需要重新查询）
         const expandedIcon = getByTestId('icon');
         expect(expandedIcon.props.style).toMatchObject({
             transform: [{ rotate: '90deg' }]
@@ -143,7 +143,7 @@ describe('Collapsible', () => {
             </Collapsible>
         );
 
-        // Just ensure it renders without error in dark mode
+        // 确保在暗黑模式下渲染没有错误
         expect(getByTestId('icon')).toBeTruthy();
     });
 });

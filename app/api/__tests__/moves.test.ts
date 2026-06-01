@@ -1,11 +1,11 @@
 /**
  * @file moves.test.ts
- * @description Unit tests for Moves API route
+ * @description Moves API 路由的单元测试
  */
 
 import { GET } from '../moves+api';
 
-// Mock mocks for non-existent files
+// 模拟不存在的文件的 mock
 jest.mock('../../../lib/mongoose', () => jest.fn(), { virtual: true });
 jest.mock('../../../models/Move', () => ({
     Move: {

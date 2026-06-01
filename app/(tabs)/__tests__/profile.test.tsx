@@ -1,6 +1,6 @@
 /**
  * @file profile.test.tsx
- * @description Unit tests for Profile screen
+ * @description Profile 屏幕的单元测试
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => {
     return {
         router: {
@@ -23,12 +23,12 @@ jest.mock('expo-router', () => {
     };
 });
 
-// Mock AsyncStorage
+// 模拟 AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
     getItem: jest.fn(),
 }));
 
-// Mock components
+// 模拟组件
 jest.mock('../../../components/LargeTitle', () => ({
     LargeTitle: ({ title, rightElement }: any) => {
         const { View, Text } = require('react-native');
@@ -53,7 +53,7 @@ jest.mock('../../../components/StickyHeader', () => ({
     },
 }));
 
-// Mock icons
+// 模拟图标
 jest.mock('@expo/vector-icons', () => ({
     Ionicons: () => null,
     MaterialCommunityIcons: () => null,
@@ -141,13 +141,12 @@ describe('ProfileScreen', () => {
     it('should navigate to settings when settings icon pressed', async () => {
         const { getAllByTestId } = render(<ProfileScreen />);
 
-        // There are two settings buttons (sticky header and large title)
-        const settingsButtons = getAllByTestId('sticky-header'); // Simplified mock, buttons are inside
+        // 有两个设置按钮（sticky header 和 large title）
+        const settingsButtons = getAllByTestId('sticky-header'); // 简化模拟，按钮在里面
 
-        const { getByTestId } = render(<ProfileScreen />);
-        // Actually, large title mock has rightElement
-        // Let's just use the query for the settings button if we could.
-        // But since they are components, I'll just check if the router was called
+        // 实际上，large title 模拟有 rightElement
+        // 如果可以，我们直接查询设置按钮
+        // 但由于它们是组件，我只检查 router 是否被调用
     });
 
     it('should render all menu items and navigate correctly', async () => {

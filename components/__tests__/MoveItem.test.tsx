@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { Move } from '../../store/library';
 import { MoveItem } from '../MoveItem';
 
-// Rely on jest-setup.js for expo-symbols, expo-haptics, and expo-linear-gradient mocks
+// 依赖 jest-setup.js 中的 expo-symbols、expo-haptics 和 expo-linear-gradient 模拟
 
 describe('MoveItem', () => {
     const mockMove: Move = {

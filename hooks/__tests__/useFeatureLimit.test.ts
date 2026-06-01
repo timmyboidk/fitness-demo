@@ -17,7 +17,7 @@ describe('useFeatureLimit', () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ isVip: true }));
 
         const { result } = renderHook(() => useFeatureLimit());
-        const allowed = await result.current.checkLimit('move', 100); // Over limit
+        const allowed = await result.current.checkLimit('move', 100); // 超过限制
 
         expect(allowed).toBe(true);
         expect(Alert.alert).not.toHaveBeenCalled();
@@ -27,7 +27,7 @@ describe('useFeatureLimit', () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ isVip: false }));
 
         const { result } = renderHook(() => useFeatureLimit());
-        const allowed = await result.current.checkLimit('move', 5); // Limit is 10
+        const allowed = await result.current.checkLimit('move', 5); // 限制为 10
 
         expect(allowed).toBe(true);
         expect(Alert.alert).not.toHaveBeenCalled();
@@ -37,7 +37,7 @@ describe('useFeatureLimit', () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ isVip: false }));
 
         const { result } = renderHook(() => useFeatureLimit());
-        const allowed = await result.current.checkLimit('move', 10); // Limit is 10
+        const allowed = await result.current.checkLimit('move', 10); // 限制为 10
 
         expect(allowed).toBe(false);
         expect(Alert.alert).toHaveBeenCalledWith(
@@ -50,7 +50,7 @@ describe('useFeatureLimit', () => {
     it('should navigate to subscription on upgrade press', async () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ isVip: false }));
 
-        // Mock Alert.alert to execute the "Go Upgrade" button callback immediately
+        // 模拟 Alert.alert to execute the "Go Upgrade" button callback immediately
         (Alert.alert as jest.Mock).mockImplementation((title, msg, buttons) => {
             const upgradeButton = buttons.find((b: any) => b.text === "去升级");
             if (upgradeButton) {
@@ -68,7 +68,7 @@ describe('useFeatureLimit', () => {
         (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify({ isVip: false }));
 
         const { result } = renderHook(() => useFeatureLimit());
-        const allowed = await result.current.checkLimit('session', 3); // Limit is 3
+        const allowed = await result.current.checkLimit('session', 3); // 限制为 3
 
         expect(allowed).toBe(false);
         expect(Alert.alert).toHaveBeenCalledWith(

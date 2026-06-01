@@ -1,11 +1,11 @@
 /**
  * @file library.test.ts
- * @description Unit tests for Library API route
+ * @description Library API 路由的单元测试
  */
 
 import { GET, POST } from '../library+api';
 
-// Mock mocks for non-existent files
+// 模拟不存在的文件的 mock
 jest.mock('../../../lib/mongoose', () => jest.fn(), { virtual: true });
 jest.mock('../../../models/User', () => ({
     User: {

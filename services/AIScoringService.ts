@@ -1,7 +1,7 @@
 /**
  * @file AIScoringService.ts
- * @description Handles communication with the AI scoring backend.
- * Sends keypoint data and returns real-time form scores and feedback.
+ * @description 处理与 AI 评分后端的通信。
+ * 发送关键点数据并返回实时的动作评分与反馈。
  */
 
 import client from './api/client';
@@ -9,15 +9,15 @@ import client from './api/client';
 import { FeedbackCode, ScoreRequest, ScoreResponse } from '../types';
 
 /**
- * AI Scoring Service
- * Encapsulates all AI scoring-related API calls.
+ * AI 评分服务
+ * 封装所有与 AI 评分相关的 API 调用。
  */
 class AIScoringService {
     /**
-     * Submit pose data for AI scoring.
+     * 提交姿态数据进行 AI 评分。
      *
-     * @param request - Contains move ID and keypoint data
-     * @returns {Promise<ScoreResponse>} Score result with feedback codes
+     * @param request - 包含动作 ID 和关键点数据
+     * @returns {Promise<ScoreResponse>} 包含反馈代码的评分结果
      */
     async scoreMove(request: ScoreRequest): Promise<ScoreResponse> {
         try {

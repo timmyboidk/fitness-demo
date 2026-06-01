@@ -7,7 +7,7 @@ import SignupScreen from '../(auth)/signup';
 import { useOTP } from '../../hooks/useOTP';
 import { authService } from '../../services/AuthService';
 
-// Mock dependencies
+// 模拟依赖
 jest.mock('../../hooks/useOTP');
 jest.mock('../../services/AuthService');
 jest.spyOn(Alert, 'alert');

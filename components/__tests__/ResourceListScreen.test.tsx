@@ -5,7 +5,7 @@ import { ResourceListScreen } from '../ResourceListScreen';
 
 const mockAddPress = jest.fn();
 
-// Mock child components using require to avoid hoisting issues
+// 使用 require 模拟子组件以避免提升问题
 jest.mock('../StickyHeader', () => {
     const { Text } = require('react-native');
     const React = require('react');

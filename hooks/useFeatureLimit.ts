@@ -1,7 +1,7 @@
 /**
  * @file useFeatureLimit.ts
- * @description Hook to handle feature usage limits for free users.
- * Abstracts the logic for checking VIP status and count limits.
+ * @description 处理免费用户功能使用限制的 Hook。
+ * 抽象了检查 VIP 状态和数量限制的逻辑。
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,10 +12,10 @@ type FeatureType = 'move' | 'session';
 
 export function useFeatureLimit() {
     /**
-     * Checks if the user is allowed to proceed with the action based on their subscription status.
-     * @param type - The type of feature being accessed ('move' or 'session')
-     * @param currentCount - The current number of items the user has
-     * @returns Promise<boolean> - true if allowed, false if blocked (and Alert shown)
+     * 根据用户订阅状态检查是否允许继续操作。
+     * @param type - 正在访问的功能类型（'move' 或 'session'）
+     * @param currentCount - 用户当前的计数
+     * @returns Promise<boolean> - 允许则返回 true，阻止则返回 false（并显示 Alert）
      */
     const checkLimit = async (type: FeatureType, currentCount: number): Promise<boolean> => {
         try {
@@ -23,7 +23,7 @@ export function useFeatureLimit() {
             if (userStr) {
                 const user = JSON.parse(userStr);
 
-                // VIP users have no limits
+                // VIP 用户无限制
                 if (user.isVip) {
                     return true;
                 }
@@ -46,12 +46,12 @@ export function useFeatureLimit() {
                     return false;
                 }
             }
-            // If no user found (guest?) or check passed
+            // 如果未找到用户（游客？）或检查通过
             return true;
         } catch (error) {
             console.error('Feature limit check error:', error);
-            // Default to allow if error occurs, or block? 
-            // Better to allow to not block user due to internal error, or handle gracefully.
+            // 发生错误时默认允许还是阻止？
+            // 最好允许，以免因内部错误阻止用户，或优雅处理。
             return true;
         }
     };

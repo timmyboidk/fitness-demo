@@ -1,13 +1,13 @@
 /**
  * @file themed-view.test.tsx
- * @description Unit tests for ThemedView component
+ * @description ThemedView 组件的单元测试
  */
 
 import { render } from '@testing-library/react-native';
 import React from 'react';
 import { Text } from 'react-native';
 
-// Mock the theme hook
+// 模拟主题 hook
 jest.mock('@/hooks/use-theme-color', () => ({
     useThemeColor: jest.fn(() => '#ffffff'),
 }));

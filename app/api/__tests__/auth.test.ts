@@ -1,4 +1,4 @@
-// Mock mocks for non-existent files
+// 模拟不存在的文件的 mock
 jest.mock('../../../lib/mongoose', () => jest.fn(), { virtual: true });
 jest.mock('../../../models/User', () => ({
     User: {
@@ -26,7 +26,7 @@ import { POST } from '../auth+api';
 describe('Auth API /POST', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        (Move.countDocuments as jest.Mock).mockResolvedValue(10); // Assume seeded
+        (Move.countDocuments as jest.Mock).mockResolvedValue(10); // 假设已初始化
     });
 
     it('should handle login_phone for existing user', async () => {

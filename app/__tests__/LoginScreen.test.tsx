@@ -7,7 +7,7 @@ import LoginScreen from '../(auth)/login';
 import { useOTP } from '../../hooks/useOTP';
 import { authService } from '../../services/AuthService';
 
-// Mock mocks
+// 模拟 mock
 jest.mock('../../hooks/useOTP');
 jest.mock('../../services/AuthService');
 jest.spyOn(Alert, 'alert');
@@ -86,9 +86,9 @@ describe('LoginScreen', () => {
             );
         });
 
-        // Simulate pressing OK on the alert
+        // 模拟在提示框上按下确定
         const alertCalls = (Alert.alert as jest.Mock).mock.calls;
-        const lastHelperCall = alertCalls[alertCalls.length - 1]; // Get the last call
+        const lastHelperCall = alertCalls[alertCalls.length - 1]; // 获取最后一次调用
         const buttons = lastHelperCall[2];
         buttons[0].onPress();
         expect(router.replace).toHaveBeenCalledWith('/(tabs)');
@@ -129,7 +129,7 @@ describe('LoginScreen', () => {
             );
         });
 
-        // Simulate pressing OK on the alert
+        // 模拟在提示框上按下确定
         const alertCalls = (Alert.alert as jest.Mock).mock.calls;
         const lastHelperCall = alertCalls[alertCalls.length - 1];
         const buttons = lastHelperCall[2];
@@ -167,9 +167,9 @@ describe('LoginScreen', () => {
         fireEvent.changeText(getByTestId('code-input'), '1234');
         fireEvent.press(getByTestId('login-button'));
         await waitFor(() => {
-            // result.success is true but user is null -> falls through to else?
-            // Actually, in login.tsx: if (result.success && result.user)
-            // So success: true, user: null goes to "登录失败" or default message.
+            // result.success 为 true 但 user 为 null -> 落入 else？
+            // 实际上，在 login.tsx 中：if (result.success && result.user)
+            // 所以 success: true, user: null 进入 "登录失败" 或默认消息。
             expect(Alert.alert).toHaveBeenCalledWith("登录失败", "请检查您的输入或网络连接");
         });
     });

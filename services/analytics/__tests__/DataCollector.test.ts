@@ -1,9 +1,9 @@
 /**
  * @file DataCollector.test.ts
- * @description Unit tests for DataCollector analytics service
+ * @description DataCollector 分析服务的单元测试
  */
 
-// Mock dependencies before imports
+// 在导入前模拟依赖
 jest.mock('@react-native-community/netinfo', () => ({
     fetch: jest.fn(),
 }));
@@ -26,10 +26,10 @@ describe('DataCollector', () => {
     beforeEach(() => {
         jest.clearAllMocks();
 
-        // Reset and reimport to get fresh instance
+        // 重置并重新导入以获取新实例
         jest.resetModules();
 
-        // Re-setup mocks AFTER reset modules
+        // 在重置模块后重新设置模拟
         const NetInfo = require('@react-native-community/netinfo');
         const client = require('../../api/client').default;
 
@@ -63,17 +63,17 @@ describe('DataCollector', () => {
             Collector.track('action_score', { keypoints: originalKeypoints });
 
             const sanitizedKeypoints = Collector['buffer'][0].keypoints;
-            // The coordinates should be slightly different due to noise
+            // 由于噪声，坐标应该略有不同
             expect(sanitizedKeypoints[0].x).not.toBe(100);
             expect(sanitizedKeypoints[0].y).not.toBe(200);
-            // But within reasonable range (original ± 0.5)
+            // 但在合理范围内（原始值 ± 0.5）
             expect(Math.abs(sanitizedKeypoints[0].x - 100)).toBeLessThanOrEqual(0.5);
             expect(Math.abs(sanitizedKeypoints[0].y - 200)).toBeLessThanOrEqual(0.5);
         });
 
         it('should auto-flush when buffer reaches BATCH_SIZE', () => {
             const flushSpy = jest.spyOn(Collector, 'flush');
-            // BATCH_SIZE is 20
+            // BATCH_SIZE 为 20
             for (let i = 0; i < 20; i++) {
                 Collector.track('score', { i });
             }
@@ -99,7 +99,7 @@ describe('DataCollector', () => {
 
             await Collector.flush();
 
-            // Should only send 'score', not 'action_score' (keypoints)
+            // 应该只发送 'score'，而不是 'action_score'（关键点）
             expect(client.post).toHaveBeenCalledWith('/api/data/collect', expect.objectContaining({
                 items: expect.arrayContaining([
                     expect.objectContaining({ type: 'score' })
@@ -120,7 +120,7 @@ describe('DataCollector', () => {
             await Collector.flush();
 
             expect(consoleSpy).toHaveBeenCalledWith('Upload failed, retrying next batch', expect.any(Error));
-            expect(Collector['buffer'].length).toBe(1); // Not cleared
+            expect(Collector['buffer'].length).toBe(1); // 未清除
             consoleSpy.mockRestore();
         });
 

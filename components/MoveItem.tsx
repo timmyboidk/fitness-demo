@@ -8,7 +8,7 @@ import { Move } from '../store/library';
 import { FontFamily } from '../constants/theme';
 
 /**
- * Move card props
+ * 动作卡片属性
  */
 interface MoveItemProps {
     item: Move;
@@ -20,7 +20,7 @@ interface MoveItemProps {
 }
 
 /**
- * Premium move card with glassmorphism, gradient accent, and haptic feedback.
+ * 带玻璃拟态效果、渐变强调和触觉反馈的高级动作卡片。
  */
 export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveButton, onRemove }: MoveItemProps) => {
     const colorScheme = useColorScheme();
@@ -65,7 +65,7 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
                 },
             ]}
         >
-            {/* Accent gradient line */}
+            {/* 渐变强调线 */}
             <LinearGradient
                 colors={isDark ? ['#2C2C2E', '#1C1C1E'] : ['#D1D1D6', '#F2F2F7']}
                 start={{ x: 0, y: 0 }}
@@ -73,12 +73,12 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
                 style={styles.gradientAccent}
             />
 
-            {/* Icon area */}
+            {/* 图标区域 */}
             <View style={[styles.iconArea, { backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)' }]}>
                 <SymbolView name={item.icon as any} size={56} tintColor={iconTint} fallback="body" />
             </View>
 
-            {/* Content */}
+            {/* 内容 */}
             <View style={styles.content}>
                 <Text
                     style={[styles.title, { color: textPrimary, fontFamily: FontFamily.bold }]}
@@ -88,7 +88,7 @@ export const MoveItem = memo(({ item, onPress, showAddButton, onAdd, showRemoveB
                 </Text>
 
                 <View style={styles.metaRow}>
-                    {/* Level pill */}
+                    {/* 等级标签 */}
                     <View style={[styles.levelPill, { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }]}>
                         <Text style={[styles.levelText, { color: accentColor, fontFamily: FontFamily.semiBold }]}>
                             {item.level}

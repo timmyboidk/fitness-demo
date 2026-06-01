@@ -1,6 +1,6 @@
 /**
  * @file Logger.test.ts
- * @description Unit tests for Logger service
+ * @description Logger 服务的单元测试
  */
 
 import { Logger, LogLevel } from '../Logger';
@@ -15,7 +15,7 @@ describe('Logger', () => {
             warn: jest.spyOn(console, 'warn').mockImplementation(),
             error: jest.spyOn(console, 'error').mockImplementation(),
         };
-        // Reset min level to DEBUG for each test
+        // 为每个测试重置最低级别为 DEBUG
         Logger.setMinLevel(LogLevel.DEBUG);
     });
 
@@ -64,7 +64,7 @@ describe('Logger', () => {
             Logger.info('Test', 'Message');
 
             const logMsg = consoleSpy.info.mock.calls[0][0];
-            // Check for ISO timestamp pattern
+            // 检查 ISO 时间戳格式
             expect(logMsg).toMatch(/\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
         });
 

@@ -1,5 +1,5 @@
 
-// Mock expo-router
+// 模拟 expo-router
 jest.mock('expo-router', () => ({
     router: {
         push: jest.fn(),
@@ -14,7 +14,7 @@ jest.mock('expo-router', () => ({
     useLocalSearchParams: jest.fn(() => ({})),
 }));
 
-// Mock expo-symbols
+// 模拟 expo-symbols
 jest.mock('expo-symbols', () => ({
     SymbolView: ({ name, tintColor }) => {
         const { View } = require('react-native');
@@ -22,7 +22,7 @@ jest.mock('expo-symbols', () => ({
     },
 }));
 
-// Mock @expo/vector-icons
+// 模拟 @expo/vector-icons
 jest.mock('@expo/vector-icons', () => {
     const { View } = require('react-native');
     return {
@@ -31,7 +31,7 @@ jest.mock('@expo/vector-icons', () => {
     };
 });
 
-// Mock expo-haptics
+// 模拟 expo-haptics
 jest.mock('expo-haptics', () => ({
     impactAsync: jest.fn(),
     notificationAsync: jest.fn(),
@@ -48,7 +48,7 @@ jest.mock('expo-haptics', () => ({
     },
 }));
 
-// Mock expo-linear-gradient
+// 模拟 expo-linear-gradient
 jest.mock('expo-linear-gradient', () => {
     const { View } = require('react-native');
     return {
@@ -58,7 +58,7 @@ jest.mock('expo-linear-gradient', () => {
     };
 });
 
-// Mock @expo-google-fonts/inter
+// 模拟 @expo-google-fonts/inter
 jest.mock('@expo-google-fonts/inter', () => ({
     useFonts: jest.fn(() => [true]),
     Inter_400Regular: 'Inter_400Regular',
@@ -68,13 +68,13 @@ jest.mock('@expo-google-fonts/inter', () => ({
     Inter_900Black: 'Inter_900Black',
 }));
 
-// Mock expo-splash-screen
+// 模拟 expo-splash-screen
 jest.mock('expo-splash-screen', () => ({
     preventAutoHideAsync: jest.fn(),
     hideAsync: jest.fn(),
 }));
 
-// Mock react-native-worklets-core
+// 模拟 react-native-worklets-core
 jest.mock('react-native-worklets-core', () => ({
     Worklets: {
         createRunOnJS: jest.fn((fn) => fn),
@@ -103,7 +103,7 @@ jest.mock('react-native-vision-camera', () => {
     };
 });
 
-// Mock vision-camera-resize-plugin
+// 模拟 vision-camera-resize-plugin
 jest.mock('vision-camera-resize-plugin', () => ({
     useResizePlugin: jest.fn(() => ({
         resize: jest.fn(() => ({
@@ -115,11 +115,11 @@ jest.mock('vision-camera-resize-plugin', () => ({
     })),
 }));
 
-// Mock react-native-reanimated
+// 模拟 react-native-reanimated
 jest.mock('react-native-reanimated', () => {
     const Reanimated = require('react-native-reanimated/mock');
     Reanimated.default.call = () => { };
-    // Add FadeInDown mock
+    // 添加 FadeInDown 模拟
     Reanimated.FadeInDown = {
         delay: jest.fn(() => ({
             duration: jest.fn(() => ({
@@ -130,7 +130,7 @@ jest.mock('react-native-reanimated', () => {
     return Reanimated;
 });
 
-// Mock onnxruntime-react-native
+// 模拟 onnxruntime-react-native
 jest.mock('onnxruntime-react-native', () => ({
     InferenceSession: {
         create: jest.fn(() => Promise.resolve({
@@ -139,7 +139,7 @@ jest.mock('onnxruntime-react-native', () => ({
     },
 }));
 
-// Mock expo-camera
+// 模拟 expo-camera
 jest.mock('expo-camera', () => ({
     useCameraPermissions: jest.fn(() => [
         { granted: true, status: 'granted', canAskAgain: true, expires: 'never' },
@@ -147,14 +147,14 @@ jest.mock('expo-camera', () => ({
     ]),
 }));
 
-// Mock react-native-safe-area-context
+// 模拟 react-native-safe-area-context
 jest.mock('react-native-safe-area-context', () => ({
     SafeAreaProvider: ({ children }) => children,
     SafeAreaView: ({ children }) => children,
     useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
-// Mock @react-native-async-storage/async-storage
+// 模拟 @react-native-async-storage/async-storage
 jest.mock('@react-native-async-storage/async-storage', () =>
     require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );

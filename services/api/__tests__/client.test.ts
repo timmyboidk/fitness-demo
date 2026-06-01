@@ -1,10 +1,10 @@
 /**
  * @file client.test.ts
- * @description Unit tests for API client mock responses
+ * @description API 客户端模拟响应的单元测试
  */
 
-// We'll test the mock behavior by calling the actual client
-// and verifying it returns mock data
+// 我们将通过调用实际客户端来测试模拟行为
+// 并验证它返回模拟数据
 
 jest.mock('expo-secure-store', () => ({
     getItemAsync: jest.fn().mockResolvedValue(null),
